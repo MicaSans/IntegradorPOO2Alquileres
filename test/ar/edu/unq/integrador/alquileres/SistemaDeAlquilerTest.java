@@ -23,7 +23,8 @@ class SistemaDeAlquilerTest {
 		// testGenerarPublicacion() "No me anda el mockito y por eso creo las clases"
 		servicios = Arrays.asList("Gas","Agua");
 		inmueble = new Inmueble(200, "Argentina", "Quilmes", "Conesa 722" , 5, servicios, "Casa", usuario);
-		publicacion = new Publicacion(inmueble, )
+		fotos = new Foto()
+		publicacion = new Publicacion(inmueble, fotos)
 		
 	}
 
