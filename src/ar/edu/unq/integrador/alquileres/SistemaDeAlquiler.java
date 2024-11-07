@@ -7,6 +7,7 @@ import java.util.List;
 public class SistemaDeAlquiler {
 	
 	private List<Usuario> usuarios;
+	private List<Publicacion> publicaciones;
 	
 	public SistemaDeAlquiler() {
 		usuarios = new ArrayList<Usuario>();
@@ -20,6 +21,16 @@ public class SistemaDeAlquiler {
 	public List<Usuario> getUsuarios() {
 		
 		return this.usuarios;
+	}
+
+	public void generarPublicacion(Publicacion publicacion) {
+		this.getPublicaciones().add(publicacion);
+		
+	}
+
+	private List<Publicacion> getPublicaciones() {
+		
+		return this.publicaciones;
 	}
 
 }
