@@ -2,25 +2,30 @@ package ar.edu.unq.integrador.alquileres;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 class SistemaDeAlquilerTest {
 	private SistemaDeAlquiler sistema;
-	private Usuario usuario;
-	private Publicacion publicacion;
+	@Mock private Usuario usuario;
+	@Mock private Publicacion publicacion;
+	@Mock private Busqueda busqueda;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		// testRegistrarUsuario()
 		sistema = new SistemaDeAlquiler();
 		usuario = mock(Usuario.class);
-		// testGenerarPublicacion() "No me anda el mockito y por eso creo las clases"
+		// testGenerarPublicacion() 
 		publicacion = mock(Publicacion.class);
+		// testBusquedaDePublicaciones()
+		busqueda = mock(Busqueda.class);
 		
 	}
 
@@ -33,7 +38,16 @@ class SistemaDeAlquilerTest {
 	@Test
 	void testGenerarPublicacion() {
 		sistema.generarPublicacion(publicacion);
-		assertTrue(sistema.getPublicacion().contains(publicacion));
+		assertTrue(sistema.getPublicaciones().contains(publicacion));
+	}
+	
+	@Test 
+	void testBusquedaDePublicaciones() {
+		sistema.generarPublicacion(publicacion);
+		when (sistema.buscarPublicaciones(busqueda)).thenReturn(sistema.getPublicaciones());
+		List <Publicacion >publicaciones = sistema.buscarPublicaciones(busqueda);
+		assertTrue(publicaciones.contains(publicacion));
+		
 	}
 
 	
