@@ -16,6 +16,7 @@ class SistemaDeAlquilerTest {
 	@Mock private Usuario usuario;
 	@Mock private Publicacion publicacion;
 	@Mock private Busqueda busqueda;
+	@Mock private List<Publicacion> publicaciones;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -24,6 +25,7 @@ class SistemaDeAlquilerTest {
 		usuario = mock(Usuario.class);
 		// testGenerarPublicacion() 
 		publicacion = mock(Publicacion.class);
+		publicaciones = Arrays.asList(publicacion);
 		// testBusquedaDePublicaciones()
 		busqueda = mock(Busqueda.class);
 		
@@ -44,9 +46,9 @@ class SistemaDeAlquilerTest {
 	@Test 
 	void testBusquedaDePublicaciones() {
 		sistema.generarPublicacion(publicacion);
-		when (sistema.buscarPublicaciones(busqueda)).thenReturn(sistema.getPublicaciones());
-		List <Publicacion >publicaciones = sistema.buscarPublicaciones(busqueda);
-		assertTrue(publicaciones.contains(publicacion));
+		when (sistema.buscarPublicaciones(busqueda)).thenReturn(publicaciones);
+		List <Publicacion >publicacionesFiltradas = sistema.buscarPublicaciones(busqueda);
+		assertTrue(publicacionesFiltradas.contains(publicacion));
 		
 	}
 
