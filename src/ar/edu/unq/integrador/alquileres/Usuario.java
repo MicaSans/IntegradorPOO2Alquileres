@@ -22,4 +22,29 @@ public class Usuario {
 		return this.fechaInicioUsuario;
 	}
 
+	public void agregarCalificacionInquilino(Ranking calificacion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void agregarCalificacionPropietario(Ranking calificacion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getNombre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getTelefono() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

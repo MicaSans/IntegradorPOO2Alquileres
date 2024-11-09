@@ -8,4 +8,39 @@ public class Reserva {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void aceptarReserva() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void rechazarReserva() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void cancelarReserva() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void realizadoDeCheckOut() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void agregarACondicionales(Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Usuario getInquilino() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public LocalDate getFechaIngreso() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

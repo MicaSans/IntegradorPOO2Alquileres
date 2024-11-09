@@ -3,6 +3,7 @@ package ar.edu.unq.integrador.alquileres;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SistemaDeAlquiler {
 	
@@ -44,10 +45,9 @@ public class SistemaDeAlquiler {
 	public List<Publicacion> buscarPublicaciones(Busqueda busqueda) {
 		return busqueda.filtrarPublicaciones(this.getPublicaciones());
 	}
-
-	public void reservarPublicacion(Usuario usuario, Publicacion publicacion, FormaDePago efectivo,
-			LocalDate fechaIngreso, LocalDate fechaSalida) {
-		this.getReservas().add(new Reserva(usuario, publicacion, efectivo, fechaIngreso, fechaSalida));
+	
+	public void reservarPublicacion(Reserva reserva) {
+		this.getReservas().add(reserva);
 	}
 	
 	public List<Reserva> getReservas() {
@@ -78,6 +78,95 @@ public class SistemaDeAlquiler {
 	public List<String> getServicios() {
 		return this.servicios;
 	}
+
+	public void aceptarReserva(Reserva reserva) {
+		reserva.aceptarReserva();
+	}
+
+	public void rechazarReserva(Reserva reserva) {
+		reserva.rechazarReserva();
+	}
+
+	public void cancelarReserva(Reserva reserva) {
+		reserva.cancelarReserva();	
+	}
+
+	public void realizarCheckOut(Reserva reserva) {
+		reserva.realizadoDeCheckOut();
+	}
+
+	public void cambiarPoliticaDeCancelacion(Publicacion publicacion, PoliticaDeCancelacion politicaDeCancelacion) {
+		publicacion.setPoliticaCancelacion(politicaDeCancelacion);
+	}
+
+	public void reservarCondicionalmente(Reserva reserva, Usuario usuario) {
+		reserva.agregarACondicionales(usuario);
+		
+	}
+
+	public void calificarInquilino(Ranking calificacion, Usuario usuario) {
+		usuario.agregarCalificacionInquilino(calificacion);
+	}
+
+	public void calificarPropietario(Ranking calificacion, Usuario usuario) {
+		usuario.agregarCalificacionPropietario(calificacion);
+	}
+
+	public void calificarPublicacion(Ranking calificacion, Publicacion publicacion) {
+		publicacion.agregarCalificacion(calificacion);
+		
+	}
+
+	public String verNombreUsuario(Usuario usuario) {
+		
+		return usuario.getNombre();
+	}
+
+	public String verEmailUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		return usuario.getEmail();
+	}
+
+	public String verTelefonoUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		return usuario.getTelefono();
+	}
+
+	public LocalDate verFechaInicioUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		return usuario.getFechaInicioUsuario();
+	}
+
+	public Usuario verInquilino(Reserva reserva) {
+		// TODO Auto-generated method stub
+		return reserva.getInquilino();
+	}
+
+	public List<Reserva> verReservas(Usuario usuario) {
+		List<Reserva> reservasDeUsuario = this.getReservas().stream()
+				.filter(reserva -> reserva.getInquilino().equals(usuario))
+				.collect(Collectors.toList());
+		
+		
+		return reservasDeUsuario;
+	}
+
+	public List<Reserva> verReservasFuturas(Usuario usuario) {
+		List<Reserva> reservasFuturas = this.verReservas(usuario).stream()
+				.filter(reserva -> reserva.getFechaIngreso().isAfter(LocalDate.now()))
+				.toList();
+		return reservasFuturas;
+	}
+
+	public List<Reserva> verReservasEnCiudad(Usuario usuario, String string) {
+		List<Reserva> reservasEnCiudad = this.verReservas(usuario).stream()
+				.filter(reserva -> reserva.getFechaIngreso().isAfter(LocalDate.now()))
+				.toList();
+		return reservasEnCiudad;
+	}
+
+	
+	
 	
 	
 }
