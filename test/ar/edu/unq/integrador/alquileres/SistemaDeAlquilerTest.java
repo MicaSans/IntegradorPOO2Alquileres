@@ -27,6 +27,11 @@ class SistemaDeAlquilerTest {
 	@Mock private Ranking calificacion;
 	@Mock private Reserva reserva2;
 	@Mock private Usuario usuario2;
+	@Mock private Inmueble inmueble;
+	@Mock private Foto foto;
+	private List<Foto> fotos;
+	private List<FormaDePago> formasDePago;
+	
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -50,7 +55,14 @@ class SistemaDeAlquilerTest {
 		// testVerReservas()
 		reserva2 = mock(Reserva.class);
 		usuario2 = mock(Usuario.class);
-		
+		// testVerInmueblePublicacion()
+		inmueble = mock(Inmueble.class);
+		// testVerFotosPublicacion()
+		foto = mock(Foto.class);
+		fotos = Arrays.asList(foto);
+		// testVerFormasDePagoPublicacion(
+		formasDePago = Arrays.asList(efectivo);
+ 		
 		
 	}
 
@@ -206,22 +218,96 @@ class SistemaDeAlquilerTest {
 		assertFalse(reservasFuturas.contains(reserva2));
 	}
 	
-	/* @Test
+	@Test
 	void testVerReservasEnCiudad() {
 		when (reserva.getInquilino()).thenReturn(usuario);
 		when (reserva2.getInquilino()).thenReturn(usuario);
+		when (reserva.verCiudadDeReserva()).thenReturn("Londres");
+		when (reserva2.verCiudadDeReserva()).thenReturn("Berlin");
 		sistema.reservarPublicacion(reserva);
 		sistema.reservarPublicacion(reserva2);
 		List<Reserva> reservasEnCiudad = sistema.verReservasEnCiudad(usuario, "Londres");
+		assertTrue(reservasEnCiudad.contains(reserva));
+		assertFalse(reservasEnCiudad.contains(reserva2));
 	}
 	
 	@Test
 	void testVerCiudadesDeLasReservas() {
 		when (reserva.getInquilino()).thenReturn(usuario);
 		when (reserva2.getInquilino()).thenReturn(usuario);
+		when (reserva.verCiudadDeReserva()).thenReturn("Londres");
+		when (reserva2.verCiudadDeReserva()).thenReturn("Berlin");
 		sistema.reservarPublicacion(reserva);
 		sistema.reservarPublicacion(reserva2);
 		List<String> ciudadesDeLasReservas = sistema.verCiudadesDeLasReservas(usuario);
+		assertTrue(ciudadesDeLasReservas.contains("Londres"));
+		assertTrue(ciudadesDeLasReservas.contains("Berlin"));
 	} 
-	 LO TENGO QUE SEGUIR ESTOS DOS NO QUEDA MUCHO*/
+	
+	@Test
+	void testVerPuntajePublicacion() {
+		when (publicacion.verPuntajeCategoria("Comodidad")).thenReturn(4);
+		assertEquals(sistema.verPuntajePublicacion("Comodidad", publicacion),4);
+	}
+	
+	@Test
+	void testVerPromedioPublicacion() {
+		when (publicacion.verPromedioTotal()).thenReturn(20);
+		assertEquals(sistema.verPromedioPublicacion(publicacion), 20);
+	}
+
+	@Test
+	void testVerInmueblePublicacion() {
+		when (publicacion.getInmueble()).thenReturn(inmueble);
+		assertEquals(sistema.verInmueblePublicacion(publicacion), inmueble);
+	}
+	
+	@Test
+	void testVerFotosPublicacion() {
+		when (publicacion.getFotos()).thenReturn(fotos);
+		assertEquals(sistema.verFotosPublicacion(publicacion), fotos);
+	}
+	
+	@Test
+	void testVerFormasDePagoPublicacion() {
+		
+		when (publicacion.getFormasDePago()).thenReturn(formasDePago);
+		assertEquals(sistema.verFormasDePagoPublicacion(publicacion), formasDePago);
+	}
+	
+	@Test
+	void testVerComentariosPublicacion() {
+		List <String> comentarios = Arrays.asList("La pase muy bien");
+		when (publicacion.verComentarios()).thenReturn(comentarios);
+		assertEquals(sistema.verComentariosPublicacion(publicacion), comentarios);
+	}
+	
+	@Test
+	void testVerCantidadQueFueAlquilada() {
+		when (reserva.getPublicacion()).thenReturn(publicacion);
+		when (reserva2.getPublicacion()).thenReturn(publicacion);
+		when (reserva.fueAlquilada()).thenReturn(true);
+		when (reserva2.fueAlquilada()).thenReturn(false);
+		sistema.reservarPublicacion(reserva);
+		sistema.reservarPublicacion(reserva2);
+		assertEquals(sistema.verCantidadQueFueAlquilada(publicacion), 1);
+	}
+	
+	@Test
+	void testVerCuantasVecesAlquiloInmuebles() {
+		when (reserva.getPublicacion()).thenReturn(publicacion);
+		when (reserva2.getPublicacion()).thenReturn(publicacion);
+		when (reserva.fueAlquilada()).thenReturn(true);
+		when (reserva2.fueAlquilada()).thenReturn(true);
+		when (publicacion.getInmueble()).thenReturn(inmueble);
+		when (inmueble.getPropietario()).thenReturn(usuario);
+		sistema.reservarPublicacion(reserva);
+		sistema.reservarPublicacion(reserva2);
+		assertEquals(sistema.verCuantasVecesAlquiloInmuebles(usuario), 2);
+	}
+	
+	/*@Test 
+	void testVerInmueblesAlquilados() {
+		sistema.verInmueblesAlquilados(usuario);
+	*/
 }

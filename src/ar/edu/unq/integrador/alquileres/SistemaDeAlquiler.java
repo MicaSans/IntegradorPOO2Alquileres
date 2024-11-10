@@ -158,15 +158,73 @@ public class SistemaDeAlquiler {
 		return reservasFuturas;
 	}
 
-	public List<Reserva> verReservasEnCiudad(Usuario usuario, String string) {
+	public List<Reserva> verReservasEnCiudad(Usuario usuario, String ciudad) {
 		List<Reserva> reservasEnCiudad = this.verReservas(usuario).stream()
-				.filter(reserva -> reserva.getFechaIngreso().isAfter(LocalDate.now()))
-				.toList();
+				.filter(reserva -> reserva.verCiudadDeReserva().equals(ciudad))
+				.collect(Collectors.toList());
 		return reservasEnCiudad;
 	}
 
+	public List<String> verCiudadesDeLasReservas(Usuario usuario) {
+		List <String> ciudadesDeReservas = new ArrayList<String>();
+		this.verReservas(usuario).stream()
+			.forEach(reserva -> ciudadesDeReservas.add(reserva.verCiudadDeReserva()));
+		return ciudadesDeReservas;
+	}
+
+	public int verPuntajePublicacion(String categoria, Publicacion publicacion) {
+		return publicacion.verPuntajeCategoria(categoria);
+		
+	}
+
+	public Integer verPromedioPublicacion(Publicacion publicacion) {
+		
+		return publicacion.verPromedioTotal();
+	}
+
+	public Inmueble verInmueblePublicacion(Publicacion publicacion) {
+		
+		return publicacion.getInmueble();
+	}
+
+	public List<Foto> verFotosPublicacion(Publicacion publicacion) {
+		
+		return publicacion.getFotos();
+	}
+
+	public List<FormaDePago> verFormasDePagoPublicacion(Publicacion publicacion) {
+		
+		return publicacion.getFormasDePago();
+	}
+
+	public List<String> verComentariosPublicacion(Publicacion publicacion) {
+		
+		return publicacion.verComentarios();
+	}
+
+	public Integer verCantidadQueFueAlquilada(Publicacion publicacion) {
+		List<Reserva> reservasDePublicacion = this.getReservas().stream()
+			.filter(reserva -> reserva.getPublicacion().equals(publicacion) && reserva.fueAlquilada())
+			.collect(Collectors.toList());
+		return reservasDePublicacion.size();
+	}
+
+	public Integer verCuantasVecesAlquiloInmuebles(Usuario propietario) {
+		List<Reserva> reservasDePropietario = this.reservasDePropietario(propietario);
+			return reservasDePropietario.size();
+	}
 	
+	private List<Reserva> reservasDePropietario(Usuario propietario) {
+		List<Reserva> reservasDePropietario = this.getReservas().stream()
+				.filter(reserva -> reserva.getPublicacion().getInmueble().getPropietario().equals(propietario) && reserva.fueAlquilada())
+				.collect(Collectors.toList());
+			return reservasDePropietario;
+	}
 	
-	
-	
+	/*public List<Publicacion> verInmueblesAlquilados(Usuario propietario) {
+		this.reservasDePropietario(propietario).stream()
+		
+		
+	}*/
+
 }

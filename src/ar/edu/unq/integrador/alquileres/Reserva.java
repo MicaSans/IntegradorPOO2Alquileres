@@ -43,4 +43,19 @@ public class Reserva {
 		return null;
 	}
 
+	public String verCiudadDeReserva() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Publicacion getPublicacion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Boolean fueAlquilada() {
+		
+		return null;
+	}
+
 }
