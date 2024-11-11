@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Inmueble {
 
+
 	private int superficie;
 	private String pais;
 	private String ciudad;
@@ -23,6 +24,11 @@ public class Inmueble {
 		this.servicios = servicios;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.propietario = propietario;
+    
+    public Usuario getPropietario() {
+		// TODO Auto-generated method stub
+		return null;
+
 	}
 
 }

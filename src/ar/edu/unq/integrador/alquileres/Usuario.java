@@ -22,4 +22,49 @@ public class Usuario {
 		return this.fechaInicioUsuario;
 	}
 
+	public void agregarCalificacionInquilino(Ranking calificacion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void agregarCalificacionPropietario(Ranking calificacion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getNombre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getTelefono() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer verPromedioPropietario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer verPuntajePropietario(String categoria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer verPromedioInquilino() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer verPuntajeInquilino(String categoria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
