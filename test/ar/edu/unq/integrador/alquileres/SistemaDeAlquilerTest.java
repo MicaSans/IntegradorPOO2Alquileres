@@ -76,6 +76,7 @@ class SistemaDeAlquilerTest {
 		assertTrue(sistema.getPublicaciones().contains(publicacion));
 	}
 	
+	//
 	@Test 
 	void testBusquedaDePublicaciones() {
 		sistema.generarPublicacion(publicacion);

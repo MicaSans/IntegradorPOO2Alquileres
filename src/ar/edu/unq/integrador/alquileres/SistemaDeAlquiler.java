@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SistemaDeAlquiler {
 	
@@ -146,8 +145,7 @@ public class SistemaDeAlquiler {
 
 	public List<Reserva> verReservas(Usuario usuario) {
 		List<Reserva> reservasDeUsuario = this.getReservas().stream()
-				.filter(reserva -> reserva.getInquilino().equals(usuario))
-				.collect(Collectors.toList());
+				.filter(reserva -> reserva.getInquilino().equals(usuario)).toList();
 		
 		
 		return reservasDeUsuario;
@@ -162,8 +160,7 @@ public class SistemaDeAlquiler {
 
 	public List<Reserva> verReservasEnCiudad(Usuario usuario, String ciudad) {
 		List<Reserva> reservasEnCiudad = this.verReservas(usuario).stream()
-				.filter(reserva -> reserva.verCiudadDeReserva().equals(ciudad))
-				.collect(Collectors.toList());
+				.filter(reserva -> reserva.verCiudadDeReserva().equals(ciudad)).toList();
 		return reservasEnCiudad;
 	}
 
@@ -206,8 +203,7 @@ public class SistemaDeAlquiler {
 
 	public Integer verCantidadQueFueAlquilada(Publicacion publicacion) {
 		List<Reserva> reservasDePublicacion = this.getReservas().stream()
-			.filter(reserva -> reserva.getPublicacion().equals(publicacion) && reserva.fueAlquilada())
-			.collect(Collectors.toList());
+			.filter(reserva -> reserva.getPublicacion().equals(publicacion) && reserva.fueAlquilada()).toList();
 		return reservasDePublicacion.size();
 	}
 
@@ -218,8 +214,7 @@ public class SistemaDeAlquiler {
 	
 	private List<Reserva> reservasDePropietario(Usuario propietario) {
 		List<Reserva> reservasDePropietario = this.getReservas().stream()
-				.filter(reserva -> reserva.getPublicacion().getInmueble().getPropietario().equals(propietario) && reserva.fueAlquilada())
-				.collect(Collectors.toList());
+				.filter(reserva -> reserva.getPublicacion().getInmueble().getPropietario().equals(propietario) && reserva.fueAlquilada()).toList();
 			return reservasDePropietario;
 	}
 	
