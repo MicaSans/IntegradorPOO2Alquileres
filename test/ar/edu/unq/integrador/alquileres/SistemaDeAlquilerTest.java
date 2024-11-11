@@ -306,8 +306,41 @@ class SistemaDeAlquilerTest {
 		assertEquals(sistema.verCuantasVecesAlquiloInmuebles(usuario), 2);
 	}
 	
-	/*@Test 
+	@Test 
 	void testVerInmueblesAlquilados() {
-		sistema.verInmueblesAlquilados(usuario);
-	*/
+		when (reserva.getPublicacion()).thenReturn(publicacion);
+		when (reserva2.getPublicacion()).thenReturn(publicacion);
+		when (reserva.fueAlquilada()).thenReturn(true);
+		when (reserva2.fueAlquilada()).thenReturn(true);
+		when (publicacion.getInmueble()).thenReturn(inmueble);
+		when (inmueble.getPropietario()).thenReturn(usuario);
+		sistema.reservarPublicacion(reserva);
+		sistema.reservarPublicacion(reserva2);
+		assertTrue(sistema.verInmueblesAlquilados(usuario).contains(inmueble));
+	}
+	
+	@Test
+	void testVerPromedioPuntajePropietario() {
+		when (usuario.verPromedioPropietario()).thenReturn(3);
+		assertEquals(sistema.verPromedioPuntajePropietario(usuario),3);
+	}
+	
+	@Test
+	void testVerPuntajePropietario() {
+		when (usuario.verPuntajePropietario("Cuidado")).thenReturn(5);
+		assertEquals(sistema.verPuntajePropietario("Cuidado", usuario),5);
+	}
+	
+	@Test
+	void testVerPromedioPuntajeInquilino() {
+		when (usuario.verPromedioInquilino()).thenReturn(4);
+		assertEquals(sistema.verPromedioPuntajeInquilino(usuario),4);
+	}
+	
+	@Test
+	void testVerPuntajeInquilino() {
+		when (usuario.verPuntajeInquilino("Conducta")).thenReturn(4);
+		assertEquals(sistema.verPuntajeInquilino("Conducta", usuario),4);
+	}
+	
 }

@@ -2,7 +2,9 @@ package ar.edu.unq.integrador.alquileres;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SistemaDeAlquiler {
@@ -221,10 +223,32 @@ public class SistemaDeAlquiler {
 			return reservasDePropietario;
 	}
 	
-	/*public List<Publicacion> verInmueblesAlquilados(Usuario propietario) {
-		this.reservasDePropietario(propietario).stream()
+	public List<Inmueble> verInmueblesAlquilados(Usuario propietario) {
+		List<Inmueble> inmuebles = new ArrayList<Inmueble>();
+			this.reservasDePropietario(propietario).stream()
+			.forEach(reserva -> inmuebles.add(reserva.getPublicacion().getInmueble()));
+		Set<Inmueble> inmueblesNoRepetidos = new HashSet<Inmueble>(inmuebles);
+		List<Inmueble> inmueblesAlquilados = new ArrayList<>(inmueblesNoRepetidos);
+		return inmueblesAlquilados;
+	}
+
+	public Integer verPromedioPuntajePropietario(Usuario usuario) {
+		return usuario.verPromedioPropietario();
+	}
+
+	public Integer verPuntajePropietario(String categoria, Usuario usuario) {
 		
+		return usuario.verPuntajePropietario(categoria);
+	}
+
+	public Integer verPromedioPuntajeInquilino(Usuario usuario) {
 		
-	}*/
+		return usuario.verPromedioInquilino();
+	}
+
+	public Integer verPuntajeInquilino(String categoria, Usuario usuario) {
+		
+		return usuario.verPuntajeInquilino(categoria);
+	}
 
 }

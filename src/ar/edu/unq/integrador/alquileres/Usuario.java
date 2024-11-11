@@ -47,4 +47,24 @@ public class Usuario {
 		return null;
 	}
 
+	public Integer verPromedioPropietario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer verPuntajePropietario(String categoria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer verPromedioInquilino() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer verPuntajeInquilino(String categoria) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
