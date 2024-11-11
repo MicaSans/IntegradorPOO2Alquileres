@@ -31,6 +31,7 @@ class SistemaDeAlquilerTest {
 	private List<Foto> fotos;
 	private List<FormaDePago> formasDePago;
 	
+
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -39,6 +40,7 @@ class SistemaDeAlquilerTest {
 		usuario = mock(Usuario.class);
 		// testGenerarPublicacion() 
 		publicacion = mock(Publicacion.class);
+		publicaciones = Arrays.asList(publicacion);
 		// testBusquedaDePublicaciones()
 		busqueda = mock(Busqueda.class);
 		publicaciones = Arrays.asList(publicacion);
@@ -81,6 +83,7 @@ class SistemaDeAlquilerTest {
 	void testBusquedaDePublicaciones() {
 		sistema.generarPublicacion(publicacion);
 		when (sistema.buscarPublicaciones(busqueda)).thenReturn(publicaciones);
+
 		List <Publicacion> publicacionesFiltradas = sistema.buscarPublicaciones(busqueda);
 		assertTrue(publicacionesFiltradas.contains(publicacion));	
 	}
@@ -253,6 +256,7 @@ class SistemaDeAlquilerTest {
 	void testVerPromedioPublicacion() {
 		when (publicacion.verPromedioTotal()).thenReturn(20);
 		assertEquals(sistema.verPromedioPublicacion(publicacion), 20);
+
 	}
 
 	@Test
