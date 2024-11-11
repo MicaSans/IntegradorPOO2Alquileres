@@ -22,7 +22,6 @@ class SistemaDeAlquilerTest {
 	@Mock private FormaDePago efectivo;
 	@Mock private Reserva reserva;
 	private LocalDate fechaEntrada;
-	private LocalDate fechaSalida;
 	@Mock private PoliticaDeCancelacion politicaDeCancelacion;
 	@Mock private Ranking calificacion;
 	@Mock private Reserva reserva2;
@@ -47,7 +46,6 @@ class SistemaDeAlquilerTest {
 		efectivo = mock(FormaDePago.class);
 		reserva = mock(Reserva.class);
 		fechaEntrada = LocalDate.of(2024, 11, 15);
-		fechaSalida =  LocalDate.of(2024, 11, 30);
 		// testCambiarPoliticaDeCancelacion()
 		politicaDeCancelacion = mock(PoliticaDeCancelacion.class);
 		// testCalificar()
