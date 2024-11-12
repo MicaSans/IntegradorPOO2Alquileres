@@ -2,14 +2,26 @@ package ar.edu.unq.integrador.alquileres;
 
 public class Ranking {
 
-	public Integer getPuntaje() {
-		// TODO Auto-generated method stub
-		return 0;
+	private int puntaje;
+	private String categoria;
+	private String comentario;
+
+	public Ranking(int puntaje, String categoria, String comentario) {
+		this.puntaje = puntaje;
+		this.categoria = categoria;
+		this.comentario = comentario;
 	}
 
-	public Object getCategoria() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getPuntaje() {
+		return this.puntaje;
+	}
+
+	public String getCategoria() {
+		return this.categoria;
+	}
+	
+	public String getComentario() {
+		return this.comentario;
 	}
 
 }
