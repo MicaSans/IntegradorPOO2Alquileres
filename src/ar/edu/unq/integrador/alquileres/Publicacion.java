@@ -51,4 +51,9 @@ public class Publicacion {
 		return null;
 	}
 
+	public double getPrecio(RangoDeFechas rangodeDias) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

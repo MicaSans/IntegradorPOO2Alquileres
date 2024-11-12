@@ -13,19 +13,23 @@ import org.mockito.Mock;
 
 class BusquedaTest {
 
-	@Mock private FiltroObligatorio filtro;
+	@Mock private FiltroBase filtro;
 	private Busqueda busqueda;
-	private List<FiltroObligatorio> filtros;
 	private List<Publicacion> publicaciones;
 	@Mock private Publicacion publicacion;
+	@Mock private Filtro filtroPrecio;
+	@Mock private Filtro filtroPrecio2;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		filtro = mock(FiltroObligatorio.class);
-		filtros = Arrays.asList(filtro);
-		busqueda = new Busqueda(filtros); //SUT
+		//1er Test
+		filtro = mock(FiltroBase.class);
+		busqueda = new Busqueda(filtro); //SUT
 		publicacion = mock(Publicacion.class);
 		publicaciones = Arrays.asList(publicacion);
+		//Test agrego filtros
+		filtroPrecio = mock(Filtro.class);
+		filtroPrecio2 = mock(Filtro.class);
 		
 	}
 
@@ -33,6 +37,14 @@ class BusquedaTest {
 	void testFiltrarPublicaciones() {
 		when(filtro.filtrar(publicacion)).thenReturn(true);
 		assertTrue(busqueda.filtrarPublicaciones(publicaciones).contains(publicacion));
+	}
+	
+	@Test
+	void testFiltrosExtras() {
+		busqueda.agregarFiltro(filtroPrecio);
+		busqueda.agregarFiltro(filtroPrecio2);
+		assertTrue(busqueda.getFiltros().contains(filtroPrecio));
+		assertFalse(busqueda.getFiltros().contains(filtroPrecio2));
 	}
 
 }

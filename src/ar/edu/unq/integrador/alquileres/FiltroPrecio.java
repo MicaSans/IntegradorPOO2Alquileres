@@ -1,15 +1,46 @@
 package ar.edu.unq.integrador.alquileres;
 
-public class FiltroPrecio implements FiltroExtra {
+public class FiltroPrecio implements Filtro {
 
-	public FiltroPrecio(double d, double e, RangoDeFechas rangoDeFechas) {
-		// TODO Auto-generated constructor stub
+	private double precioMinimo;
+	private double precioMaximo;
+	private RangoDeFechas rangoDeDias;
+
+	public FiltroPrecio(double precioMinimo, double precioMaximo, RangoDeFechas rangoDeFechas) {
+		this.precioMinimo = precioMinimo;
+		this.precioMaximo = precioMaximo;
+		this.rangoDeDias = rangoDeFechas;
 	}
 
 	@Override
 	public boolean filtrar(Publicacion publicacion) {
-		// TODO Auto-generated method stub
-		return false;
+		double precioFinalDePublicacion = publicacion.getPrecio(this.getRangodeDias());
+		if (this.comprobrarPreciosCorrectos() && this.getRangodeDias().esRangoCompatible()) {
+			return this.filtrarPrecios(precioFinalDePublicacion);
+		}
+		else { return false;}
+	}
+	public boolean filtrarPrecios(double precioFinal) {
+		return this.getPrecioMinimo() <= precioFinal && precioFinal <= this.getPrecioMaximo();
+	}
+	
+	private double getPrecioMaximo() {
+		
+		return this.precioMaximo;
+	}
+
+	private double getPrecioMinimo() {
+		
+		return this.precioMinimo;
+	}
+	
+	private boolean comprobrarPreciosCorrectos() {
+		return this.getPrecioMinimo()<this.getPrecioMaximo();
+	}
+	
+	private RangoDeFechas getRangodeDias() {
+		
+		return this.rangoDeDias;
 	}
 
 }
