@@ -27,9 +27,35 @@ public class Inmueble {
 	}
 	
     public Usuario getPropietario() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.propietario;
+	}
 
+	public Integer getSuperficie() {
+		return this.superficie;
+	}
+
+	public String getPais() {
+		return this.pais;
+	}
+
+	public String getCiudad() {
+		return this.ciudad;
+	}
+
+	public String getDireccion() {
+		return this.direccion;
+	}
+
+	public Integer getCapacidad() {
+		return this.capacidad;
+	}
+
+	public List<String> getServicios() {
+		return this.servicios;
+	}
+
+	public String getTipoInmueble() {
+		return this.tipoDeInmueble;
 	}
 
 }
