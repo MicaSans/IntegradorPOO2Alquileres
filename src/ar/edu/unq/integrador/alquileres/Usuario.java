@@ -20,20 +20,62 @@ public class Usuario {
 		this.rankingInquilino = new ArrayList<Ranking>();
 	}
 
-	public void setFechaInicioUsuario(LocalDate fechaInicio) {
-		this.fechaInicioUsuario = fechaInicio;
+	public void agregarCalificacionPropietario(Ranking calificacion) {
+		this.getRankingPropietario().add(calificacion);
 	}
 
-	public LocalDate getFechaInicioUsuario() {
-		return this.fechaInicioUsuario;
+	public Integer verPuntajePropietario(String categoria) {
+		Integer puntaje = this.getRankingPropietario().stream()
+				.filter(r -> r.getCategoria().equals(categoria))
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return puntaje;
+	}
+
+	public Integer verPromedioPropietario() {
+		Integer promedio = this.getRankingPropietario().stream()
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return promedio / this.getRankingPropietario().size();
+	}
+
+	public List<String> verComentariosPropietario() {
+		List<String> comentarios = this.getRankingPropietario().stream()
+				.map(r -> r.getComentario()).toList();
+		return comentarios;
 	}
 
 	public void agregarCalificacionInquilino(Ranking calificacion) {
 		this.getRankingInquilino().add(calificacion);
 	}
 
-	public void agregarCalificacionPropietario(Ranking calificacion) {
-		this.getRankingPropietario().add(calificacion);
+	public Integer verPuntajeInquilino(String categoria) {
+		Integer puntaje = this.getRankingInquilino().stream()
+				.filter(r -> r.getCategoria().equals(categoria))
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return puntaje;
+	}
+
+	public Integer verPromedioInquilino() {
+		Integer promedio = this.getRankingInquilino().stream()
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return promedio / this.getRankingInquilino().size();
+	}
+
+	public List<String> verComentariosInquilino() {
+		List<String> comentarios = this.getRankingInquilino().stream()
+				.map(r -> r.getComentario()).toList();
+		return comentarios;
+	}
+
+	public void setFechaInicioUsuario(LocalDate fechaInicio) {
+		this.fechaInicioUsuario = fechaInicio;
+	}
+
+	public LocalDate getFechaInicioUsuario() {
+		return this.fechaInicioUsuario;
 	}
 
 	public String getNombre() {
@@ -48,42 +90,12 @@ public class Usuario {
 		return this.telefono;
 	}
 
-	public Integer verPromedioPropietario() {
-		Integer promedio = this.getRankingPropietario().stream()
-				.mapToInt(r -> r.getPuntaje())
-				.sum();
-		return promedio / this.getRankingPropietario().size();
-	}
-
-	public Integer verPuntajePropietario(String categoria) {
-		Integer puntaje = this.getRankingPropietario().stream()
-				.filter(r -> r.getCategoria().equals(categoria))
-				.mapToInt(r -> r.getPuntaje())
-				.sum();
-		return puntaje;
-	}
-
 	public List<Ranking> getRankingPropietario() {
 		return this.rankingPropietario;
 	}
 	
 	public List<Ranking> getRankingInquilino() {
 		return this.rankingInquilino;
-	}
-
-	public Integer verPromedioInquilino() {
-		Integer promedio = this.getRankingInquilino().stream()
-				.mapToInt(r -> r.getPuntaje())
-				.sum();
-		return promedio / this.getRankingInquilino().size();
-	}
-
-	public Integer verPuntajeInquilino(String categoria) {
-		Integer puntaje = this.getRankingInquilino().stream()
-				.filter(r -> r.getCategoria().equals(categoria))
-				.mapToInt(r -> r.getPuntaje())
-				.sum();
-		return puntaje;
 	}
 
 }

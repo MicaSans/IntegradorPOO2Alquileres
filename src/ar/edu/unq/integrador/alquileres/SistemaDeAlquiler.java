@@ -236,6 +236,10 @@ public class SistemaDeAlquiler {
 		return usuario.verPuntajePropietario(categoria);
 	}
 
+	public List<String> verComentariosPropietario(Usuario usuario) {
+		return usuario.verComentariosPropietario();
+	}
+
 	public Integer verPromedioPuntajeInquilino(Usuario usuario) {
 		
 		return usuario.verPromedioInquilino();
@@ -244,6 +248,10 @@ public class SistemaDeAlquiler {
 	public Integer verPuntajeInquilino(String categoria, Usuario usuario) {
 		
 		return usuario.verPuntajeInquilino(categoria);
+	}
+
+	public List<String> verComentariosInquilino(Usuario usuario) {
+		return usuario.verComentariosInquilino();
 	}
 
 }

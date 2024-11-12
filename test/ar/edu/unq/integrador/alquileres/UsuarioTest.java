@@ -31,26 +31,11 @@ class UsuarioTest {
 	}
 	
 	@Test
-	void testAgregarCalificacionInquilino() {
-		usuario.agregarCalificacionInquilino(ranking);
-		assertTrue(usuario.getRankingInquilino().size() == 1);
-		assertTrue(usuario.getRankingInquilino().contains(ranking));
-	}
-	
-	@Test
 	void testVerPuntajePropietario() {
 		usuario.agregarCalificacionPropietario(ranking);
 		when(ranking.getCategoria()).thenReturn("Amabilidad");
 		when(ranking.getPuntaje()).thenReturn(5);
 		assertEquals(5, usuario.verPuntajePropietario("Amabilidad"));
-	}
-	
-	@Test
-	void testVerPuntajeInquilino() {
-		usuario.agregarCalificacionInquilino(ranking);
-		when(ranking.getCategoria()).thenReturn("Puntualidad");
-		when(ranking.getPuntaje()).thenReturn(3);
-		assertEquals(3, usuario.verPuntajeInquilino("Puntualidad"));
 	}
 	
 	@Test
@@ -63,12 +48,50 @@ class UsuarioTest {
 	}
 	
 	@Test
+	void testVerComentariosPropietario() {
+		usuario.agregarCalificacionPropietario(ranking);
+		when(ranking.getComentario()).thenReturn("Excelente atención por parte de los dueños");
+		assertEquals(1, usuario.verComentariosPropietario().size());
+		assertTrue(usuario.verComentariosPropietario().contains("Excelente atención por parte de los dueños"));
+		usuario.agregarCalificacionPropietario(otroRanking);
+		when(otroRanking.getComentario()).thenReturn("Buena atencion");
+		assertEquals(2, usuario.verComentariosPropietario().size());
+		assertTrue(usuario.verComentariosPropietario().contains("Buena atencion"));
+	}
+	
+	@Test
+	void testAgregarCalificacionInquilino() {
+		usuario.agregarCalificacionInquilino(ranking);
+		assertTrue(usuario.getRankingInquilino().size() == 1);
+		assertTrue(usuario.getRankingInquilino().contains(ranking));
+	}
+	
+	@Test
+	void testVerPuntajeInquilino() {
+		usuario.agregarCalificacionInquilino(ranking);
+		when(ranking.getCategoria()).thenReturn("Puntualidad");
+		when(ranking.getPuntaje()).thenReturn(3);
+		assertEquals(3, usuario.verPuntajeInquilino("Puntualidad"));
+	}
+	
+	@Test
 	void testVerPromedioInquilino() {
 		usuario.agregarCalificacionInquilino(ranking);
 		usuario.agregarCalificacionInquilino(otroRanking);
 		when(ranking.getPuntaje()).thenReturn(3);
 		when(otroRanking.getPuntaje()).thenReturn(1);
 		assertEquals(2, usuario.verPromedioInquilino());
+	}
+	
+	@Test
+	void testVerComentariosInquilino() {
+		usuario.agregarCalificacionInquilino(ranking);
+		usuario.agregarCalificacionInquilino(otroRanking);
+		when(ranking.getComentario()).thenReturn("Inquilinos muy limpios");
+		when(otroRanking.getComentario()).thenReturn("Dejaron la propiedad en buen estado");
+		assertEquals(2, usuario.verComentariosInquilino().size());
+		assertTrue(usuario.verComentariosInquilino().contains("Inquilinos muy limpios"));
+		assertTrue(usuario.verComentariosInquilino().contains("Dejaron la propiedad en buen estado"));
 	}
 	
 	@Test

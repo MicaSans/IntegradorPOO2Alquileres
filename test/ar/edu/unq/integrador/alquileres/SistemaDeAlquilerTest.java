@@ -335,6 +335,13 @@ class SistemaDeAlquilerTest {
 	}
 	
 	@Test
+	void testVerComentariosPropietario() {
+		List<String> comentarios = Arrays.asList("Muy amable el propietario");
+		when(usuario.verComentariosPropietario()).thenReturn(comentarios);
+		assertEquals(comentarios, sistema.verComentariosPropietario(usuario));
+	}
+	
+	@Test
 	void testVerPromedioPuntajeInquilino() {
 		when (usuario.verPromedioInquilino()).thenReturn(4);
 		assertEquals(sistema.verPromedioPuntajeInquilino(usuario),4);
@@ -344,6 +351,13 @@ class SistemaDeAlquilerTest {
 	void testVerPuntajeInquilino() {
 		when (usuario.verPuntajeInquilino("Conducta")).thenReturn(4);
 		assertEquals(sistema.verPuntajeInquilino("Conducta", usuario),4);
+	}
+	
+	@Test
+	void testVerComentariosInquilino() {
+		List<String> comentarios = Arrays.asList("Excelentes inquilinos");
+		when(usuario.verComentariosInquilino()).thenReturn(comentarios);
+		assertEquals(comentarios, sistema.verComentariosInquilino(usuario));
 	}
 	
 }
