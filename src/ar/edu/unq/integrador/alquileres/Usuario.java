@@ -1,17 +1,23 @@
 package ar.edu.unq.integrador.alquileres;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario {
 	private String nombre;
 	private String email;
 	private String telefono;
 	private LocalDate fechaInicioUsuario;
+	private List<Ranking> rankingPropietario;
+	private List<Ranking> rankingInquilino;
 
 	public Usuario(String nombre, String email, String telefono) {
 		this.nombre = nombre;
 		this.email = email;
 		this.telefono = telefono;
+		this.rankingPropietario = new ArrayList<Ranking>();
+		this.rankingInquilino = new ArrayList<Ranking>();
 	}
 
 	public void setFechaInicioUsuario(LocalDate fechaInicio) {
@@ -23,48 +29,61 @@ public class Usuario {
 	}
 
 	public void agregarCalificacionInquilino(Ranking calificacion) {
-		// TODO Auto-generated method stub
-		
+		this.getRankingInquilino().add(calificacion);
 	}
 
 	public void agregarCalificacionPropietario(Ranking calificacion) {
-		// TODO Auto-generated method stub
-		
+		this.getRankingPropietario().add(calificacion);
 	}
 
 	public String getNombre() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nombre;
 	}
 
 	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.email;
 	}
 
 	public String getTelefono() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.telefono;
 	}
 
 	public Integer verPromedioPropietario() {
-		// TODO Auto-generated method stub
-		return null;
+		Integer promedio = this.getRankingPropietario().stream()
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return promedio / this.getRankingPropietario().size();
 	}
 
 	public Integer verPuntajePropietario(String categoria) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer puntaje = this.getRankingPropietario().stream()
+				.filter(r -> r.getCategoria().equals(categoria))
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return puntaje;
+	}
+
+	public List<Ranking> getRankingPropietario() {
+		return this.rankingPropietario;
+	}
+	
+	public List<Ranking> getRankingInquilino() {
+		return this.rankingInquilino;
 	}
 
 	public Integer verPromedioInquilino() {
-		// TODO Auto-generated method stub
-		return null;
+		Integer promedio = this.getRankingInquilino().stream()
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return promedio / this.getRankingInquilino().size();
 	}
 
 	public Integer verPuntajeInquilino(String categoria) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer puntaje = this.getRankingInquilino().stream()
+				.filter(r -> r.getCategoria().equals(categoria))
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return puntaje;
 	}
 
 }
