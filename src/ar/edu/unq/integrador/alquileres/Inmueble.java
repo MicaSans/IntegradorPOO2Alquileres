@@ -32,4 +32,9 @@ public class Inmueble {
 
 	}
 
+	public String getCiudad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

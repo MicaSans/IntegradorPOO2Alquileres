@@ -1,5 +1,6 @@
 package ar.edu.unq.integrador.alquileres;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Publicacion {
@@ -41,6 +42,11 @@ public class Publicacion {
 	}
 
 	public List<String> verComentarios() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<RangoDeFechas> getDiasOcupados() {
 		// TODO Auto-generated method stub
 		return null;
 	}

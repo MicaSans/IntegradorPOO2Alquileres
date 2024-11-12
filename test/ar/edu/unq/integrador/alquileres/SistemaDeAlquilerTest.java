@@ -82,7 +82,7 @@ class SistemaDeAlquilerTest {
 	@Test 
 	void testBusquedaDePublicaciones() {
 		sistema.generarPublicacion(publicacion);
-		when (sistema.buscarPublicaciones(busqueda)).thenReturn(publicaciones);
+		when (busqueda.filtrarPublicaciones(sistema.getPublicaciones())).thenReturn(publicaciones);
 
 		List <Publicacion> publicacionesFiltradas = sistema.buscarPublicaciones(busqueda);
 		assertTrue(publicacionesFiltradas.contains(publicacion));	
