@@ -11,7 +11,7 @@ public class FiltroHuespedes implements Filtro {
 	@Override
 	public boolean filtrar(Publicacion publicacion) {
 		
-		return publicacion.getInmueble().getCantHuespedes() == this.getCantidadHuespedes();
+		return publicacion.getInmueble().getCapacidad() == this.getCantidadHuespedes();
 	}
 
 	private Integer getCantidadHuespedes() {

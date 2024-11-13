@@ -37,8 +37,7 @@ public class Inmueble {
 		return null;
 	}
 
-
-	public Integer getCantHuespedes() {
+	public Integer getCapacidad() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -98,7 +98,7 @@ class FiltroTest {
 	@Test
 	void testFiltrarPorHuespedes() {
 		when(publicacion.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getCantHuespedes()).thenReturn(5);
+		when(inmueble.getCapacidad()).thenReturn(5);
 		assertTrue(filtroHuespedes.filtrar(publicacion));
 	}
 	
