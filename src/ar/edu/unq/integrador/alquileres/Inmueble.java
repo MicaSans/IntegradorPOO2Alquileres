@@ -58,4 +58,5 @@ public class Inmueble {
 		return this.tipoDeInmueble;
 	}
 
+
 }
