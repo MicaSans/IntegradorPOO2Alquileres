@@ -58,4 +58,14 @@ public class Inmueble {
 		return this.tipoDeInmueble;
 	}
 
+	public String getCiudad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer getCapacidad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
