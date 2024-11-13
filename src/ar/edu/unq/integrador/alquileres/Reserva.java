@@ -1,61 +1,99 @@
 package ar.edu.unq.integrador.alquileres;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reserva {
 
-	public Reserva(Usuario usuario, Publicacion publicacion, FormaDePago efectivo, LocalDate fechaIngreso, LocalDate fechaSalida) {
-		// TODO Auto-generated constructor stub
+	
+	private Usuario inquilino;
+	private Publicacion publicacion;
+	private RangoDeFechas fechasDeAlquiler;
+	private Estado estado;
+	private List<Usuario> condicionales;
+
+	public Reserva() {
+		//Creo este constructor con la finalidad de poder usar un SPY en el test
+	}
+	
+	public Reserva(Usuario inquilino, Publicacion publicacion, RangoDeFechas fechasDeAlquiler) {
+		this.inquilino = inquilino;
+		this.publicacion = publicacion;
+		this.fechasDeAlquiler = fechasDeAlquiler; 
+		this.estado = new Pendiente();
+		this.condicionales = new ArrayList<Usuario>();
 	}
 
-	public void aceptarReserva() {
-		// TODO Auto-generated method stub
+	public String verCiudadDeReserva() {
 		
+		return this.getPublicacion().getInmueble().getCiudad();
+	}
+
+	public Publicacion getPublicacion() {
+		
+		return this.publicacion;
+	}	
+	
+	public Estado getEstado() {
+		return this.estado;
+	}
+	
+	public void aceptarReserva() {
+		this.getEstado().aceptarReserva(this);	
 	}
 
 	public void rechazarReserva() {
-		// TODO Auto-generated method stub
+		this.getEstado().rechazarReserva(this);
 		
 	}
 
 	public void cancelarReserva() {
-		// TODO Auto-generated method stub
+		this.getEstado().cancelarReserva(this);
 		
 	}
 
 	public void realizadoDeCheckOut() {
-		// TODO Auto-generated method stub
+		this.getEstado().checkOut(this);
 		
 	}
-
-	public void agregarACondicionales(Usuario usuario) {
-		// TODO Auto-generated method stub
+	
+	public Boolean fueAlquilada() {
 		
+		return this.getEstado().fueAlquilada(this);
+	}
+	
+	public void agregarACondicionales(Usuario usuario) {
+		this.getCondicionales().add(usuario);
+	}
+
+	public List<Usuario> getCondicionales() {
+		return this.condicionales;
 	}
 
 	public Usuario getInquilino() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.inquilino;
 	}
 
 	public LocalDate getFechaIngreso() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getFechas().getInicio();
 	}
 
-	public String verCiudadDeReserva() {
-		// TODO Auto-generated method stub
-		return null;
+	public RangoDeFechas getFechas() {
+		return this.fechasDeAlquiler;
 	}
 
-	public Publicacion getPublicacion() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
-	public Boolean fueAlquilada() {
+	public void setNuevoInquilino(Usuario inquilino) {
+		this.inquilino = inquilino;
 		
-		return null;
 	}
+
+	
+
+	
 
 }

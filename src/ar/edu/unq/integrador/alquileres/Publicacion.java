@@ -56,4 +56,15 @@ public class Publicacion {
 		return 0;
 	}
 
+
+	public void agregarADiasOcupados(RangoDeFechas fechas) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void quitarADiasOcupados(RangoDeFechas fechas) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
