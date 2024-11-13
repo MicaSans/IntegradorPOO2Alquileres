@@ -96,7 +96,7 @@ class SistemaDeAlquilerTest {
 	
 	@Test 
 	void testSetCategoriasPuntuacion () {
-		sistema.setCategoriasPuntuacion("categoria");
+		sistema.setCategoriaPuntuacion("categoria");
 		assertTrue(sistema.getCategorias().contains("categoria"));
 	}
 	
@@ -108,7 +108,7 @@ class SistemaDeAlquilerTest {
 	
 	@Test 
 	void testSetServicio () {
-		sistema.setServicios("servicio");
+		sistema.setServicio("servicio");
 		assertTrue(sistema.getServicios().contains("servicio"));
 	}
 	

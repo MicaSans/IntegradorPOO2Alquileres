@@ -55,7 +55,7 @@ public class SistemaDeAlquiler {
 		return this.reservas;
 	}
 
-	public void setCategoriasPuntuacion(String categoria) {
+	public void setCategoriaPuntuacion(String categoria) {
 		this.getCategorias().add(categoria);
 	}
 
@@ -71,7 +71,7 @@ public class SistemaDeAlquiler {
 		return this.tipoInmuebles;
 	}
 
-	public void setServicios(String servicio) {
+	public void setServicio(String servicio) {
 		this.getServicios().add(servicio);
 		
 	}
