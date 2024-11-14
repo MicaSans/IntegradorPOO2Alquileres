@@ -95,9 +95,9 @@ public class SistemaDeAlquiler {
 		reserva.rechazarReserva();
 	}
 
-	public void cancelarReserva(Reserva reserva) {
-		reserva.cancelarReserva();	
+	public String cancelarReserva(Reserva reserva) {
 		this.getObserver().notificarCancelacion(reserva);
+		return reserva.cancelarReserva();	
 	}
 
 	public void realizarCheckOut(Reserva reserva) {

@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Observer;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -129,8 +127,9 @@ class SistemaDeAlquilerTest {
 	
 	@Test
 	void testCancelarReserva() {
-		sistema.cancelarReserva(reserva);
-		verify(reserva).cancelarReserva();
+		when(reserva.cancelarReserva()).thenReturn("Paga lo que debes rata");
+		assertEquals(sistema.cancelarReserva(reserva),"Paga lo que debes rata");
+		
 	}
 	
 	@Test

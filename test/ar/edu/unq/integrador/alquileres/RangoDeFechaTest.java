@@ -28,5 +28,10 @@ class RangoDeFechaTest {
 		assertFalse(rangoDeFechas2.esRangoCompatible());
 	}
 	
+	@Test
+	void testEstaDentroDeLasFechas() {
+		assertTrue(rangoDeFechas.estaDentroDeLasFechas(LocalDate.of(2024, 11, 20)));
+		assertFalse(rangoDeFechas.estaDentroDeLasFechas(LocalDate.of(2024, 12, 20)));
+	}
 
 }
