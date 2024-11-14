@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ class SistemaDeAlquilerTest {
 	@Mock private Foto foto;
 	private List<Foto> fotos;
 	private List<FormaDePago> formasDePago;
+	@Mock private ObservadorDelSistema observer;
 	
 
 	
@@ -62,7 +64,8 @@ class SistemaDeAlquilerTest {
 		fotos = Arrays.asList(foto);
 		// testVerFormasDePagoPublicacion(
 		formasDePago = Arrays.asList(efectivo);
- 		
+		
+ 		observer = mock(ObservadorDelSistema.class);
 		
 	}
 
@@ -358,6 +361,13 @@ class SistemaDeAlquilerTest {
 		List<String> comentarios = Arrays.asList("Excelentes inquilinos");
 		when(usuario.verComentariosInquilino()).thenReturn(comentarios);
 		assertEquals(comentarios, sistema.verComentariosInquilino(usuario));
+	}
+	
+	@Test
+	void testcambiarPrecioPorDia() {
+		when(publicacion.getPrecioPorDia()).thenReturn(400d);
+		sistema.cambiarPrecioPorDia(publicacion, 300d);
+		verify(publicacion).cambiarPrecioPorDia(300d);
 	}
 	
 }

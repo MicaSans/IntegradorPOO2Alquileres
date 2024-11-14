@@ -72,4 +72,9 @@ public class Publicacion {
 		return null;
 	}
 
+	public void cambiarPrecioPorDia(double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
