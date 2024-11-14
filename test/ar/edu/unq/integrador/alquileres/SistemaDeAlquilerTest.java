@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -30,6 +29,7 @@ class SistemaDeAlquilerTest {
 	@Mock private Foto foto;
 	private List<Foto> fotos;
 	private List<FormaDePago> formasDePago;
+	@Mock private ObservadorDelSistema observer;
 	
 
 	
@@ -62,7 +62,8 @@ class SistemaDeAlquilerTest {
 		fotos = Arrays.asList(foto);
 		// testVerFormasDePagoPublicacion(
 		formasDePago = Arrays.asList(efectivo);
- 		
+		
+ 		observer = mock(ObservadorDelSistema.class);
 		
 	}
 
@@ -126,8 +127,9 @@ class SistemaDeAlquilerTest {
 	
 	@Test
 	void testCancelarReserva() {
-		sistema.cancelarReserva(reserva);
-		verify(reserva).cancelarReserva();
+		when(reserva.cancelarReserva()).thenReturn("Paga lo que debes rata");
+		assertEquals(sistema.cancelarReserva(reserva),"Paga lo que debes rata");
+		
 	}
 	
 	@Test
@@ -360,4 +362,17 @@ class SistemaDeAlquilerTest {
 		assertEquals(comentarios, sistema.verComentariosInquilino(usuario));
 	}
 	
+	@Test
+	void testcambiarPrecioPorDia() {
+		when(publicacion.getPrecioPorDia()).thenReturn(400d);
+		sistema.cambiarPrecioPorDia(publicacion, 300d);
+		verify(publicacion).cambiarPrecioPorDia(300d);
+	}
+	
+	@Test
+	void testVerCantidadDeVecesQueAlquilo() {
+		when(reserva.getInquilino()).thenReturn(usuario);
+		sistema.reservarPublicacion(reserva);
+		assertEquals(1, sistema.verCantidadDeVecesQueAlquilo(usuario));
+	}
 }

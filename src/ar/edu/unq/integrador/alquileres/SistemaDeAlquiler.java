@@ -14,6 +14,7 @@ public class SistemaDeAlquiler {
 	private List<String> categorias;
 	private List<String> tipoInmuebles;
 	private List<String> servicios;
+	private ObservadorDelSistema observer;
 	
 	public SistemaDeAlquiler() {
 		usuarios = new ArrayList<Usuario>();
@@ -22,6 +23,7 @@ public class SistemaDeAlquiler {
 		categorias = new ArrayList<String>();
 		tipoInmuebles = new ArrayList<String>();
 		servicios = new ArrayList<String>();
+		observer = new ObservadorDelSistema();
 	}
 	
 	public void registrarUsuario(Usuario usuario) {
@@ -49,8 +51,13 @@ public class SistemaDeAlquiler {
 	
 	public void reservarPublicacion(Reserva reserva) {
 		this.getReservas().add(reserva);
+		this.getObserver().notificarReserva(reserva);
 	}
 	
+	public ObservadorDelSistema getObserver() {
+		return this.observer;
+	}
+
 	public List<Reserva> getReservas() {
 		return this.reservas;
 	}
@@ -88,8 +95,9 @@ public class SistemaDeAlquiler {
 		reserva.rechazarReserva();
 	}
 
-	public void cancelarReserva(Reserva reserva) {
-		reserva.cancelarReserva();	
+	public String cancelarReserva(Reserva reserva) {
+		this.getObserver().notificarCancelacion(reserva);
+		return reserva.cancelarReserva();	
 	}
 
 	public void realizarCheckOut(Reserva reserva) {
@@ -254,4 +262,21 @@ public class SistemaDeAlquiler {
 		return usuario.verComentariosInquilino();
 	}
 
+	public void cambiarPrecioPorDia(Publicacion publicacion, double precio) {
+		if (publicacion.getPrecioPorDia() > precio) {
+			publicacion.cambiarPrecioPorDia(precio);
+			this.getObserver().notificarBajaDePrecio(publicacion);
+		}
+		else {
+			publicacion.cambiarPrecioPorDia(precio);
+		}
+		
+	}
+
+	public int verCantidadDeVecesQueAlquilo(Usuario usuario) {
+	return this.getReservas().stream()
+		.filter(reserva -> reserva.getInquilino().equals(usuario))
+		.toList().size();
+	}
+	
 }

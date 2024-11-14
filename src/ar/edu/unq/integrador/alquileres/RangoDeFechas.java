@@ -1,6 +1,7 @@
 package ar.edu.unq.integrador.alquileres;
 
 import java.time.LocalDate;
+import java.util.function.BooleanSupplier;
 
 public class RangoDeFechas {
 
@@ -24,6 +25,10 @@ public class RangoDeFechas {
 
 	public boolean esRangoCompatible() {
 		return this.getInicio().isBefore(this.getFinal());
+	}
+
+	public boolean estaDentroDeLasFechas(LocalDate dia) {
+		return dia.isAfter(this.getInicio()) && dia.isBefore(this.getFinal());
 	}
 
 }

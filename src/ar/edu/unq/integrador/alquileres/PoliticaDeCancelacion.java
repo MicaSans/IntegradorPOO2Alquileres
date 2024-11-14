@@ -1,5 +1,7 @@
 package ar.edu.unq.integrador.alquileres;
 
-public class PoliticaDeCancelacion {
+public interface PoliticaDeCancelacion {
+
+	public String cancelarReserva(RangoDeFechas rangoDeFechas);
 
 }

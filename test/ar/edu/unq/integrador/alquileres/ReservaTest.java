@@ -58,7 +58,10 @@ class ReservaTest {
 	@Test
 	void testCancelarReserva() {
 		when(reservaSpy.getEstado()).thenReturn(estadoMock);
-		reservaSpy.cancelarReserva();
+		when(reservaSpy.getPublicacion()).thenReturn(publicacion);
+		when(reservaSpy.getFechas()).thenReturn(fechasDeAlquiler);
+		when(publicacion.cancelarReserva(fechasDeAlquiler)).thenReturn("Paga por cancelar");
+		assertEquals(reservaSpy.cancelarReserva(), "Paga por cancelar");
 		verify(estadoMock).cancelarReserva(reservaSpy);
 	}
 	

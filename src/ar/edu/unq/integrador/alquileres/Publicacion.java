@@ -1,70 +1,186 @@
 package ar.edu.unq.integrador.alquileres;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Publicacion {
 
+	private Inmueble inmueble;
+	private PoliticaDeCancelacion politicaDeCancelacion;
+	private double precioPorDia;
+	private LocalTime horarioCheckOut;
+	private LocalTime horarioCheckIn;
+	private List<Foto> fotos;
+	private List<Ranking> ranking;
+	private List<FormaDePago> formasDePago;
+	private ArrayList<RangoDeFechas> diasOcupados;
+	private ArrayList<RangoDeFechas> diasEspeciales;
+	private Integer porcentajeDiaEspecial;
+
+	public Publicacion(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, double precio,
+			PoliticaDeCancelacion politicaDeCancelacion, List<FormaDePago> formasDePago) {
+		this.inmueble = inmueble;
+		this.fotos = new ArrayList<Foto>();
+		this.horarioCheckIn = checkIn;
+		this.horarioCheckOut = checkOut;
+		this.precioPorDia = precio;
+		this.politicaDeCancelacion = politicaDeCancelacion;
+		this.ranking = new ArrayList<Ranking>();
+		this.formasDePago = formasDePago;
+		this.diasOcupados = new ArrayList<RangoDeFechas>();
+		this.diasEspeciales = new ArrayList<RangoDeFechas>();
+		this.porcentajeDiaEspecial = 0;
+		
+	}
+
 	public void setPoliticaCancelacion(PoliticaDeCancelacion politicaDeCancelacion) {
-		// TODO Auto-generated method stub
-		
+		this.politicaDeCancelacion = politicaDeCancelacion;	
+	}
+	
+	public PoliticaDeCancelacion getPoliticaDeCancelacion() {
+		return this.politicaDeCancelacion;
 	}
 
-	public void agregarCalificacion(Ranking calificacion) {
-		// TODO Auto-generated method stub
-		
+	public void agregarFoto(Foto foto) {
+		if (this.espacioParaFotosLleno()) {
+			this.getFotos().add(foto);
+		}
 	}
-
-	public int verPuntajeCategoria(String categoria) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public Integer verPromedioTotal() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Inmueble getInmueble() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private boolean espacioParaFotosLleno() {
+		return this.getFotos().size() < 5;
 	}
 
 	public List<Foto> getFotos() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.fotos;
 	}
 
+	public void agregarCalificacion(Ranking calificacion) {
+		this.getRanking().add(calificacion);
+	}
+	
+	public List<Ranking> getRanking() {
+		return this.ranking;
+	}
 
-	public List<FormaDePago> getFormasDePago() {
-		// TODO Auto-generated method stub
-		return null;
+	public int verPuntajeCategoria(String categoria) {
+		Integer puntaje = this.getRanking().stream()
+				.filter(r -> r.getCategoria().equals(categoria))
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return puntaje;
+	}
+	
+	public Integer verPromedioTotal() {
+		Integer promedio = this.getRanking().stream()
+				.mapToInt(r -> r.getPuntaje())
+				.sum();
+		return promedio / this.getRanking().size();
 	}
 
 	public List<String> verComentarios() {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> comentarios = this.getRanking().stream()
+				.map(r -> r.getComentario()).toList();
+		return comentarios;
 	}
-
-	public List<RangoDeFechas> getDiasOcupados() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public double getPrecio(RangoDeFechas rangodeDias) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
+	
 	public void agregarADiasOcupados(RangoDeFechas fechas) {
-		// TODO Auto-generated method stub
-		
+		this.getDiasOcupados().add(fechas);
 	}
 
 	public void quitarADiasOcupados(RangoDeFechas fechas) {
-		// TODO Auto-generated method stub
+		if (this.getDiasOcupados().stream().anyMatch(fechasOcupadas -> fechasOcupadas.equals(fechas))) {
+			this.getDiasOcupados().remove(fechas);
+		};
+	}
+	
+	public void cambiarPrecioPorDia(double precio) {
+		this.precioPorDia = precio;
+	}
+	
+	public Inmueble getInmueble() {
+		
+		return this.inmueble;
+	}
+
+	public List<FormaDePago> getFormasDePago() {
+		return this.formasDePago;
+	}
+	
+	public LocalTime getHorarioChekIn() {
+		return this.horarioCheckIn;
+	}
+	
+	public LocalTime getHorarioChekOut() {
+		return this.horarioCheckOut;
+	}
+
+	public List<RangoDeFechas> getDiasOcupados() {
+		return this.diasOcupados;
+	}
+
+	public Double getPrecio(RangoDeFechas rangodeDias) {
+		List<LocalDate> diasEnLista = crearListaFechas(rangodeDias.getInicio(), rangodeDias.getFinal());
+		Double precioTotal = diasEnLista.stream()
+			.mapToDouble(dia -> this.calcularPrecioDelDia(dia))
+			.sum();
+		return precioTotal;
+	}
+	
+	private double calcularPrecioDelDia(LocalDate dia) {
+		if (this.perteneceADiasEspeciales(dia)) {
+			return this.getPrecioPorDia() 
+					+ (this.getPrecioPorDia() * this.getPorcentajeDiaEspecial())/ 100;
+		}
+		else {
+			return this.getPrecioPorDia();
+		}
+	}
+
+	private boolean perteneceADiasEspeciales(LocalDate dia) {
+		return this.getDiasEspeciales().stream().anyMatch(rango -> rango.estaDentroDeLasFechas(dia));
+	}
+
+	private List<LocalDate> crearListaFechas(LocalDate inicio, LocalDate fin) {
+		List <LocalDate> fechas = new ArrayList<LocalDate>();
+		while (!inicio.isAfter(fin)) {
+			fechas.add(inicio);
+			inicio = inicio.plusDays(1);
+		}
+		
+		return fechas;
+	}
+
+	public Double getPrecioPorDia() {
+		return this.precioPorDia;
+	}
+	
+	public List<RangoDeFechas> getDiasEspeciales() {
+		return this.diasEspeciales;
+	}
+	
+	public void agregarDiasEspeciales(RangoDeFechas rangoDeFechas) {
+		this.diasEspeciales.add(rangoDeFechas);
 		
 	}
+
+	public void setPorcentajeDiaEspecial(int porcentaje) {
+		this.porcentajeDiaEspecial = porcentaje;
+		
+	}
+
+	public Integer getPorcentajeDiaEspecial() {
+		return this.porcentajeDiaEspecial;
+	}
+
+	public String cancelarReserva(RangoDeFechas rangoDeFechas) {
+		return this.getPoliticaDeCancelacion().cancelarReserva(rangoDeFechas);
+	}
+
+	
+
+	
 
 }
