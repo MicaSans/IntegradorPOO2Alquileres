@@ -67,4 +67,9 @@ public class Publicacion {
 		
 	}
 
+	public Double getPrecioPorDia() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
