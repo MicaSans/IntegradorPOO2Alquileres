@@ -48,9 +48,9 @@ public class Reserva {
 		
 	}
 
-	public void cancelarReserva() {
+	public String cancelarReserva() {
 		this.getEstado().cancelarReserva(this);
-		
+		return this.getPublicacion().cancelarReserva(this.getFechas());
 	}
 
 	public void realizadoDeCheckOut() {
