@@ -272,5 +272,11 @@ public class SistemaDeAlquiler {
 		}
 		
 	}
+
+	public int verCantidadDeVecesQueAlquilo(Usuario usuario) {
+	return this.getReservas().stream()
+		.filter(reserva -> reserva.getInquilino().equals(usuario))
+		.toList().size();
+	}
 	
 }

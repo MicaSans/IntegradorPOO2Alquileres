@@ -369,4 +369,10 @@ class SistemaDeAlquilerTest {
 		verify(publicacion).cambiarPrecioPorDia(300d);
 	}
 	
+	@Test
+	void testVerCantidadDeVecesQueAlquilo() {
+		when(reserva.getInquilino()).thenReturn(usuario);
+		sistema.reservarPublicacion(reserva);
+		assertEquals(1, sistema.verCantidadDeVecesQueAlquilo(usuario));
+	}
 }
