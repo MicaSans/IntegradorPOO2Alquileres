@@ -21,66 +21,106 @@ import org.mockito.Spy;
 class EstadoTest {
 
 	private Pendiente pendiente;
-	@Mock private Reserva reserva;
-	@Spy private Pendiente pendienteSpy;
-	@Mock private Publicacion publicacion;
-	@Mock private RangoDeFechas fechasAlquiladas;
 	private Reservada reservada;
-	@Mock private Usuario inquilino;
 	private Obsoleta obsoleta;
 	private Alquilada alquilada;
-	private List<Usuario> condicionales;
-
+	
+	private List<Reserva> condicionales;
+	@Mock private Reserva reserva;
+	@Mock private Publicacion publicacion;
+	@Mock private RangoDeFechas fechasAlquiladas;
+	@Mock private Usuario inquilino;
+	@Mock private Reserva reserva2;
+	@Spy private Pendiente pendienteSpy;
+	
 	@BeforeEach
 	void setUp() throws Exception {
+		
 		//Pendiente 
 		pendiente = new Pendiente(); //SUT
 		reserva = mock(Reserva.class);
 		pendienteSpy = spy(Pendiente.class);
 		publicacion = mock(Publicacion.class);
 		fechasAlquiladas = mock(RangoDeFechas.class);
+		reserva2 = mock(Reserva.class);
+		
 		//Reservada
 		reservada = new Reservada(); //SUT
 		inquilino = mock(Usuario.class);
-		condicionales = new ArrayList<Usuario>();
-		condicionales.add(inquilino);
+		condicionales = new ArrayList<Reserva>();
+		
 		//Obsoleta
 		obsoleta = new Obsoleta(); //SUT
-		//Alquilada
-		alquilada = new Alquilada();
 		
+		//Alquilada
+		alquilada = new Alquilada(); //SUT
 	}
 
+	//Test clase Pendiente
 	@Test
 	void testPendienteAceptarReserva() {
 		when (reserva.getPublicacion()).thenReturn(publicacion);
 		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
 		pendiente.aceptarReserva(reserva);
 		verify(publicacion).agregarADiasOcupados(fechasAlquiladas);
-		verify(reserva).setEstado(any(Estado.class));
+		verify(reserva).setEstado(any(Reservada.class));
+	}
+	
+	@Test
+	void testPendienteEstaReservaOcupada() {
+		//Configuración de mocks
+		when (reserva.getPublicacion()).thenReturn(publicacion);
+		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
+		when (reserva2.getPublicacion()).thenReturn(publicacion);
+		when (reserva2.getFechas()).thenReturn(fechasAlquiladas);
+		//Cuando no hay días ocupados en la publicacón
+		when (publicacion.getDiasOcupados()).thenReturn(new ArrayList<>());
+		//Ejecuto el método aceptarReserva para la primer reserva
+		pendiente.aceptarReserva(reserva);
+		//Verifico que se agregaron los días ocupados de la publicación
+		verify(publicacion).agregarADiasOcupados(fechasAlquiladas);
+		//Verifico que el estado de la reserva haya sido modificado
+		verify(reserva).setEstado(any(Reservada.class));
+		//Agrego una fecha ocupada en la publicación
+		List<RangoDeFechas> diasOcupados = new ArrayList<>();
+		diasOcupados.add(fechasAlquiladas);
+		when (publicacion.getDiasOcupados()).thenReturn(diasOcupados);
+		
+		when (fechasAlquiladas.seSuperponenDias(fechasAlquiladas)).thenReturn(true);
+		//Ejecuto el método aceptarReserva para la segunda reserva, que se superpone
+		pendiente.aceptarReserva(reserva2);
+		//Verifico que la segunda reserva se agregó a condicionales
+	    verify(publicacion).agregarACondicionales(reserva2);
+	    //Verifico que la segunda reserva pase su estado a Obsoleta
+	    verify(reserva2).setEstado(any(Obsoleta.class));
 	}
 	
 	@Test
 	void testPendienteRechazarReserva() {
+		when (reserva.getPublicacion()).thenReturn(publicacion);
 		pendiente.rechazarReserva(reserva);
-		verify(reserva).setEstado(any(Estado.class));
+		verify(reserva).setEstado(any(Obsoleta.class));
 	}
 	
+	//Test clase Reservada
 	@Test
 	void testReservadaCancelarReservaSinCondicionales() {
 		when (reserva.getPublicacion()).thenReturn(publicacion);
 		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
 		reservada.cancelarReserva(reserva);
 		verify(publicacion).quitarADiasOcupados(fechasAlquiladas);
-		verify(reserva).setEstado(any(Estado.class));
+		verify(reserva).setEstado(any(Obsoleta.class));
 	}
 	
 	@Test
 	void testReservadaCancelarReservasConCondicionales() {
-		when (reserva.getCondicionales()).thenReturn(condicionales);
+		when (reserva.getPublicacion()).thenReturn(publicacion);
+		when (publicacion.getCondicionales()).thenReturn(condicionales);
+		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
 		reservada.cancelarReserva(reserva);
-		verify(reserva).setNuevoInquilino(any(Usuario.class));
-		verify(reserva).setEstado(any(Estado.class));
+		//verify(reserva).setNuevoInquilino(any(Usuario.class));
+		verify(reserva).setEstado(any(Obsoleta.class));
+		verify(publicacion).quitarADiasOcupados(fechasAlquiladas);
 	}
 	
 	@Test
@@ -101,5 +141,7 @@ class EstadoTest {
 		assertTrue(alquilada.fueAlquilada(reserva));
 	}
 	
+	//Test clase Obsoleta
 	
+	//Test clase Aceptada
 }

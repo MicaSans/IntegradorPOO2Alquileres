@@ -1,7 +1,6 @@
 package ar.edu.unq.integrador.alquileres;
 
 import java.time.LocalDate;
-import java.util.function.BooleanSupplier;
 
 public class RangoDeFechas {
 
@@ -31,4 +30,9 @@ public class RangoDeFechas {
 		return dia.isAfter(this.getInicio()) && dia.isBefore(this.getFinal());
 	}
 
+	public boolean seSuperponenDias(RangoDeFechas rangoDeFecha) {
+		
+		return !this.getInicio().isAfter(rangoDeFecha.getFinal()) 
+				&& !rangoDeFecha.getInicio().isAfter(this.getFinal());
+	}
 }

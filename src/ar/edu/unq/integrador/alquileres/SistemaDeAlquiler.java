@@ -108,10 +108,10 @@ public class SistemaDeAlquiler {
 		publicacion.setPoliticaCancelacion(politicaDeCancelacion);
 	}
 
-	public void reservarCondicionalmente(Reserva reserva, Usuario usuario) {
-		reserva.agregarACondicionales(usuario);
-		
-	}
+	//public void reservarCondicionalmente(Reserva reserva, Usuario usuario) {
+	//	reserva.agregarACondicionales(usuario);
+	//	
+	//}
 
 	public void calificarInquilino(Ranking calificacion, Usuario usuario) {
 		usuario.agregarCalificacionInquilino(calificacion);

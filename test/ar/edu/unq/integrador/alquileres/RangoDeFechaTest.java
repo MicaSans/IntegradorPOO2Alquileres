@@ -30,8 +30,25 @@ class RangoDeFechaTest {
 	
 	@Test
 	void testEstaDentroDeLasFechas() {
+		//Verificar que una fecha dentro del rango sea válida
 		assertTrue(rangoDeFechas.estaDentroDeLasFechas(LocalDate.of(2024, 11, 20)));
+		//Verificar que una fecha fuera del rango sea incorrecta
 		assertFalse(rangoDeFechas.estaDentroDeLasFechas(LocalDate.of(2024, 12, 20)));
+		//Verificar que una fecha en el inicio (no incluido) sea incorrecta
+		assertFalse(rangoDeFechas.estaDentroDeLasFechas(LocalDate.of(2024, 11, 12)));
+		//Verificar que una fecha en el final (no incluido) sea incorrecta
+		assertFalse(rangoDeFechas.estaDentroDeLasFechas(LocalDate.of(2024, 12, 15)));
+	}
+	
+	@Test
+	void testVerificarSiLasFechasSonCorrectas() {
+		assertEquals(LocalDate.of(2024, 11, 12), rangoDeFechas.getInicio());
+		assertEquals(LocalDate.of(2024, 12, 15), rangoDeFechas.getFinal());
+	}
+	
+	@Test
+	void testSeSuperponenDias() {
+		assertFalse(rangoDeFechas.seSuperponenDias(rangoDeFechas2));
 	}
 
 }

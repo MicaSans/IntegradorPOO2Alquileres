@@ -2,6 +2,7 @@ package ar.edu.unq.integrador.alquileres;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Spy;
 
 class PublicacionTest {
 
@@ -29,6 +31,7 @@ class PublicacionTest {
 	@Mock private RangoDeFechas rangoDeFechas;
 	@Mock private RangoDeFechas diasNormales;
 	@Mock private RangoDeFechas diasEspeciales;
+	@Spy private Reserva reserva;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -43,6 +46,7 @@ class PublicacionTest {
 		publicacion = new Publicacion(inmueble, LocalTime.of(10, 0), LocalTime.of(20, 0), 1000d, politicaDeCancelacion, formasDePago);
 		ranking = mock(Ranking.class);
 		rangoDeFechas = mock(RangoDeFechas.class);
+		reserva = spy(Reserva.class);
 		// Test precio en un rango de dias
 		diasNormales = mock(RangoDeFechas.class);
 		diasEspeciales =mock(RangoDeFechas.class);
@@ -144,6 +148,10 @@ class PublicacionTest {
 		verify(politicaDeCancelacion).cancelarReserva(rangoDeFechas);
 	}
 	
-	
+	@Test
+	void testAgregarACondicionales() {
+		publicacion.agregarACondicionales(reserva);
+		assertTrue(publicacion.getCondicionales().contains(reserva));
+	}
 
 }

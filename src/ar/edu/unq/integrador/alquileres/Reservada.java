@@ -18,15 +18,15 @@ public class Reservada implements Estado {
 
 	@Override
 	public void cancelarReserva(Reserva reserva) {
-		if (!reserva.getCondicionales().isEmpty()) {
-			reserva.setNuevoInquilino(reserva.getCondicionales().remove(0));
-			reserva.setEstado(new Pendiente());
+		
+		if (!reserva.getPublicacion().getCondicionales().isEmpty()) {
+			Reserva nuevaReserva = reserva.getPublicacion().getCondicionales().remove(0);
+			nuevaReserva.setEstado(new Pendiente());
+			reserva.getPublicacion().getCondicionales().stream()
+				.forEach(condicional -> nuevaReserva.getPublicacion().agregarACondicionales(condicional));
 		}
-		else {
-			reserva.getPublicacion().quitarADiasOcupados(reserva.getFechas());
-			reserva.setEstado(new Obsoleta());
-		}
-
+		reserva.getPublicacion().quitarADiasOcupados(reserva.getFechas());
+		reserva.setEstado(new Obsoleta());
 	}
 	
 	//En la front end si se realiza un checkOut, pasaria el estado de la reserva a Alquilada, siempre y cuando se cumpla que el inquilino realize el checkOut
