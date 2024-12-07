@@ -49,13 +49,14 @@ class PublicacionTest {
 		politicaDeCancelacion2 = mock(PoliticaDeCancelacion.class);
 		formaDePago = mock(FormaDePago.class);
 		formasDePago = Arrays.asList(formaDePago);
-		publicacion = new Publicacion(inmueble, LocalTime.of(10, 0), LocalTime.of(20, 0), 1000d, politicaDeCancelacion, formasDePago);
+		publicacion = new Publicacion(inmueble, LocalTime.of(10, 0), LocalTime.of(20, 0), 1000d, politicaDeCancelacion, formasDePago); //SUT
 		ranking = mock(Ranking.class);
 		rangoDeFechas = mock(RangoDeFechas.class);
 		reserva = spy(Reserva.class);
 		// Test precio en un rango de dias
 		diasNormales = mock(RangoDeFechas.class);
 		diasEspeciales =mock(RangoDeFechas.class);
+		
 	}
 
 	@Test
@@ -63,18 +64,21 @@ class PublicacionTest {
 		publicacion.setPoliticaCancelacion(politicaDeCancelacion2);
 		assertEquals(politicaDeCancelacion2, publicacion.getPoliticaDeCancelacion());
 		assertNotEquals(politicaDeCancelacion, publicacion.getPoliticaDeCancelacion());
+	
 	}
 	
 	@Test
 	void testAgregarFoto() {
 		publicacion.agregarFoto(foto);
 		assertTrue(publicacion.getFotos().contains(foto));	
+	
 	}
 	
 	@Test
 	void testAgregarCalificacion() {
 		publicacion.agregarCalificacion(ranking);
 		assertTrue(publicacion.getRanking().contains(ranking));
+	
 	}
 	
 	@Test
@@ -83,6 +87,7 @@ class PublicacionTest {
 		when(ranking.getPuntaje()).thenReturn(5);
 		publicacion.agregarCalificacion(ranking);
 		assertEquals(5, publicacion.verPuntajeCategoria("Comodidad"));
+	
 	}
 	
 	@Test
@@ -90,6 +95,7 @@ class PublicacionTest {
 		when(ranking.getPuntaje()).thenReturn(5);
 		publicacion.agregarCalificacion(ranking);
 		assertEquals(5, publicacion.verPromedioTotal());
+	
 	}
 	
 	@Test 
@@ -97,12 +103,14 @@ class PublicacionTest {
 		when(ranking.getComentario()).thenReturn("Muy linda casa");
 		publicacion.agregarCalificacion(ranking);
 		assertTrue(publicacion.verComentarios().contains("Muy linda casa"));
+	
 	}
 	
 	@Test 
 	void testAgregarADiasOcupados() {
 		publicacion.agregarADiasOcupados(rangoDeFechas);
 		assertTrue(publicacion.getDiasOcupados().contains(rangoDeFechas));
+	
 	}
 	
 	@Test 
@@ -110,24 +118,53 @@ class PublicacionTest {
 		publicacion.agregarADiasOcupados(rangoDeFechas);
 		publicacion.quitarADiasOcupados(rangoDeFechas);
 		assertFalse(publicacion.getDiasOcupados().contains(rangoDeFechas));
+	
 	}
 	
 	@Test
 	void testCambiarPrecioPorDia() {
 		publicacion.cambiarPrecioPorDia(900d);
 		assertEquals(900d, publicacion.getPrecioPorDia());
+	
+	}
+	
+	@Test
+	void testGetInmueble() {
+		assertEquals(publicacion.getInmueble(), inmueble);
+	
+	}
+	
+	@Test
+	void testGetFormasDePago() {
+		assertEquals(publicacion.getFormasDePago(), formasDePago);
+		assertTrue(formasDePago.contains(formaDePago));
+		
+	}
+	
+	@Test
+	void testGetHorarioCheckIn() {
+		assertEquals(publicacion.getHorarioChekIn(), LocalTime.of(10, 0));
+		
+	}
+	
+	@Test
+	void testGetHorarioCheckOut() {
+		assertEquals(publicacion.getHorarioChekOut(), LocalTime.of(20, 0));
+	
 	}
 	
 	@Test
 	void testSetPorcentajeDiaEspecial() {
 		publicacion.setPorcentajeDiaEspecial(2);
 		assertEquals(publicacion.getPorcentajeDiaEspecial(), 2);
+	
 	}
 	
 	@Test
 	void testAgregarDiasEspeciales() {
 		publicacion.agregarDiasEspeciales(rangoDeFechas);
 		assertTrue(publicacion.getDiasEspeciales().contains(rangoDeFechas));	
+	
 	}
 	
 	@Test
@@ -135,6 +172,7 @@ class PublicacionTest {
 		when(diasNormales.getInicio()).thenReturn(LocalDate.of(2024, 12, 1));
 		when(diasNormales.getFinal()).thenReturn(LocalDate.of(2024, 12, 5));
 		assertEquals(5000d, publicacion.getPrecio(diasNormales));
+	
 	}
 	
 	@Test
@@ -146,18 +184,21 @@ class PublicacionTest {
 		publicacion.agregarDiasEspeciales(diasEspeciales);
 		assertNotEquals(5000d, publicacion.getPrecio(diasNormales));
 		assertEquals(5200d, publicacion.getPrecio(diasNormales));
+	
 	}
 	
 	@Test
 	void testCancelarReserva() {
 		publicacion.cancelarReserva(rangoDeFechas);
 		verify(politicaDeCancelacion).cancelarReserva(rangoDeFechas);
+	
 	}
 	
 	@Test
 	void testAgregarACondicionales() {
 		publicacion.agregarACondicionales(reserva);
 		assertTrue(publicacion.getCondicionales().contains(reserva));
+	
 	}
 
 }

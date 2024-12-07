@@ -20,7 +20,6 @@ public class Reservada implements Estado {
 
 	@Override
 	public void cancelarReserva(Reserva reserva) {
-		
 		if (!reserva.getPublicacion().getCondicionales().isEmpty()) {
 			Reserva nuevaReserva = reserva.getPublicacion().getCondicionales().remove(0);
 			nuevaReserva.setEstado(new Pendiente());
@@ -29,6 +28,7 @@ public class Reservada implements Estado {
 		}
 		reserva.getPublicacion().quitarADiasOcupados(reserva.getFechas());
 		reserva.setEstado(new Obsoleta());
+		
 	}
 	
 	//En la front end si se realiza un checkOut, pasaria el estado de la reserva a Alquilada, siempre y cuando se cumpla que el inquilino realize el checkOut
@@ -40,12 +40,13 @@ public class Reservada implements Estado {
 			reserva.setEstado(new Alquilada());
 		}
 		// Y si quiere realizar checkOut antes del ultimo dia, no hace nada
+		
 	}
 
 	@Override
 	public Boolean fueAlquilada(Reserva reserva) {
-		// TODO Auto-generated method stub
 		return false;
+		
 	}
 
 }
