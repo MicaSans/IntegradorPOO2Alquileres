@@ -1,8 +1,6 @@
 package ar.edu.unq.integrador.alquileres;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Reserva {
 
@@ -11,7 +9,7 @@ public class Reserva {
 	private Publicacion publicacion;
 	private RangoDeFechas fechasDeAlquiler;
 	private Estado estado;
-	private List<Usuario> condicionales;
+	//private List<Reserva> condicionales;
 
 	public Reserva() {
 		//Creo este constructor con la finalidad de poder usar un SPY en el test
@@ -22,7 +20,7 @@ public class Reserva {
 		this.publicacion = publicacion;
 		this.fechasDeAlquiler = fechasDeAlquiler; 
 		this.estado = new Pendiente();
-		this.condicionales = new ArrayList<Usuario>();
+		//this.condicionales = new ArrayList<Reserva>();
 	}
 
 	public String verCiudadDeReserva() {
@@ -40,6 +38,7 @@ public class Reserva {
 	}
 	
 	public void aceptarReserva() {
+		
 		this.getEstado().aceptarReserva(this);	
 	}
 
@@ -63,13 +62,14 @@ public class Reserva {
 		return this.getEstado().fueAlquilada(this);
 	}
 	
-	public void agregarACondicionales(Usuario usuario) {
-		this.getCondicionales().add(usuario);
-	}
+	//public void agregarACondicionales(Reserva reserva) {
+	//	this.getCondicionales().add(reserva);
+	//	this.setEstado(new Obsoleta());
+	//}
 
-	public List<Usuario> getCondicionales() {
-		return this.condicionales;
-	}
+	//public List<Reserva> getCondicionales() {
+	//	return this.condicionales;
+	//}
 
 	public Usuario getInquilino() {
 		return this.inquilino;
@@ -93,7 +93,4 @@ public class Reserva {
 	}
 
 	
-
-	
-
 }

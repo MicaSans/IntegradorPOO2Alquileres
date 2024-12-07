@@ -18,6 +18,7 @@ public class Publicacion {
 	private ArrayList<RangoDeFechas> diasOcupados;
 	private ArrayList<RangoDeFechas> diasEspeciales;
 	private Integer porcentajeDiaEspecial;
+	private List<Reserva> condicionales;
 
 	public Publicacion(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, double precio,
 			PoliticaDeCancelacion politicaDeCancelacion, List<FormaDePago> formasDePago) {
@@ -32,6 +33,7 @@ public class Publicacion {
 		this.diasOcupados = new ArrayList<RangoDeFechas>();
 		this.diasEspeciales = new ArrayList<RangoDeFechas>();
 		this.porcentajeDiaEspecial = 0;
+		this.condicionales = new ArrayList<Reserva>();
 		
 	}
 
@@ -179,8 +181,12 @@ public class Publicacion {
 		return this.getPoliticaDeCancelacion().cancelarReserva(rangoDeFechas);
 	}
 
-	
+	public void agregarACondicionales(Reserva reserva) {
+		this.condicionales.add(reserva);
+	}
 
-	
+	public List<Reserva> getCondicionales() {
+		return this.condicionales;
+	}
 
 }

@@ -79,11 +79,12 @@ class ReservaTest {
 		verify(estadoMock).fueAlquilada(reservaSpy);
 	}
 	
-	@Test
-	void testAgregarACondicionales() {
-		reserva.agregarACondicionales(inquilino);
-		assertTrue(reserva.getCondicionales().contains(inquilino));
-	}
+	//@Test
+	//void testAgregarACondicionales() {
+	//	reserva.agregarACondicionales(reservaSpy);
+	//	assertTrue(reserva.getCondicionales().contains(reservaSpy));
+	//	assertEquals(reservaSpy.getEstado(), any(Obsoleta.class));
+	//}
 	
 	@Test 
 	void testDeGetters() {

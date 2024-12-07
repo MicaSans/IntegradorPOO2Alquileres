@@ -19,13 +19,7 @@ public class FiltroBase implements Filtro{
 		
 		return this.getRangoDeFecha().esRangoCompatible() 
 				&& publicacion.getDiasOcupados().stream()
-				.noneMatch(diasOcupados -> this.seSuperponenDias(diasOcupados, this.getRangoDeFecha()));
-	}
-
-	private boolean seSuperponenDias(RangoDeFechas diasOcupados, RangoDeFechas rangoDeFecha) {
-		
-		return !diasOcupados.getInicio().isAfter(rangoDeFecha.getFinal()) 
-				&& !rangoDeFecha.getInicio().isAfter(diasOcupados.getFinal());
+				.noneMatch(diasOcupados -> diasOcupados.seSuperponenDias(this.getRangoDeFecha()));
 	}
 
 	private RangoDeFechas getRangoDeFecha() {
