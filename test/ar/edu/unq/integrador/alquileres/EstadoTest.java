@@ -104,6 +104,17 @@ class EstadoTest {
 	
 	//Test clase Reservada
 	@Test
+	void testReservadaCancelarReserva() {
+		when (reserva.getPublicacion()).thenReturn(publicacion);
+		when (publicacion.getCondicionales()).thenReturn(condicionales);
+		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
+		reservada.cancelarReserva(reserva);
+		//verify(reserva).setNuevoInquilino(any(Usuario.class));
+		verify(reserva).setEstado(any(Obsoleta.class));
+		verify(publicacion).quitarADiasOcupados(fechasAlquiladas);
+	}
+	
+	@Test
 	void testReservadaCancelarReservaSinCondicionales() {
 		when (reserva.getPublicacion()).thenReturn(publicacion);
 		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
@@ -114,13 +125,18 @@ class EstadoTest {
 	
 	@Test
 	void testReservadaCancelarReservasConCondicionales() {
+		//Configuración inicial
 		when (reserva.getPublicacion()).thenReturn(publicacion);
 		when (publicacion.getCondicionales()).thenReturn(condicionales);
-		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
+		condicionales.add(reserva2);
+		//Acción
 		reservada.cancelarReserva(reserva);
-		//verify(reserva).setNuevoInquilino(any(Usuario.class));
+		//Verifico que el primer condicional pase a estado Pendiente
+		verify(reserva2).setEstado(any(Pendiente.class));
+		//Verifico que se quiten las fechas ocupadas de la reserva
+		verify(publicacion).quitarADiasOcupados(reserva.getFechas());
+		//Verifico que la reserva original pase a estado Obsoleta
 		verify(reserva).setEstado(any(Obsoleta.class));
-		verify(publicacion).quitarADiasOcupados(fechasAlquiladas);
 	}
 	
 	@Test
