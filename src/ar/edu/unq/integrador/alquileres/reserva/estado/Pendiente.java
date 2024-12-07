@@ -16,11 +16,13 @@ public class Pendiente implements Estado {
 			reserva.getPublicacion().agregarACondicionales(reserva);
 			reserva.setEstado(new Obsoleta());
 		}
+		
 	}
 	
 	public boolean estaOcupado(List<RangoDeFechas> fechasOcupadas, RangoDeFechas rangoDeFechas) {
 		return fechasOcupadas.stream()
 				.anyMatch(fecha -> fecha.seSuperponenDias(rangoDeFechas));
+	
 	}
 
 	@Override
@@ -32,11 +34,13 @@ public class Pendiente implements Estado {
 				.forEach(condicional -> nuevaReserva.getPublicacion().agregarACondicionales(condicional));
 		}
 		reserva.setEstado(new Obsoleta());
+	
 	}
 
 	@Override
 	public void cancelarReserva(Reserva reserva) {
 		reserva.setEstado(new Obsoleta());
+	
 	}
 
 	@Override
@@ -47,8 +51,8 @@ public class Pendiente implements Estado {
 
 	@Override
 	public Boolean fueAlquilada(Reserva reserva) {
-		
 		return false;
+		
 	}
 
 }
