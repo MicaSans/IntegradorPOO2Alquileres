@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.publicacion.politicaDeCancelacion.PoliticaDeCancelacion;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
@@ -45,32 +44,39 @@ public class Publicacion {
 
 	public void setPoliticaCancelacion(PoliticaDeCancelacion politicaDeCancelacion) {
 		this.politicaDeCancelacion = politicaDeCancelacion;	
+	
 	}
 	
 	public PoliticaDeCancelacion getPoliticaDeCancelacion() {
 		return this.politicaDeCancelacion;
+	
 	}
 
 	public void agregarFoto(Foto foto) {
 		if (this.espacioParaFotosLleno()) {
 			this.getFotos().add(foto);
 		}
+	
 	}
 	
 	private boolean espacioParaFotosLleno() {
 		return this.getFotos().size() < 5;
+	
 	}
 
 	public List<Foto> getFotos() {
 		return this.fotos;
+	
 	}
 
 	public void agregarCalificacion(Ranking calificacion) {
 		this.getRanking().add(calificacion);
+	
 	}
 	
 	public List<Ranking> getRanking() {
 		return this.ranking;
+	
 	}
 
 	public int verPuntajeCategoria(String categoria) {
@@ -79,6 +85,7 @@ public class Publicacion {
 				.mapToInt(r -> r.getPuntaje())
 				.sum();
 		return puntaje;
+	
 	}
 	
 	public Integer verPromedioTotal() {
@@ -86,47 +93,56 @@ public class Publicacion {
 				.mapToInt(r -> r.getPuntaje())
 				.sum();
 		return promedio / this.getRanking().size();
+	
 	}
 
 	public List<String> verComentarios() {
 		List<String> comentarios = this.getRanking().stream()
 				.map(r -> r.getComentario()).toList();
 		return comentarios;
+	
 	}
 	
 	public void agregarADiasOcupados(RangoDeFechas fechas) {
 		this.getDiasOcupados().add(fechas);
+	
 	}
 
 	public void quitarADiasOcupados(RangoDeFechas fechas) {
 		if (this.getDiasOcupados().stream().anyMatch(fechasOcupadas -> fechasOcupadas.equals(fechas))) {
 			this.getDiasOcupados().remove(fechas);
-		};
+		}
+	
 	}
 	
 	public void cambiarPrecioPorDia(double precio) {
 		this.precioPorDia = precio;
+	
 	}
 	
-	public Inmueble getInmueble() {
-		
+	public Inmueble getInmueble() {	
 		return this.inmueble;
+	
 	}
 
 	public List<FormaDePago> getFormasDePago() {
 		return this.formasDePago;
+	
 	}
 	
 	public LocalTime getHorarioChekIn() {
 		return this.horarioCheckIn;
+	
 	}
 	
 	public LocalTime getHorarioChekOut() {
 		return this.horarioCheckOut;
+	
 	}
 
 	public List<RangoDeFechas> getDiasOcupados() {
 		return this.diasOcupados;
+	
 	}
 
 	public Double getPrecio(RangoDeFechas rangodeDias) {
@@ -135,6 +151,7 @@ public class Publicacion {
 			.mapToDouble(dia -> this.calcularPrecioDelDia(dia))
 			.sum();
 		return precioTotal;
+	
 	}
 	
 	private double calcularPrecioDelDia(LocalDate dia) {
@@ -145,10 +162,12 @@ public class Publicacion {
 		else {
 			return this.getPrecioPorDia();
 		}
+	
 	}
 
 	private boolean perteneceADiasEspeciales(LocalDate dia) {
 		return this.getDiasEspeciales().stream().anyMatch(rango -> rango.estaDentroDeLasFechas(dia));
+	
 	}
 
 	private List<LocalDate> crearListaFechas(LocalDate inicio, LocalDate fin) {
@@ -156,17 +175,19 @@ public class Publicacion {
 		while (!inicio.isAfter(fin)) {
 			fechas.add(inicio);
 			inicio = inicio.plusDays(1);
-		}
-		
+		}	
 		return fechas;
+	
 	}
 
 	public Double getPrecioPorDia() {
 		return this.precioPorDia;
+	
 	}
 	
 	public List<RangoDeFechas> getDiasEspeciales() {
 		return this.diasEspeciales;
+	
 	}
 	
 	public void agregarDiasEspeciales(RangoDeFechas rangoDeFechas) {
@@ -181,18 +202,37 @@ public class Publicacion {
 
 	public Integer getPorcentajeDiaEspecial() {
 		return this.porcentajeDiaEspecial;
+	
 	}
 
 	public String cancelarReserva(RangoDeFechas rangoDeFechas) {
 		return this.getPoliticaDeCancelacion().cancelarReserva(rangoDeFechas);
+	
 	}
 
 	public void agregarACondicionales(Reserva reserva) {
 		this.condicionales.add(reserva);
+	
 	}
 
 	public List<Reserva> getCondicionales() {
 		return this.condicionales;
+	
+	}
+	
+	public boolean tieneCapacidadPara(int cantidadHuespedes) {
+		return this.getInmueble().tieneCapacidadPara(cantidadHuespedes);
+		
+	}
+
+	public boolean tieneSuperposicionDeDiasCon(RangoDeFechas rangoDeFechas) {
+		return this.getDiasOcupados().stream()
+				.anyMatch(dia -> dia.seSuperponenDias(rangoDeFechas));
+		
+	}
+
+	public String getCiudad() {
+		return this.getInmueble().getCiudad();
 	}
 
 }

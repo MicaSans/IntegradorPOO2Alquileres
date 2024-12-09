@@ -6,7 +6,6 @@ import ar.edu.unq.integrador.alquileres.usuario.Usuario;
 
 public class Inmueble {
 
-
 	private int superficie;
 	private String pais;
 	private String ciudad;
@@ -26,39 +25,52 @@ public class Inmueble {
 		this.servicios = servicios;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.propietario = propietario;
+	
 	}
 	
     public Usuario getPropietario() {
 		return this.propietario;
-	}
+	
+    }
 
 	public Integer getSuperficie() {
 		return this.superficie;
+	
 	}
 
 	public String getPais() {
 		return this.pais;
+	
 	}
 
 	public String getCiudad() {
 		return this.ciudad;
+	
 	}
 
 	public String getDireccion() {
 		return this.direccion;
+	
 	}
 
 	public Integer getCapacidad() {
 		return this.capacidad;
+	
 	}
 
 	public List<String> getServicios() {
 		return this.servicios;
+	
 	}
 
 	public String getTipoInmueble() {
 		return this.tipoDeInmueble;
+	
 	}
 
+	public boolean tieneCapacidadPara(int cantidadHuespedes) {
+		return this.getCapacidad() >= cantidadHuespedes;
+		
+	}
 
 }

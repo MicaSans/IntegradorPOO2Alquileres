@@ -8,17 +8,22 @@ public class FiltroHuespedes implements Filtro {
 
 	public FiltroHuespedes(int cantHuespedes) {
 		this.cantHuespedes = cantHuespedes;
+	
 	}
 
 	@Override
 	public boolean filtrar(Publicacion publicacion) {
-		
-		return publicacion.getInmueble().getCapacidad() == this.getCantidadHuespedes();
+		return tieneCapacidadSuficiente(publicacion);
+	
 	}
 
-	private Integer getCantidadHuespedes() {
-		
+	private int getCantidadHuespedes() {	
 		return this.cantHuespedes;
+	
+	}
+	
+	private boolean tieneCapacidadSuficiente(Publicacion publicacion) {
+		return publicacion.tieneCapacidadPara(this.getCantidadHuespedes());
 	}
 
 }
