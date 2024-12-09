@@ -9,14 +9,22 @@ public class SuscriptorCancelacion implements Suscriptor {
 
 	public SuscriptorCancelacion(PopUpWindow pUW) {
 		this.popUpWindow = pUW;
+	
 	}
 
 	@Override
 	public void updatePorCancelacion(Reserva reserva) {
-		this.popUpWindow.popUp("El/la " 
-							+ reserva.getPublicacion().getInmueble().getTipoInmueble()
-							+ " que te interesa se ha liberado! Correa a reservarlo!"
-							, "Azul", 12);
+		this.getPopUpWindow().popUp("El/la " 
+							//+ reserva.getPublicacion().getInmueble().getTipoInmueble()
+							+ reserva.getTipoInmueble()
+							+ " que te interesa se ha liberado! Correa a reservarlo!",
+							"Azul", 12);
+	
+	}
+
+	private PopUpWindow getPopUpWindow() {
+		return this.popUpWindow;
+		
 	}
 
 	@Override
