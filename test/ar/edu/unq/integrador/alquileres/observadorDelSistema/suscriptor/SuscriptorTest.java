@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import ar.edu.unq.integrador.alquileres.publicacion.Publicacion;
-import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.reserva.Reserva;
 
 class SuscriptorTest {
@@ -20,14 +19,12 @@ class SuscriptorTest {
 	@Mock private Publicacion publicacion;
 	@Mock private PopUpWindow pUW;
 	private SuscriptorCancelacion suscriptorCancelacion;
-	@Mock private Inmueble inmueble;
 	@Mock private Reserva reserva;
 	private SuscriptorReservaRealizada suscriptorReservaRealizada;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		publicacion = mock(Publicacion.class);
-		inmueble = mock(Inmueble.class);
 		reserva = mock(Reserva.class);
 		
 		// Cancelacion
@@ -45,9 +42,7 @@ class SuscriptorTest {
 	
 	@Test
 	void testUpdatePorCancelacion() {
-		when(reserva.getPublicacion()).thenReturn(publicacion);
-		when(publicacion.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getTipoInmueble()).thenReturn("Casa");
+		when(reserva.getTipoInmueble()).thenReturn("Casa");
 		suscriptorCancelacion.updatePorCancelacion(reserva);
 		verify(pUW).popUp("El/la Casa que te interesa se ha liberado! Correa a reservarlo!", "Azul", 12);
 		
@@ -55,8 +50,7 @@ class SuscriptorTest {
 	
 	@Test
 	void testUpdatePorBajaDePrecio() {
-		when(publicacion.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getTipoInmueble()).thenReturn("Casa");
+		when(publicacion.getTipoInmueble()).thenReturn("Casa");
 		when(publicacion.getPrecioPorDia()).thenReturn(300d);
 		suscriptorBajaDePrecio.updatePorBajaDePrecio(publicacion);
 		verify(hPP).publish("Un inmueble Casa a tan solo 300.0 pesos");

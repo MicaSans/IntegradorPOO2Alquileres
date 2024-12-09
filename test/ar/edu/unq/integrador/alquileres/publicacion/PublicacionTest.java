@@ -114,12 +114,29 @@ class PublicacionTest {
 	
 	}
 	
-	@Test 
-	void testQuitarAgregarADiasOcupados() {
-		publicacion.agregarADiasOcupados(rangoDeFechas);
-		publicacion.quitarADiasOcupados(rangoDeFechas);
-		assertFalse(publicacion.getDiasOcupados().contains(rangoDeFechas));
+	//@Test 
+	//void testQuitarAgregarADiasOcupados() {
+	//	publicacion.agregarADiasOcupados(rangoDeFechas);
+	//	publicacion.quitarADiasOcupados(rangoDeFechas);
+	//	assertFalse(publicacion.getDiasOcupados().contains(rangoDeFechas));
+	//
+	//}
 	
+	@Test
+	void testQuitarADiasOcupados() {
+		//Configuro lista de días ocupados
+		publicacion.agregarADiasOcupados(diasEspeciales);
+		publicacion.agregarADiasOcupados(diasNormales);
+		
+		//Ejecuto el método
+		publicacion.quitarADiasOcupados(diasNormales);
+		
+		//Verifico que los dias normales hayan sido eliminados
+		assertFalse(publicacion.getDiasOcupados().contains(diasNormales));
+		
+		//Verifico que los dias especiales sigan en la lista
+		assertTrue(publicacion.getDiasOcupados().contains(diasEspeciales));
+		
 	}
 	
 	@Test
@@ -258,4 +275,17 @@ class PublicacionTest {
 		
 	}
 
+	@Test
+	void testGetTipoInmueble() {
+		//Configuracion
+		when(inmueble.getTipoInmueble()).thenReturn("Casa");
+				
+		//Acción
+		String tipoInmueble = publicacion.getTipoInmueble();
+				
+		//Verificación
+		assertEquals("Casa", tipoInmueble);
+				
+	}
+	
 }

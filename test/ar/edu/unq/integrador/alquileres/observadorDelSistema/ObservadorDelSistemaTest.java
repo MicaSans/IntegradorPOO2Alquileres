@@ -33,25 +33,38 @@ class ObservadorDelSistemaTest {
 	@Test
 	void testAgregarSuscriptor() {
 		assertTrue(observer.getSuscriptores().contains(suscriptor));
+	
+	}
+	
+	@Test
+	void testEliminarSuscriptor() {
+		//Accion
+		observer.eliminarSuscriptor(suscriptor);
+		
+		//Validacion
+		assertFalse(observer.getSuscriptores().contains(suscriptor));
+		
 	}
 	
 	@Test
 	void testNotificarCancelacion() {
 		observer.notificarCancelacion(reserva);
 		verify(suscriptor).updatePorCancelacion(reserva);
+	
 	}
 	
 	@Test
 	void testNotificarBajaDePrecio() {
 		observer.notificarBajaDePrecio(publicacion);
 		verify(suscriptor).updatePorBajaDePrecio(publicacion);
+	
 	}
 	
 	@Test
 	void testNotificarReserva() {
 		observer.notificarReserva(reserva);
 		verify(suscriptor).updatePorReserva(reserva);
-	}
 	
+	}
 
 }

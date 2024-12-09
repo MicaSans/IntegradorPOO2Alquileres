@@ -38,51 +38,84 @@ class ReservaTest {
 		inmueble = mock(Inmueble.class);
 		estadoMock = mock(Estado.class);
 		reservaSpy = spy(Reserva.class);
+	
 	}
 
 	@Test
 	void testVerCiudadDeReserva() {
+		//Configuracion
 		when(publicacion.getInmueble()).thenReturn(inmueble);
 		when(inmueble.getCiudad()).thenReturn("Londres");
+
+		//Verificacion
 		assertEquals("Londres", reserva.verCiudadDeReserva());
+	
 	}
 	
 	@Test 
 	void testAceptarReserva() {
+		//Configuracion
 		when(reservaSpy.getEstado()).thenReturn(estadoMock);
+
+		//Llamo al método
 		reservaSpy.aceptarReserva();
+
+		//Verificacion
 		verify(estadoMock).aceptarReserva(reservaSpy);
+	
 	}
 	
 	@Test
 	void testRechazarReserva() {
+		//Configuracion
 		when(reservaSpy.getEstado()).thenReturn(estadoMock);
+
+		//Llamo al método
 		reservaSpy.rechazarReserva();
+
+		//Verificacion
 		verify(estadoMock).rechazarReserva(reservaSpy);
+	
 	}
 	
 	@Test
 	void testCancelarReserva() {
+		//Configuracion
 		when(reservaSpy.getEstado()).thenReturn(estadoMock);
 		when(reservaSpy.getPublicacion()).thenReturn(publicacion);
 		when(reservaSpy.getFechas()).thenReturn(fechasDeAlquiler);
 		when(publicacion.cancelarReserva(fechasDeAlquiler)).thenReturn("Paga por cancelar");
+
+		//Verificacion
 		assertEquals(reservaSpy.cancelarReserva(), "Paga por cancelar");
 		verify(estadoMock).cancelarReserva(reservaSpy);
+	
 	}
 	
 	@Test
 	void testRealizadoDeCheckOut() {
+		//Configuracion
 		when(reservaSpy.getEstado()).thenReturn(estadoMock);
+
+		//Llamo al método
 		reservaSpy.realizadoDeCheckOut();
+
+		//Verificacion
 		verify(estadoMock).checkOut(reservaSpy);
+	
 	}
 	
 	@Test
 	void testFueAlquilada() {
+		//Configuracion
 		when(reservaSpy.getEstado()).thenReturn(estadoMock);
+
+		//Llamo al método
 		reservaSpy.fueAlquilada();
+
+		//Verificacion
 		verify(estadoMock).fueAlquilada(reservaSpy);
+	
 	}
 	
 	//@Test
@@ -94,18 +127,36 @@ class ReservaTest {
 	
 	@Test 
 	void testDeGetters() {
+		//Configuracion
 		when(fechasDeAlquiler.getInicio()).thenReturn(LocalDate.of(2024, 12, 15));
+
+		//Verificacion
 		assertEquals(reserva.getFechaIngreso(), LocalDate.of(2024, 12, 15));
 		assertEquals(reserva.getInquilino(), inquilino);
 		assertEquals(reserva.getPublicacion(), publicacion);
+	
 	}
 	
 	@Test
 	void testSetters() {
+		//Configuracion
 		reserva.setEstado(estadoMock);
 		reserva.setNuevoInquilino(inquilino);
+
+		//Verificacion
 		assertEquals(estadoMock, reserva.getEstado());
 		assertEquals(inquilino, reserva.getInquilino());
+	
+	}
+	
+	@Test
+	void testGetTipoInmueble() {
+		//Configuracion
+		when(publicacion.getTipoInmueble()).thenReturn("Casa");
+		
+		//Verificacion
+		assertEquals("Casa", reserva.getTipoInmueble());
+		
 	}
 
 }

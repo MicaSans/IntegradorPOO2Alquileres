@@ -9,6 +9,7 @@ public class SuscriptorBajaDePrecio implements Suscriptor {
 
 	public SuscriptorBajaDePrecio(HomePagePublisher hPP) {
 		this.homePagePublisher = hPP;  //Paso como parametro el hpp en el constructor ya que depende del sitio, y que tipo de hpp utiliza
+	
 	}
 
 	@Override
@@ -19,11 +20,17 @@ public class SuscriptorBajaDePrecio implements Suscriptor {
 
 	@Override
 	public void updatePorBajaDePrecio(Publicacion publicacion) {
-		homePagePublisher.publish("Un inmueble " 
-				+ publicacion.getInmueble().getTipoInmueble() 
+		this.getHomePagePublisher().publish("Un inmueble " 
+				+ publicacion.getTipoInmueble() 
 				+ " a tan solo "
 				+ publicacion.getPrecioPorDia().toString()
 				+ " pesos");
+	
+	}
+
+	private HomePagePublisher getHomePagePublisher() {
+		return this.homePagePublisher;
+		
 	}
 
 	@Override

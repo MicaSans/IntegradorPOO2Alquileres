@@ -109,12 +109,19 @@ public class Publicacion {
 	}
 
 	public void quitarADiasOcupados(RangoDeFechas fechas) {
-		if (this.getDiasOcupados().stream().anyMatch(fechasOcupadas -> fechasOcupadas.equals(fechas))) {
+		//if (this.getDiasOcupados().stream()
+		//		.anyMatch(fechasOcupadas -> fechasOcupadas.equals(fechas))) {
+		if(diasOcupadosContiene(fechas)) {
 			this.getDiasOcupados().remove(fechas);
 		}
 	
 	}
 	
+	private boolean diasOcupadosContiene(RangoDeFechas fechas) {
+		return getDiasOcupados().contains(fechas);
+		
+	}
+
 	public void cambiarPrecioPorDia(double precio) {
 		this.precioPorDia = precio;
 	
@@ -233,6 +240,11 @@ public class Publicacion {
 
 	public String getCiudad() {
 		return this.getInmueble().getCiudad();
+	}
+
+	public String getTipoInmueble() {
+		return this.getInmueble().getTipoInmueble();
+		
 	}
 
 }
