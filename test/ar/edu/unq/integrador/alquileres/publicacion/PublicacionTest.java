@@ -161,13 +161,13 @@ class PublicacionTest {
 	
 	@Test
 	void testGetHorarioCheckIn() {
-		assertEquals(publicacion.getHorarioChekIn(), LocalTime.of(10, 0));
+		assertEquals(publicacion.getHorarioCheckIn(), LocalTime.of(10, 0));
 		
 	}
 	
 	@Test
 	void testGetHorarioCheckOut() {
-		assertEquals(publicacion.getHorarioChekOut(), LocalTime.of(20, 0));
+		assertEquals(publicacion.getHorarioCheckOut(), LocalTime.of(20, 0));
 	
 	}
 	
