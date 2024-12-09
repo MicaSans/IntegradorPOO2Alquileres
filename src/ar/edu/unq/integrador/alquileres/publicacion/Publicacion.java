@@ -53,7 +53,7 @@ public class Publicacion {
 	}
 
 	public void agregarFoto(Foto foto) {
-		if (this.espacioParaFotosLleno()) {
+		if (espacioParaFotosLleno()) {
 			this.getFotos().add(foto);
 		}
 	
@@ -88,12 +88,26 @@ public class Publicacion {
 	
 	}
 	
-	public Integer verPromedioTotal() {
-		Integer promedio = this.getRanking().stream()
+	public int verPromedioTotal() {
+		//Integer promedio = this.getRanking().stream()
+		//		.mapToInt(r -> r.getPuntaje())
+		//		.sum();
+		//return promedio / this.getRanking().size();
+		return verPromedio() / tamañoRanking();
+	
+	}
+
+	private int tamañoRanking() {
+		return this.getRanking().size();
+		
+	}
+
+	private int verPromedio() {
+		int promedio = this.getRanking().stream()
 				.mapToInt(r -> r.getPuntaje())
 				.sum();
-		return promedio / this.getRanking().size();
-	
+		return promedio;
+		
 	}
 
 	public List<String> verComentarios() {
@@ -137,12 +151,12 @@ public class Publicacion {
 	
 	}
 	
-	public LocalTime getHorarioChekIn() {
+	public LocalTime getHorarioCheckIn() {
 		return this.horarioCheckIn;
 	
 	}
 	
-	public LocalTime getHorarioChekOut() {
+	public LocalTime getHorarioCheckOut() {
 		return this.horarioCheckOut;
 	
 	}
@@ -162,18 +176,40 @@ public class Publicacion {
 	}
 	
 	private double calcularPrecioDelDia(LocalDate dia) {
-		if (this.perteneceADiasEspeciales(dia)) {
-			return this.getPrecioPorDia() 
-					+ (this.getPrecioPorDia() * this.getPorcentajeDiaEspecial())/ 100;
+		//if (this.perteneceADiasEspeciales(dia)) {
+		//	return this.getPrecioPorDia() 
+		//			+ (this.getPrecioPorDia() * this.getPorcentajeDiaEspecial())/ 100;
+		//}
+		//else {
+		//	return this.getPrecioPorDia();
+		//}
+		if(perteneceADiasEspeciales(dia)) {
+			return calcularPrecioConRecargo();
 		}
 		else {
-			return this.getPrecioPorDia();
+			return precioBase();
 		}
 	
 	}
 
+	private double calcularPrecioConRecargo() {
+		return precioBase() + calcularRecargoPorDiaEspecial();
+		
+	}
+
+	private double calcularRecargoPorDiaEspecial() {
+		return (precioBase() * this.getPorcentajeDiaEspecial()) / 100;
+		
+	}
+
+	private double precioBase() {
+		return this.getPrecioPorDia();
+		
+	}
+
 	private boolean perteneceADiasEspeciales(LocalDate dia) {
-		return this.getDiasEspeciales().stream().anyMatch(rango -> rango.estaDentroDeLasFechas(dia));
+		return this.getDiasEspeciales().stream()
+				.anyMatch(rango -> rango.estaDentroDeLasFechas(dia));
 	
 	}
 
