@@ -13,37 +13,54 @@ public class FiltroPrecio implements Filtro {
 		this.precioMinimo = precioMinimo;
 		this.precioMaximo = precioMaximo;
 		this.rangoDeDias = rangoDeFechas;
+	
 	}
 
 	@Override
 	public boolean filtrar(Publicacion publicacion) {
-		double precioFinalDePublicacion = publicacion.getPrecio(this.getRangodeDias());
-		if (this.comprobrarPreciosCorrectos() && this.getRangodeDias().esRangoCompatible()) {
+		double precioFinalDePublicacion = obtenerPrecioFinal(publicacion);
+		if (comprobarPreciosCorrectos() && esRangoCompatible()) {
 			return this.filtrarPrecios(precioFinalDePublicacion);
 		}
-		else { return false;}
-	}
-	public boolean filtrarPrecios(double precioFinal) {
-		return this.getPrecioMinimo() <= precioFinal && precioFinal <= this.getPrecioMaximo();
+		else {
+			return false;
+		}
+	
 	}
 	
-	private double getPrecioMaximo() {
-		
+	public boolean filtrarPrecios(double precioFinal) {
+		return this.getPrecioMinimo() <= precioFinal && precioFinal <= this.getPrecioMaximo();
+	
+	}
+	
+	private double getPrecioMaximo() {	
 		return this.precioMaximo;
+	
 	}
 
 	private double getPrecioMinimo() {
-		
 		return this.precioMinimo;
+	
 	}
 	
-	private boolean comprobrarPreciosCorrectos() {
-		return this.getPrecioMinimo()<this.getPrecioMaximo();
+	private boolean comprobarPreciosCorrectos() {
+		return this.getPrecioMinimo() < this.getPrecioMaximo();
+	
 	}
 	
-	private RangoDeFechas getRangodeDias() {
-		
+	private RangoDeFechas getRangoDeDias() {	
 		return this.rangoDeDias;
+	
+	}
+	
+	private boolean esRangoCompatible() {
+		return this.getRangoDeDias().esRangoCompatible();
+		
+	}
+	
+	private double obtenerPrecioFinal(Publicacion publicacion) {
+		return publicacion.getPrecio(this.getRangoDeDias());
+		
 	}
 
 }

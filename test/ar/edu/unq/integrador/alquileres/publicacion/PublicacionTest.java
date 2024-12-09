@@ -3,6 +3,7 @@ package ar.edu.unq.integrador.alquileres.publicacion;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,7 +56,7 @@ class PublicacionTest {
 		reserva = spy(Reserva.class);
 		// Test precio en un rango de dias
 		diasNormales = mock(RangoDeFechas.class);
-		diasEspeciales =mock(RangoDeFechas.class);
+		diasEspeciales = mock(RangoDeFechas.class);
 		
 	}
 
@@ -199,6 +200,62 @@ class PublicacionTest {
 		publicacion.agregarACondicionales(reserva);
 		assertTrue(publicacion.getCondicionales().contains(reserva));
 	
+	}
+	
+	@Test
+	void testTieneCapacidadPara() {
+		//Configuración del mock para que devuelva true
+		when(inmueble.tieneCapacidadPara(4)).thenReturn(true);
+		
+		//Llamo al método y verifico el resultado
+		assertTrue(publicacion.tieneCapacidadPara(4));
+		
+		//Verifico que el método haya delegado correctamente
+		verify(inmueble).tieneCapacidadPara(4);
+		
+	}
+	
+	@Test
+	void testNoTieneCapacidadPara() {
+		//Configuración del mock para que devuelva false
+		when(inmueble.tieneCapacidadPara(6)).thenReturn(false);
+				
+		//Llamo al método y verifico el resultado
+		assertFalse(publicacion.tieneCapacidadPara(6));
+				
+		//Verifico que el método haya delegado correctamente
+		verify(inmueble).tieneCapacidadPara(6);
+				
+	}
+	
+	@Test
+	void testTieneSuperposicionCon() {
+		//Configuracion del mock para el rango de fechas y su comportamiento
+		when(rangoDeFechas.esRangoCompatible()).thenReturn(true);
+		when(diasNormales.seSuperponenDias(rangoDeFechas)).thenReturn(true); //Simulo que los días se superponen
+		
+		//Configuro el día ocupado de la publicación para que se superponga con el rango
+		publicacion.agregarADiasOcupados(diasNormales);
+		
+		//Verifico la superposición de días
+		assertTrue(publicacion.tieneSuperposicionDeDiasCon(rangoDeFechas));
+		
+		//Verifico que el mock interactuó con el método de superposición de días
+		verify(diasNormales, times(1)).seSuperponenDias(rangoDeFechas);
+		
+	}
+	
+	@Test
+	void testGetCiudad() {
+		//Configuracion
+		when(inmueble.getCiudad()).thenReturn("Buenos Aires");
+		
+		//Acción
+		String ciudad = publicacion.getCiudad();
+		
+		//Verificación
+		assertEquals("Buenos Aires", ciudad);
+		
 	}
 
 }
