@@ -20,6 +20,7 @@ import org.mockito.Spy;
 
 import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.publicacion.politicaDeCancelacion.PoliticaDeCancelacion;
+import ar.edu.unq.integrador.alquileres.rangoDeFechas.FechasEspeciales;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
 import ar.edu.unq.integrador.alquileres.ranking.Ranking;
 import ar.edu.unq.integrador.alquileres.reserva.Reserva;
@@ -39,6 +40,8 @@ class PublicacionTest {
 	@Mock private RangoDeFechas diasNormales;
 	@Mock private RangoDeFechas diasEspeciales;
 	@Spy private Reserva reserva;
+	@Mock private FechasEspeciales navidad;
+	@Mock private FechasEspeciales finDeAño;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -57,6 +60,8 @@ class PublicacionTest {
 		// Test precio en un rango de dias
 		diasNormales = mock(RangoDeFechas.class);
 		diasEspeciales = mock(RangoDeFechas.class);
+		navidad = mock(FechasEspeciales.class);
+		finDeAño = mock(FechasEspeciales.class);
 		
 	}
 
@@ -170,20 +175,31 @@ class PublicacionTest {
 		assertEquals(publicacion.getHorarioCheckOut(), LocalTime.of(20, 0));
 	
 	}
-	
+	/*
 	@Test
 	void testSetPorcentajeDiaEspecial() {
 		publicacion.setPorcentajeDiaEspecial(2);
 		assertEquals(publicacion.getPorcentajeDiaEspecial(), 2);
 	
 	}
-	
+	*/
 	@Test
 	void testAgregarDiasEspeciales() {
-		publicacion.agregarDiasEspeciales(rangoDeFechas);
-		assertTrue(publicacion.getDiasEspeciales().contains(rangoDeFechas));	
-	
+		publicacion.agregarDiasEspeciales(navidad);
+		assertTrue(publicacion.getDiasEspeciales().contains(navidad));	
 	}
+	
+	@Test
+	void testAgregarFechasSimilaresEspeciales() {
+		when(finDeAño.getFecha()).thenReturn(diasEspeciales);
+		when(navidad.getFecha()).thenReturn(diasEspeciales);
+		when(diasEspeciales.seSuperponenDias(diasEspeciales)).thenReturn(true);
+		publicacion.agregarDiasEspeciales(navidad);
+		publicacion.agregarDiasEspeciales(finDeAño);
+		assertTrue(publicacion.getDiasEspeciales().contains(navidad));
+		assertFalse(publicacion.getDiasEspeciales().contains(finDeAño));	
+	}
+	
 	
 	@Test
 	void testGetPrecioDiasNormales() {
@@ -195,14 +211,15 @@ class PublicacionTest {
 	
 	@Test
 	void testGetPrecioDiasEspeciales() {
-		when(diasNormales.getInicio()).thenReturn(LocalDate.of(2024, 12, 1));
-		when(diasNormales.getFinal()).thenReturn(LocalDate.of(2024, 12, 5));
-		when(diasEspeciales.estaDentroDeLasFechas(LocalDate.of(2024, 12, 1))).thenReturn(true);
-		publicacion.setPorcentajeDiaEspecial(20);
-		publicacion.agregarDiasEspeciales(diasEspeciales);
-		assertNotEquals(5000d, publicacion.getPrecio(diasNormales));
-		assertEquals(5200d, publicacion.getPrecio(diasNormales));
-	
+		when(diasNormales.getInicio()).thenReturn(LocalDate.of(2024, 12, 20));
+		when(diasNormales.getFinal()).thenReturn(LocalDate.of(2024, 12, 23));
+		when(navidad.coincideConLaFecha(LocalDate.of(2024, 12, 23))).thenReturn(true);
+		when(navidad.coincideConLaFecha(LocalDate.of(2024, 12, 22))).thenReturn(true);
+		when(navidad.getPrecio()).thenReturn(2000d);
+		//publicacion.setPorcentajeDiaEspecial(20);
+		publicacion.agregarDiasEspeciales(navidad);
+		assertNotEquals(4000d, publicacion.getPrecio(diasNormales));
+		assertEquals(6000d, publicacion.getPrecio(diasNormales));
 	}
 	
 	@Test
