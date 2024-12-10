@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.publicacion.politicaDeCancelacion.PoliticaDeCancelacion;
+import ar.edu.unq.integrador.alquileres.rangoDeFechas.FechasEspeciales;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
 import ar.edu.unq.integrador.alquileres.ranking.Ranking;
 import ar.edu.unq.integrador.alquileres.reserva.Reserva;
@@ -21,8 +22,7 @@ public class Publicacion {
 	private List<Ranking> ranking;
 	private List<FormaDePago> formasDePago;
 	private ArrayList<RangoDeFechas> diasOcupados;
-	private ArrayList<RangoDeFechas> diasEspeciales;
-	private Integer porcentajeDiaEspecial;
+	private ArrayList<FechasEspeciales> diasEspeciales;
 	private List<Reserva> condicionales;
 
 	public Publicacion(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, double precio,
@@ -36,8 +36,7 @@ public class Publicacion {
 		this.ranking = new ArrayList<Ranking>();
 		this.formasDePago = formasDePago;
 		this.diasOcupados = new ArrayList<RangoDeFechas>();
-		this.diasEspeciales = new ArrayList<RangoDeFechas>();
-		this.porcentajeDiaEspecial = 0;
+		this.diasEspeciales = new ArrayList<FechasEspeciales>();
 		this.condicionales = new ArrayList<Reserva>();
 		
 	}
@@ -184,7 +183,7 @@ public class Publicacion {
 		//	return this.getPrecioPorDia();
 		//}
 		if(perteneceADiasEspeciales(dia)) {
-			return calcularPrecioConRecargo();
+			return calcularPrecioPorDiaEspecial(dia);
 		}
 		else {
 			return precioBase();
@@ -192,13 +191,12 @@ public class Publicacion {
 	
 	}
 
-	private double calcularPrecioConRecargo() {
-		return precioBase() + calcularRecargoPorDiaEspecial();
-		
-	}
-
-	private double calcularRecargoPorDiaEspecial() {
-		return (precioBase() * this.getPorcentajeDiaEspecial()) / 100;
+	private double calcularPrecioPorDiaEspecial(LocalDate dia) {
+		FechasEspeciales fechaEspecial =this.getDiasEspeciales().stream()
+		.filter(diasEspeciales -> diasEspeciales.coincideConLaFecha(dia))
+		.findFirst()
+		.get();
+		return fechaEspecial.getPrecio();
 		
 	}
 
@@ -209,7 +207,7 @@ public class Publicacion {
 
 	private boolean perteneceADiasEspeciales(LocalDate dia) {
 		return this.getDiasEspeciales().stream()
-				.anyMatch(rango -> rango.estaDentroDeLasFechas(dia));
+				.anyMatch(diasEspeciales -> diasEspeciales.coincideConLaFecha(dia));
 	
 	}
 
@@ -228,24 +226,21 @@ public class Publicacion {
 	
 	}
 	
-	public List<RangoDeFechas> getDiasEspeciales() {
+	public List<FechasEspeciales> getDiasEspeciales() {
 		return this.diasEspeciales;
 	
 	}
 	
-	public void agregarDiasEspeciales(RangoDeFechas rangoDeFechas) {
-		this.diasEspeciales.add(rangoDeFechas);
-		
+	public void agregarDiasEspeciales(FechasEspeciales navidad) {
+		//Checkeo que al agregar dias especiales no se superpongan
+		if (!this.seSuperponenDiasEspeciales(navidad)) {
+			this.diasEspeciales.add(navidad);
+		}
 	}
-
-	public void setPorcentajeDiaEspecial(int porcentaje) {
-		this.porcentajeDiaEspecial = porcentaje;
-		
-	}
-
-	public Integer getPorcentajeDiaEspecial() {
-		return this.porcentajeDiaEspecial;
 	
+	private boolean seSuperponenDiasEspeciales(FechasEspeciales navidad) {
+		return this.diasEspeciales.stream()
+				.anyMatch(diasYaAgregados -> diasYaAgregados.getFecha().seSuperponenDias(navidad.getFecha()));
 	}
 
 	public String cancelarReserva(RangoDeFechas rangoDeFechas) {

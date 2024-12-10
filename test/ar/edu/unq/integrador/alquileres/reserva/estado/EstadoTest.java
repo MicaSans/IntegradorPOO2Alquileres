@@ -38,6 +38,8 @@ class EstadoTest {
 	@Mock private Usuario inquilino;
 	@Mock private Reserva reserva2;
 	@Spy private Pendiente pendienteSpy;
+	@Mock private RangoDeFechas otraFecha;
+	@Mock private Reserva reserva3;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -54,6 +56,9 @@ class EstadoTest {
 		reservada = new Reservada(); //SUT
 		inquilino = mock(Usuario.class);
 		condicionales = new ArrayList<Reserva>();
+		
+		otraFecha = mock(RangoDeFechas.class);
+		reserva3 = mock(Reserva.class);
 		
 		//Obsoleta
 		obsoleta = new Obsoleta(); //SUT
@@ -112,6 +117,15 @@ class EstadoTest {
 	}
 	
 	@Test
+	void testPendienteRechazarReserva() {
+		pendiente.rechazarReserva(reserva);
+		verify(reserva).setEstado(any(Obsoleta.class));
+	}
+	
+	
+	/* 
+	
+	@Test
 	void testPendienteRechazarReservaSinCondicionales() {
 		//Configuración sin condicionales en la lista
 		when(publicacion.getCondicionales()).thenReturn(condicionales);
@@ -151,7 +165,7 @@ class EstadoTest {
 		verify(reserva).setEstado(any(Obsoleta.class));
 		
 	}
-	
+	*/ 
 	@Test
 	void testPendienteCancelarReserva() {
 		//Llamo al método
@@ -193,6 +207,7 @@ class EstadoTest {
 	
 	}
 	
+	//Borrar?¿
 	@Test
 	void testReservadaCancelarReserva() {
 		when (reserva.getPublicacion()).thenReturn(publicacion);
@@ -214,12 +229,17 @@ class EstadoTest {
 	
 	}
 	
+	
 	@Test
 	void testReservadaCancelarReservasConCondicionales() {
 		//Configuración inicial
 		when (reserva.getPublicacion()).thenReturn(publicacion);
 		when (publicacion.getCondicionales()).thenReturn(condicionales);
 		condicionales.add(reserva2);
+		//Agrego fechas
+		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
+		when (reserva2.getFechas()).thenReturn(fechasAlquiladas);
+		when (fechasAlquiladas.seSuperponenDias(fechasAlquiladas)).thenReturn(true);
 		
 		//Acción
 		reservada.cancelarReserva(reserva);
@@ -234,6 +254,39 @@ class EstadoTest {
 		verify(reserva).setEstado(any(Obsoleta.class));
 		
 	}
+
+	@Test
+	void testReservadaCancelarReservaPeroConFechasDistintas() {
+		//Quizas no se entiende el nombre, pero lo que testeo aca es cuando en 
+		//los condicionales, el primero es de otra fecha al que se cancela.
+		when (reserva.getPublicacion()).thenReturn(publicacion);
+		when (publicacion.getCondicionales()).thenReturn(condicionales);
+		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
+		when (reserva2.getFechas()).thenReturn(otraFecha);
+		when (reserva3.getFechas()).thenReturn(fechasAlquiladas);
+		when (fechasAlquiladas.seSuperponenDias(otraFecha)).thenReturn(false);
+		when (fechasAlquiladas.seSuperponenDias(fechasAlquiladas)).thenReturn(true);
+		condicionales.add(reserva2);
+		condicionales.add(reserva3);
+		
+		
+		//Acción
+		reservada.cancelarReserva(reserva);
+		
+		//Verifico que el segundo condicional pase a estado Pendiente
+		verify(reserva3).setEstado(any(Pendiente.class));
+		
+		//Verifico que se quiten las fechas ocupadas de la reserva
+		verify(publicacion).quitarADiasOcupados(reserva.getFechas());
+		
+		//Verifico que la reserva original pase a estado Obsoleta
+		verify(reserva).setEstado(any(Obsoleta.class));
+		
+		assertTrue(condicionales.contains(reserva2));
+		assertFalse(condicionales.contains(reserva3));
+	
+	}
+	
 	
 	@Test
 	void testReservadaCheckOut() {

@@ -28,6 +28,7 @@ class FiltroTest {
 	@Mock private Filtro filtro;
 	private FiltroPrecio filtroPrecio;
 	private FiltroHuespedes filtroHuespedes;
+	private FiltroPrecio filtroPrecioIncorrecto;
 	
 
 	@BeforeEach
@@ -42,6 +43,7 @@ class FiltroTest {
 		diasOcupados = Arrays.asList(dias1,dias2);
 		// FiltroPrecio
 		filtroPrecio = new FiltroPrecio(200d, 300d, rangoDeFechas);
+		filtroPrecioIncorrecto = new FiltroPrecio(300d, 200d, rangoDeFechas);
 		// FiltroHuespedes
 		filtroHuespedes = new FiltroHuespedes(5);
 	}
@@ -95,6 +97,17 @@ class FiltroTest {
 		assertTrue(filtroPrecio.filtrar(publicacion));
 	
 	}
+	
+	@Test
+	void testFiltrarConPreciosIncorrectos() {
+		//Configuracion
+		when(rangoDeFechas.esRangoCompatible()).thenReturn(true);
+		
+		//Accion y verificacion
+		assertFalse(filtroPrecioIncorrecto.filtrar(publicacion));	
+	
+	}
+	
 	
 	@Test
 	void testFiltrarPorPrecioExcede() {

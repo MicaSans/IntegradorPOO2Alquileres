@@ -252,7 +252,7 @@ class SistemaDeAlquilerTest {
 	void testVerReservasFuturas() {
 		when (reserva.getInquilino()).thenReturn(usuario);
 		when (reserva2.getInquilino()).thenReturn(usuario);
-		when (reserva.getFechaIngreso()).thenReturn(LocalDate.of(2024, 12, 10));
+		when (reserva.getFechaIngreso()).thenReturn(LocalDate.of(2025, 12, 10));
 		when (reserva2.getFechaIngreso()).thenReturn(LocalDate.of(2024, 10, 20));
 		sistema.reservarPublicacion(reserva);
 		sistema.reservarPublicacion(reserva2);
