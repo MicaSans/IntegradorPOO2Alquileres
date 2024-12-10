@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import ar.edu.unq.integrador.alquileres.ranking.GestorDeRanking;
 import ar.edu.unq.integrador.alquileres.ranking.Ranking;
 
 class UsuarioTest {
@@ -17,9 +18,11 @@ class UsuarioTest {
 	private Usuario usuario;
 	@Mock private Ranking ranking;
 	@Mock private Ranking otroRanking;
+	@Mock private GestorDeRanking gestor;
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		gestor = mock(GestorDeRanking.class);
 		usuario = new Usuario("Francisco","francisco@gmail.com","48596745"); //SUT
 		ranking = mock(Ranking.class);
 		otroRanking = mock(Ranking.class);
@@ -28,17 +31,16 @@ class UsuarioTest {
 	@Test
 	void testAgregarCalificacionPropietario() {
 		usuario.agregarCalificacionPropietario(ranking);
-		assertTrue(usuario.getRankingPropietario().size() == 1);
-		assertTrue(usuario.getRankingPropietario().contains(ranking));
+		assertTrue(usuario.gestorPropietarioContiene(ranking));
 	}
-	
+	  //
 	@Test
 	void testVerPuntajePropietario() {
 		usuario.agregarCalificacionPropietario(ranking);
 		when(ranking.getCategoria()).thenReturn("Amabilidad");
 		when(ranking.getPuntaje()).thenReturn(5);
 		assertEquals(5, usuario.verPuntajePropietario("Amabilidad"));
-	}
+	}  //
 	
 	@Test
 	void testVerPromedioPropietario() {
@@ -47,7 +49,7 @@ class UsuarioTest {
 		when(ranking.getPuntaje()).thenReturn(4);
 		when(otroRanking.getPuntaje()).thenReturn(2);
 		assertEquals(3, usuario.verPromedioPropietario());
-	}
+	}  //
 	
 	@Test
 	void testVerComentariosPropietario() {
@@ -59,14 +61,13 @@ class UsuarioTest {
 		when(otroRanking.getComentario()).thenReturn("Buena atencion");
 		assertEquals(2, usuario.verComentariosPropietario().size());
 		assertTrue(usuario.verComentariosPropietario().contains("Buena atencion"));
-	}
+	} //
 	
 	@Test
 	void testAgregarCalificacionInquilino() {
 		usuario.agregarCalificacionInquilino(ranking);
-		assertTrue(usuario.getRankingInquilino().size() == 1);
-		assertTrue(usuario.getRankingInquilino().contains(ranking));
-	}
+		assertTrue(usuario.gestorInquilinoContiene(ranking));
+	} //
 	
 	@Test
 	void testVerPuntajeInquilino() {
@@ -74,7 +75,7 @@ class UsuarioTest {
 		when(ranking.getCategoria()).thenReturn("Puntualidad");
 		when(ranking.getPuntaje()).thenReturn(3);
 		assertEquals(3, usuario.verPuntajeInquilino("Puntualidad"));
-	}
+	} //
 	
 	@Test
 	void testVerPromedioInquilino() {
@@ -83,7 +84,7 @@ class UsuarioTest {
 		when(ranking.getPuntaje()).thenReturn(3);
 		when(otroRanking.getPuntaje()).thenReturn(1);
 		assertEquals(2, usuario.verPromedioInquilino());
-	}
+	} //
 	
 	@Test
 	void testVerComentariosInquilino() {
@@ -94,7 +95,7 @@ class UsuarioTest {
 		assertEquals(2, usuario.verComentariosInquilino().size());
 		assertTrue(usuario.verComentariosInquilino().contains("Inquilinos muy limpios"));
 		assertTrue(usuario.verComentariosInquilino().contains("Dejaron la propiedad en buen estado"));
-	}
+	} //
 	
 	@Test
 	void testSetFechaInicio() {
@@ -121,13 +122,18 @@ class UsuarioTest {
 	void testGetRankingPropietario() {
 		//Como en el testAgregarCalificacionPropietario() ya se testea la funcionalidad del método getRankingPropietario(), testeo otra cosa (que la lista está vacía por ejemplo)
 		assertTrue(usuario.getRankingPropietario().isEmpty());
-	}
+		usuario.agregarCalificacionPropietario(ranking);
+		assertTrue(usuario.getRankingPropietario().contains(ranking));
+		
+	}  //
 	
 	@Test
 	void testGetRankingInquilino() {
 		//Como en el testAgregarCalificacionInquilino() ya se testea la funcionalidad del método getRankingInquilino(), testeo otra cosa (que la lista está vacía por ejemplo)
 		assertTrue(usuario.getRankingInquilino().isEmpty());
-	}
+		usuario.agregarCalificacionInquilino(ranking);
+		assertTrue(usuario.getRankingInquilino().contains(ranking));
+	} //
 	
 	@Test
 	void testGetFechaInicioUsuario() {

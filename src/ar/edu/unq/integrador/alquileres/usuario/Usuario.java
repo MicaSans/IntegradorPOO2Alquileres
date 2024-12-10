@@ -1,9 +1,8 @@
 package ar.edu.unq.integrador.alquileres.usuario;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
+import ar.edu.unq.integrador.alquileres.ranking.GestorDeRanking;
 import ar.edu.unq.integrador.alquileres.ranking.Ranking;
 
 public class Usuario {
@@ -11,67 +10,72 @@ public class Usuario {
 	private String email;
 	private String telefono;
 	private LocalDate fechaInicioUsuario;
-	private List<Ranking> rankingPropietario;
-	private List<Ranking> rankingInquilino;
+	private GestorDeRanking gestorRankingPropietario;
+	private GestorDeRanking gestorRankingInquilino;
 
 	public Usuario(String nombre, String email, String telefono) {
 		this.nombre = nombre;
 		this.email = email;
 		this.telefono = telefono;
-		this.rankingPropietario = new ArrayList<Ranking>();
-		this.rankingInquilino = new ArrayList<Ranking>();
+		this.gestorRankingPropietario = new GestorDeRanking();
+		this.gestorRankingInquilino = new GestorDeRanking();
 	}
 
 	public void agregarCalificacionPropietario(Ranking calificacion) {
-		this.getRankingPropietario().add(calificacion);
+		this.getGestorPropietario().agregarCalificacion(calificacion);
 	}
-
+	
+	public void agregarCalificacionInquilino(Ranking calificacion) {
+		this.getGestorInquilino().agregarCalificacion(calificacion);
+	}
+	
 	public Integer verPuntajePropietario(String categoria) {
-		Integer puntaje = this.getRankingPropietario().stream()
+		return this.getGestorPropietario().verPuntaje(categoria);
+	}
+	
+	public Integer verPuntajeInquilino(String categoria) {
+		return this.getGestorInquilino().verPuntaje(categoria);
+	}
+	
+	/*
+	private Integer verPuntaje(List<Ranking> rankingUsuario, String categoria) {
+		Integer puntaje = rankingUsuario.stream()
 				.filter(r -> r.getCategoria().equals(categoria))
 				.mapToInt(r -> r.getPuntaje())
 				.sum();
 		return puntaje;
 	}
+	*/
 
 	public Integer verPromedioPropietario() {
-		Integer promedio = this.getRankingPropietario().stream()
-				.mapToInt(r -> r.getPuntaje())
-				.sum();
-		return promedio / this.getRankingPropietario().size();
+		return this.getGestorPropietario().verPromedioRanking();
 	}
-
-	public List<String> verComentariosPropietario() {
-		List<String> comentarios = this.getRankingPropietario().stream()
-				.map(r -> r.getComentario()).toList();
-		return comentarios;
-	}
-
-	public void agregarCalificacionInquilino(Ranking calificacion) {
-		this.getRankingInquilino().add(calificacion);
-	}
-
-	public Integer verPuntajeInquilino(String categoria) {
-		Integer puntaje = this.getRankingInquilino().stream()
-				.filter(r -> r.getCategoria().equals(categoria))
-				.mapToInt(r -> r.getPuntaje())
-				.sum();
-		return puntaje;
-	}
-
+	
 	public Integer verPromedioInquilino() {
+		return this.getGestorInquilino().verPromedioRanking();
+	}
+	
+	/*
+	public Integer verPromedio(List<Ranking> rankingUsuario) {
 		Integer promedio = this.getRankingInquilino().stream()
 				.mapToInt(r -> r.getPuntaje())
 				.sum();
 		return promedio / this.getRankingInquilino().size();
 	}
-
-	public List<String> verComentariosInquilino() {
-		List<String> comentarios = this.getRankingInquilino().stream()
-				.map(r -> r.getComentario()).toList();
-		return comentarios;
+	*/
+	
+	public List<String> verComentariosPropietario() {
+		
+		return this.getGestorPropietario().verComentarios();
 	}
 
+	public List<String> verComentariosInquilino() {
+		
+		return this.getGestorInquilino().verComentarios();
+	}
+	
+	
+	
 	public void setFechaInicioUsuario(LocalDate fechaInicio) {
 		this.fechaInicioUsuario = fechaInicio;
 	}
@@ -92,12 +96,31 @@ public class Usuario {
 		return this.telefono;
 	}
 
+	public GestorDeRanking getGestorPropietario() {
+		return this.gestorRankingPropietario;
+	}
+	
+	public GestorDeRanking getGestorInquilino() {
+		return this.gestorRankingInquilino;
+	}
+
 	public List<Ranking> getRankingPropietario() {
-		return this.rankingPropietario;
+		
+		return this.getGestorPropietario().getRanking();
 	}
 	
 	public List<Ranking> getRankingInquilino() {
-		return this.rankingInquilino;
+		
+		return this.getGestorInquilino().getRanking();
 	}
 
+	public Boolean gestorPropietarioContiene(Ranking ranking) {
+	
+		return this.getGestorPropietario().contiene(ranking);
+	}
+	
+	public Boolean gestorInquilinoContiene(Ranking ranking) {
+		
+		return this.getGestorInquilino().contiene(ranking);
+	}
 }

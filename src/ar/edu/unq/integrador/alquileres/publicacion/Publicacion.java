@@ -8,6 +8,7 @@ import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.publicacion.politicaDeCancelacion.PoliticaDeCancelacion;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.FechasEspeciales;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
+import ar.edu.unq.integrador.alquileres.ranking.GestorDeRanking;
 import ar.edu.unq.integrador.alquileres.ranking.Ranking;
 import ar.edu.unq.integrador.alquileres.reserva.Reserva;
 
@@ -19,7 +20,7 @@ public class Publicacion {
 	private LocalTime horarioCheckOut;
 	private LocalTime horarioCheckIn;
 	private List<Foto> fotos;
-	private List<Ranking> ranking;
+	private GestorDeRanking gestorDeRanking;
 	private List<FormaDePago> formasDePago;
 	private ArrayList<RangoDeFechas> diasOcupados;
 	private ArrayList<FechasEspeciales> diasEspeciales;
@@ -33,7 +34,7 @@ public class Publicacion {
 		this.horarioCheckOut = checkOut;
 		this.precioPorDia = precio;
 		this.politicaDeCancelacion = politicaDeCancelacion;
-		this.ranking = new ArrayList<Ranking>();
+		this.gestorDeRanking = new GestorDeRanking();
 		this.formasDePago = formasDePago;
 		this.diasOcupados = new ArrayList<RangoDeFechas>();
 		this.diasEspeciales = new ArrayList<FechasEspeciales>();
@@ -69,21 +70,18 @@ public class Publicacion {
 	}
 
 	public void agregarCalificacion(Ranking calificacion) {
-		this.getRanking().add(calificacion);
+		this.getGestorDeRanking().agregarCalificacion(calificacion);;
 	
 	}
 	
-	public List<Ranking> getRanking() {
-		return this.ranking;
+	public GestorDeRanking getGestorDeRanking() {
+		return this.gestorDeRanking;
 	
 	}
 
 	public int verPuntajeCategoria(String categoria) {
-		Integer puntaje = this.getRanking().stream()
-				.filter(r -> r.getCategoria().equals(categoria))
-				.mapToInt(r -> r.getPuntaje())
-				.sum();
-		return puntaje;
+		
+		return this.getGestorDeRanking().verPuntaje(categoria);
 	
 	}
 	
@@ -92,10 +90,10 @@ public class Publicacion {
 		//		.mapToInt(r -> r.getPuntaje())
 		//		.sum();
 		//return promedio / this.getRanking().size();
-		return verPromedio() / tamañoRanking();
+		return this.getGestorDeRanking().verPromedioRanking();
 	
 	}
-
+/*
 	private int tamañoRanking() {
 		return this.getRanking().size();
 		
@@ -108,11 +106,9 @@ public class Publicacion {
 		return promedio;
 		
 	}
-
+*/
 	public List<String> verComentarios() {
-		List<String> comentarios = this.getRanking().stream()
-				.map(r -> r.getComentario()).toList();
-		return comentarios;
+		return this.getGestorDeRanking().verComentarios();
 	
 	}
 	
@@ -276,6 +272,15 @@ public class Publicacion {
 	public String getTipoInmueble() {
 		return this.getInmueble().getTipoInmueble();
 		
+	}
+
+	public List<Ranking> getRanking() {
+		return this.getGestorDeRanking().getRanking();
+	}
+
+	public Boolean gestorContiene(Ranking ranking) {
+		
+		return this.getRanking().contains(ranking);
 	}
 
 }

@@ -83,7 +83,7 @@ class PublicacionTest {
 	@Test
 	void testAgregarCalificacion() {
 		publicacion.agregarCalificacion(ranking);
-		assertTrue(publicacion.getRanking().contains(ranking));
+		assertTrue(publicacion.gestorContiene(ranking));
 	
 	}
 	
