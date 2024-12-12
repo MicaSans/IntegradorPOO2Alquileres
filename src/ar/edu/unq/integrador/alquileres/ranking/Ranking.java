@@ -10,18 +10,22 @@ public class Ranking {
 		this.puntaje = puntaje;
 		this.categoria = categoria;
 		this.comentario = comentario;
+	
 	}
 
 	public int getPuntaje() {
 		return this.puntaje;
+	
 	}
 
 	public String getCategoria() {
 		return this.categoria;
+	
 	}
 	
 	public String getComentario() {
 		return this.comentario;
+	
 	}
 
 }

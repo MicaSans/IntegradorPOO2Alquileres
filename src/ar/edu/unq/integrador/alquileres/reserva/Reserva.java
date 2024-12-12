@@ -29,8 +29,14 @@ public class Reserva {
 	}
 
 	public String verCiudadDeReserva() {
-		return this.getPublicacion().getInmueble().getCiudad();
+		//return this.getPublicacion().getInmueble().getCiudad();
+		return this.getCiudad();
 	
+	}
+
+	private String getCiudad() {
+		return this.getPublicacion().getCiudad();
+		
 	}
 
 	public Publicacion getPublicacion() {

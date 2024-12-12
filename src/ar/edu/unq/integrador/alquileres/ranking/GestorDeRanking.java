@@ -9,25 +9,26 @@ public class GestorDeRanking {
 
     public GestorDeRanking() {
         this.rankings = new ArrayList<Ranking>();
+    
     }
 
     public void agregarCalificacion(Ranking calificacion) {
         this.getRanking().add(calificacion);
+    
     }
 
-
-    public Integer verPuntaje(String categoria) {
-
+    public int verPuntaje(String categoria) {
         Integer puntaje = this.getRanking().stream()
                 .filter(r -> r.getCategoria().equals(categoria))
                 .mapToInt(r -> r.getPuntaje())
                 .sum();
         return puntaje;
+   
     }
 
-
-    public Integer verPromedioRanking() {
+    public int verPromedioRanking() {
         return verPromedio() / tamañoRanking();
+    
     }
 
     private int verPromedio() {
@@ -35,6 +36,7 @@ public class GestorDeRanking {
                 .mapToInt(r -> r.getPuntaje())
                 .sum();
         return promedio;
+    
     }
 
     private int tamañoRanking() {
@@ -43,18 +45,20 @@ public class GestorDeRanking {
     }
 
     public List<Ranking> getRanking() {
-
         return this.rankings;
+   
     }
 
     public List<String> verComentarios() {
         List<String> comentarios = this.getRanking().stream()
                 .map(r -> r.getComentario()).toList();
         return comentarios;
+   
     }
 
     public Boolean contiene(Ranking calificacion) {
-        return    this.getRanking().contains(calificacion);
+        return this.getRanking().contains(calificacion);
+   
     }
 
 }

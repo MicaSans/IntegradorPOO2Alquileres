@@ -4,35 +4,48 @@ import java.time.LocalDate;
 
 public class RangoDeFechas {
 
-	private LocalDate fechaInicio;
-	private LocalDate fechaFinal;
+	private LocalDate fechaEntrante;
+	private LocalDate fechaSalida;
 
-	public RangoDeFechas(LocalDate fechaInicio, LocalDate fechaFinal) {
-		this.fechaInicio = fechaInicio;
-		this.fechaFinal = fechaFinal;
+	public RangoDeFechas(LocalDate entrante, LocalDate salida) {
+		this.fechaEntrante = entrante;
+		this.fechaSalida = salida;
+	
 	}
 
 	public LocalDate getInicio() {
-		
-		return this.fechaInicio;
+		return this.fechaEntrante;
+	
 	}
 
 	public LocalDate getFinal() {
-		// TODO Auto-generated method stub
-		return this.fechaFinal;
+		return this.fechaSalida;
+		
 	}
 
 	public boolean esRangoCompatible() {
-		return this.getInicio().isBefore(this.getFinal());
+		return esAnteriorA(this.getFinal());
+		
+	}
+	
+	private boolean esAnteriorA(LocalDate dia) {
+		return this.getInicio().isBefore(dia);
 	}
 
 	public boolean estaDentroDeLasFechas(LocalDate dia) {
-		return dia.isAfter(this.getInicio()) && dia.isBefore(this.getFinal());
+		return dia.isAfter(this.getInicio())
+				&& dia.isBefore(this.getFinal());
+	
 	}
 
 	public boolean seSuperponenDias(RangoDeFechas rangoDeFecha) {
-		
-		return !this.getInicio().isAfter(rangoDeFecha.getFinal()) 
-				&& !rangoDeFecha.getInicio().isAfter(this.getFinal());
+		return !esPosteriorA(rangoDeFecha.getFinal()) 
+				&& !rangoDeFecha.esPosteriorA(this.getFinal());
+	
 	}
+
+	private boolean esPosteriorA(LocalDate dia) {
+		return this.getInicio().isAfter(dia);
+	}
+	
 }

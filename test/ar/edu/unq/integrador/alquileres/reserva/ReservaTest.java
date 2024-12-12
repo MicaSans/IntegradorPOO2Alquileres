@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 
 import ar.edu.unq.integrador.alquileres.publicacion.Publicacion;
-import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
+//import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
 import ar.edu.unq.integrador.alquileres.reserva.estado.Estado;
 import ar.edu.unq.integrador.alquileres.usuario.Usuario;
@@ -25,7 +25,7 @@ class ReservaTest {
 	@Mock private Publicacion publicacion;
 	@Mock private RangoDeFechas fechasDeAlquiler;
 	private Reserva reserva;
-	@Mock private Inmueble inmueble;
+	//@Mock private Inmueble inmueble;
 	@Mock private Estado estadoMock;
 	@Spy private Reserva reservaSpy;
 
@@ -35,7 +35,7 @@ class ReservaTest {
 		publicacion = mock(Publicacion.class);
 		fechasDeAlquiler = mock(RangoDeFechas.class);
 		reserva = new Reserva(inquilino, publicacion, fechasDeAlquiler); // SUT	
-		inmueble = mock(Inmueble.class);
+		//inmueble = mock(Inmueble.class);
 		estadoMock = mock(Estado.class);
 		reservaSpy = spy(Reserva.class);
 	
@@ -44,8 +44,7 @@ class ReservaTest {
 	@Test
 	void testVerCiudadDeReserva() {
 		//Configuracion
-		when(publicacion.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getCiudad()).thenReturn("Londres");
+		when(publicacion.getCiudad()).thenReturn("Londres");
 
 		//Verificacion
 		assertEquals("Londres", reserva.verCiudadDeReserva());
