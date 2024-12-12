@@ -67,7 +67,7 @@ public class Reservada implements Estado {
 	}
 
 	@Override
-	public Boolean fueAlquilada(Reserva reserva) {
+	public boolean fueAlquilada(Reserva reserva) {
 		return false;
 		
 	}

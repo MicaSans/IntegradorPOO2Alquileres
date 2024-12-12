@@ -3,10 +3,13 @@ package ar.edu.unq.integrador.alquileres.reserva;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -155,6 +158,29 @@ class ReservaTest {
 		
 		//Verificacion
 		assertEquals("Casa", reserva.getTipoInmueble());
+		
+	}
+	
+	@Test
+	void testGetDiasOcupadosPublicacion() {
+		//Datos de testeo
+		RangoDeFechas rango1 = mock(RangoDeFechas.class);
+		RangoDeFechas rango2 = mock(RangoDeFechas.class);
+		List<RangoDeFechas> diasOcupados = Arrays.asList(rango1, rango2);
+		
+		//Configuración
+		when(publicacion.getDiasOcupados()).thenReturn(diasOcupados);
+		
+		//Acción
+		List<RangoDeFechas> resultado = reserva.getDiasOcupadosPublicacion();
+		
+		//Assert
+		assertNotNull(resultado);
+		assertEquals(diasOcupados.size(), resultado.size());
+		assertEquals(diasOcupados, resultado);
+		
+		//Verificación
+		verify(publicacion, times(1)).getDiasOcupados();
 		
 	}
 

@@ -9,19 +9,22 @@ public class Pendiente implements Estado {
 
     @Override
     public void aceptarReserva(Reserva reserva) {
-        if(!this.estaOcupado(reserva.getPublicacion().getDiasOcupados(), reserva.getFechas())){
+        /*if(!this.estaOcupado(reserva.getPublicacion().getDiasOcupados(), reserva.getFechas())){
             reserva.getPublicacion().agregarADiasOcupados(reserva.getFechas());
             reserva.setEstado(new Reservada());
-        }else {
+        }
+        else {
             reserva.getPublicacion().agregarACondicionales(reserva);
             reserva.setEstado(new Obsoleta());
-        }
-
-    }
-
-    public boolean estaOcupado(List<RangoDeFechas> fechasOcupadas, RangoDeFechas rangoDeFechas) {
-        return fechasOcupadas.stream()
-                .anyMatch(fecha -> fecha.seSuperponenDias(rangoDeFechas));
+        }*/
+    	if(!this.estaOcupado(reserva.getDiasOcupadosPublicacion(), reserva.getFechas())) {
+    		reserva.getPublicacion().agregarADiasOcupados(reserva.getFechas());
+    		reserva.setEstado(new Reservada());
+    	}
+    	else {
+    		reserva.getPublicacion().agregarACondicionales(reserva);
+    		reserva.setEstado(new Obsoleta());
+    	}
 
     }
 
@@ -35,16 +38,24 @@ public class Pendiente implements Estado {
     @Override
     public void cancelarReserva(Reserva reserva) {
         reserva.setEstado(new Obsoleta());
+    
     }
 
     @Override
     public void checkOut(Reserva reserva) {
         // TODO Auto-generated method stub
+    
     }
 
     @Override
-    public Boolean fueAlquilada(Reserva reserva) {
+    public boolean fueAlquilada(Reserva reserva) {
         return false;
+
+    }
+
+    public boolean estaOcupado(List<RangoDeFechas> fechasOcupadas, RangoDeFechas rangoDeFechas) {
+        return fechasOcupadas.stream()
+                .anyMatch(fecha -> fecha.seSuperponenDias(rangoDeFechas));
 
     }
 

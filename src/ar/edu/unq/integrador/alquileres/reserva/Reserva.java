@@ -1,6 +1,7 @@
 package ar.edu.unq.integrador.alquileres.reserva;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import ar.edu.unq.integrador.alquileres.publicacion.Publicacion;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
@@ -103,6 +104,11 @@ public class Reserva {
 	public String getTipoInmueble() {
 		return this.getPublicacion().getTipoInmueble();
 	
+	}
+
+	public List<RangoDeFechas> getDiasOcupadosPublicacion() {
+		return this.getPublicacion().getDiasOcupados();
+		
 	}
 
 }

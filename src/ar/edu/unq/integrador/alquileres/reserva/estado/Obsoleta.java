@@ -29,7 +29,7 @@ public class Obsoleta implements Estado {
 	}
 
 	@Override
-	public Boolean fueAlquilada(Reserva reserva) {
+	public boolean fueAlquilada(Reserva reserva) {
 		return false;
 		
 	}

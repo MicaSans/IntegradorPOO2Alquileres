@@ -25,11 +25,13 @@ public class Alquilada implements Estado {
 	@Override
 	public void checkOut(Reserva reserva) {
 		reserva.setEstado(new Obsoleta());
+	
 	}
 
 	@Override
-	public Boolean fueAlquilada(Reserva reserva) {
+	public boolean fueAlquilada(Reserva reserva) {
 		return true;
+	
 	}
 
 }

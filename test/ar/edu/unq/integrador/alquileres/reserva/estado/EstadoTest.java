@@ -87,7 +87,7 @@ class EstadoTest {
 		when (reserva2.getFechas()).thenReturn(fechasAlquiladas);
 		
 		//Cuando no hay días ocupados en la publicacón
-		when (publicacion.getDiasOcupados()).thenReturn(new ArrayList<>());
+		when (reserva.getDiasOcupadosPublicacion()).thenReturn(new ArrayList<>());
 		
 		//Ejecuto el método aceptarReserva para la primer reserva
 		pendiente.aceptarReserva(reserva);
@@ -101,7 +101,7 @@ class EstadoTest {
 		//Agrego una fecha ocupada en la publicación
 		List<RangoDeFechas> diasOcupados = new ArrayList<>();
 		diasOcupados.add(fechasAlquiladas);
-		when (publicacion.getDiasOcupados()).thenReturn(diasOcupados);
+		when (reserva2.getDiasOcupadosPublicacion()).thenReturn(diasOcupados);
 		
 		when (fechasAlquiladas.seSuperponenDias(fechasAlquiladas)).thenReturn(true);
 		

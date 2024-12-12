@@ -12,6 +12,6 @@ public interface Estado {
 
 	void checkOut(Reserva reserva);
 
-	Boolean fueAlquilada(Reserva reserva);
+	boolean fueAlquilada(Reserva reserva);
 
 }
