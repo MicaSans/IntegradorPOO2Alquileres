@@ -22,8 +22,8 @@ public class SistemaDeAlquiler {
 	private List<Usuario> usuarios;
 	private List<Publicacion> publicaciones;
 	private List<Reserva> reservas;
-	private List<String> categorias;
-	private List<String> tipoInmuebles;
+	private List<String> categoriasDePuntuacion;
+	private List<String> tiposDeInmueble;
 	private List<String> servicios;
 	private ObservadorDelSistema observer;
 	
@@ -31,8 +31,8 @@ public class SistemaDeAlquiler {
 		usuarios = new ArrayList<Usuario>();
 		publicaciones = new ArrayList<Publicacion>();
 		reservas = new ArrayList<Reserva>();
-		categorias = new ArrayList<String>();
-		tipoInmuebles = new ArrayList<String>();
+		categoriasDePuntuacion = new ArrayList<String>();
+		tiposDeInmueble = new ArrayList<String>();
 		servicios = new ArrayList<String>();
 		observer = new ObservadorDelSistema();
 		
@@ -86,7 +86,7 @@ public class SistemaDeAlquiler {
 	}
 
 	public List<String> getCategorias() {
-		return this.categorias;
+		return this.categoriasDePuntuacion;
 		
 	}
 
@@ -96,7 +96,7 @@ public class SistemaDeAlquiler {
 	}
 
 	public List<String> getTipoInmuebles() {
-		return this.tipoInmuebles;
+		return this.tiposDeInmueble;
 		
 	}
 
@@ -136,13 +136,13 @@ public class SistemaDeAlquiler {
 		
 	}
 
-	public void calificarInquilino(Ranking calificacion, Usuario usuario) {
-		usuario.agregarCalificacionInquilino(calificacion);
+	public void calificarInquilino(Ranking calificacion, Usuario inquilino) {
+		inquilino.agregarCalificacionInquilino(calificacion);
 		
 	}
 
-	public void calificarPropietario(Ranking calificacion, Usuario usuario) {
-		usuario.agregarCalificacionPropietario(calificacion);
+	public void calificarPropietario(Ranking calificacion, Usuario propietario) {
+		propietario.agregarCalificacionPropietario(calificacion);
 		
 	}
 
@@ -183,24 +183,24 @@ public class SistemaDeAlquiler {
 		
 	}
 
-	public List<Reserva> verReservasFuturas(Usuario usuario) {
-		List<Reserva> reservasFuturas = this.verReservas(usuario).stream()
+	public List<Reserva> verReservasFuturas(Usuario inquilino) {
+		List<Reserva> reservasFuturas = this.verReservas(inquilino).stream()
 				.filter(reserva -> reserva.getFechaIngreso().isAfter(LocalDate.now()))
 				.toList();
 		return reservasFuturas;
 		
 	}
 
-	public List<Reserva> verReservasEnCiudad(Usuario usuario, String ciudad) {
-		List<Reserva> reservasEnCiudad = this.verReservas(usuario).stream()
+	public List<Reserva> verReservasEnCiudad(Usuario inquilino, String ciudad) {
+		List<Reserva> reservasEnCiudad = this.verReservas(inquilino).stream()
 				.filter(reserva -> reserva.verCiudadDeReserva().equals(ciudad)).toList();
 		return reservasEnCiudad;
 		
 	}
 
-	public List<String> verCiudadesDeLasReservas(Usuario usuario) {
+	public List<String> verCiudadesDeLasReservas(Usuario inquilino) {
 		List <String> ciudadesDeReservas = new ArrayList<String>();
-		this.verReservas(usuario).stream()
+		this.verReservas(inquilino).stream()
 			.forEach(reserva -> ciudadesDeReservas.add(reserva.verCiudadDeReserva()));
 		return ciudadesDeReservas;
 		
@@ -211,7 +211,7 @@ public class SistemaDeAlquiler {
 		
 	}
 
-	public Integer verPromedioPublicacion(Publicacion publicacion) {
+	public int verPromedioPublicacion(Publicacion publicacion) {
 		return publicacion.verPromedioTotal();
 		
 	}
@@ -236,14 +236,14 @@ public class SistemaDeAlquiler {
 		
 	}
 
-	public Integer verCantidadQueFueAlquilada(Publicacion publicacion) {
+	public int verCantidadQueFueAlquilada(Publicacion publicacion) {
 		List<Reserva> reservasDePublicacion = this.getReservas().stream()
 			.filter(reserva -> reserva.getPublicacion().equals(publicacion) && reserva.fueAlquilada()).toList();
 		return reservasDePublicacion.size();
 		
 	}
 
-	public Integer verCuantasVecesAlquiloInmuebles(Usuario propietario) {
+	public int verCuantasVecesAlquiloInmuebles(Usuario propietario) {
 		List<Reserva> reservasDePropietario = this.reservasDePropietario(propietario);
 			return reservasDePropietario.size();
 			
@@ -266,33 +266,33 @@ public class SistemaDeAlquiler {
 		
 	}
 
-	public Integer verPromedioPuntajePropietario(Usuario usuario) {
-		return usuario.verPromedioPropietario();
+	public int verPromedioPuntajePropietario(Usuario propietario) {
+		return propietario.verPromedioPropietario();
 		
 	}
 
-	public Integer verPuntajePropietario(String categoria, Usuario usuario) {
-		return usuario.verPuntajePropietario(categoria);
+	public int verPuntajePropietario(String categoria, Usuario propietario) {
+		return propietario.verPuntajePropietario(categoria);
 		
 	}
 
-	public List<String> verComentariosPropietario(Usuario usuario) {
-		return usuario.verComentariosPropietario();
+	public List<String> verComentariosPropietario(Usuario propietario) {
+		return propietario.verComentariosPropietario();
 		
 	}
 
-	public Integer verPromedioPuntajeInquilino(Usuario usuario) {
-		return usuario.verPromedioInquilino();
+	public int verPromedioPuntajeInquilino(Usuario inquilino) {
+		return inquilino.verPromedioInquilino();
 		
 	}
 
-	public Integer verPuntajeInquilino(String categoria, Usuario usuario) {
-		return usuario.verPuntajeInquilino(categoria);
+	public int verPuntajeInquilino(String categoria, Usuario inquilino) {
+		return inquilino.verPuntajeInquilino(categoria);
 		
 	}
 
-	public List<String> verComentariosInquilino(Usuario usuario) {
-		return usuario.verComentariosInquilino();
+	public List<String> verComentariosInquilino(Usuario inquilino) {
+		return inquilino.verComentariosInquilino();
 		
 	}
 
@@ -307,9 +307,9 @@ public class SistemaDeAlquiler {
 		
 	}
 
-	public int verCantidadDeVecesQueAlquilo(Usuario usuario) {
+	public int verCantidadDeVecesQueAlquilo(Usuario inquilino) {
 	return this.getReservas().stream()
-		.filter(reserva -> reserva.getInquilino().equals(usuario))
+		.filter(reserva -> reserva.getInquilino().equals(inquilino))
 		.toList().size();
 	
 	}
