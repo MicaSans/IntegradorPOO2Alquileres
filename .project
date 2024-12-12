@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>UML_TP_Integrador_Alquileres.pdf</name>
+			<type>1</type>
+			<location>C:/Users/micas/Downloads/UML TP Integrador Alquileres.pdf</location>
+		</link>
+	</linkedResources>
 </projectDescription>
