@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import ar.edu.unq.integrador.alquileres.publicacion.Publicacion;
+import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
 import ar.edu.unq.integrador.alquileres.reserva.estado.Estado;
 import ar.edu.unq.integrador.alquileres.reserva.estado.Pendiente;
@@ -122,6 +123,14 @@ public class Reserva {
 		//Creo para estado Reservada
 		return this.getPublicacion().getCondicionales();
 		
+	}
+	
+	public Inmueble getInmuebleReserva() {
+		return this.getPublicacion().getInmueble();
+	}
+	
+	public Usuario getPropietarioReserva() {
+		return this.getInmuebleReserva().getPropietario();
 	}
 
 }

@@ -251,7 +251,7 @@ public class SistemaDeAlquiler {
 	
 	private List<Reserva> reservasDePropietario(Usuario propietario) {
 		List<Reserva> reservasDePropietario = this.getReservas().stream()
-				.filter(reserva -> reserva.getPublicacion().getInmueble().getPropietario().equals(propietario) && reserva.fueAlquilada()).toList();
+				.filter(reserva -> reserva.getPropietarioReserva().equals(propietario) && reserva.fueAlquilada()).toList();
 			return reservasDePropietario;
 			
 	}
@@ -259,7 +259,7 @@ public class SistemaDeAlquiler {
 	public List<Inmueble> verInmueblesAlquilados(Usuario propietario) {
 		List<Inmueble> inmuebles = new ArrayList<Inmueble>();
 			this.reservasDePropietario(propietario).stream()
-			.forEach(reserva -> inmuebles.add(reserva.getPublicacion().getInmueble()));
+			.forEach(reserva -> inmuebles.add(reserva.getInmuebleReserva()));
 		Set<Inmueble> inmueblesNoRepetidos = new HashSet<Inmueble>(inmuebles);
 		List<Inmueble> inmueblesAlquilados = new ArrayList<>(inmueblesNoRepetidos);
 		return inmueblesAlquilados;

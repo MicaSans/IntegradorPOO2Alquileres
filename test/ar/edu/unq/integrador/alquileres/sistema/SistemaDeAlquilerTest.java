@@ -348,28 +348,42 @@ class SistemaDeAlquilerTest {
 	
 	@Test
 	void testVerCuantasVecesAlquiloInmuebles() {
-		when (reserva.getPublicacion()).thenReturn(publicacion);
-		when (reserva2.getPublicacion()).thenReturn(publicacion);
+		//when (reserva.getPublicacion()).thenReturn(publicacion);
+		//when (reserva2.getPublicacion()).thenReturn(publicacion);
 		when (reserva.fueAlquilada()).thenReturn(true);
 		when (reserva2.fueAlquilada()).thenReturn(true);
-		when (publicacion.getInmueble()).thenReturn(inmueble);
-		when (inmueble.getPropietario()).thenReturn(usuario);
+		//when (publicacion.getInmueble()).thenReturn(inmueble);
+		//when (inmueble.getPropietario()).thenReturn(usuario);
+		when (reserva.getPropietarioReserva()).thenReturn(usuario);
+		when (reserva2.getPropietarioReserva()).thenReturn(usuario);
 		sistema.reservarPublicacion(reserva);
 		sistema.reservarPublicacion(reserva2);
-		assertEquals(sistema.verCuantasVecesAlquiloInmuebles(usuario), 2);
-		
+		assertEquals(sistema.verCuantasVecesAlquiloInmuebles(usuario), 2);	
+	}
+	
+	@Test
+	void testVerCuantasVecesAlquiloInmueblesSiendoQueNoAlquiloUno() {
+		when (reserva.fueAlquilada()).thenReturn(true);
+		when (reserva2.fueAlquilada()).thenReturn(false);
+		when (reserva.getPropietarioReserva()).thenReturn(usuario);
+		when (reserva2.getPropietarioReserva()).thenReturn(usuario);
+		sistema.reservarPublicacion(reserva);
+		sistema.reservarPublicacion(reserva2);
+		assertEquals(sistema.verCuantasVecesAlquiloInmuebles(usuario), 1);	
 	}
 	
 	@Test 
 	void testVerInmueblesAlquilados() {
-		when (reserva.getPublicacion()).thenReturn(publicacion);
-		when (reserva2.getPublicacion()).thenReturn(publicacion);
+		when (reserva.getInmuebleReserva()).thenReturn(inmueble);
+		//when (reserva2.getPublicacion()).thenReturn(publicacion);
 		when (reserva.fueAlquilada()).thenReturn(true);
-		when (reserva2.fueAlquilada()).thenReturn(true);
-		when (publicacion.getInmueble()).thenReturn(inmueble);
-		when (inmueble.getPropietario()).thenReturn(usuario);
+		//when (reserva2.fueAlquilada()).thenReturn(true);
+		//when (publicacion.getInmueble()).thenReturn(inmueble);
+		//when (inmueble.getPropietario()).thenReturn(usuario);
+		when (reserva.getPropietarioReserva()).thenReturn(usuario);
+		//when (reserva2.getPropietarioReserva()).thenReturn(usuario);
 		sistema.reservarPublicacion(reserva);
-		sistema.reservarPublicacion(reserva2);
+		//sistema.reservarPublicacion(reserva2);
 		assertTrue(sistema.verInmueblesAlquilados(usuario).contains(inmueble));
 		
 	}

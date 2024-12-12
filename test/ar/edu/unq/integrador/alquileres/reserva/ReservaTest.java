@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 
 import ar.edu.unq.integrador.alquileres.publicacion.Publicacion;
+import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 //import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
 import ar.edu.unq.integrador.alquileres.reserva.estado.Estado;
@@ -32,9 +33,10 @@ class ReservaTest {
 	@Mock private RangoDeFechas fechasDeAlquiler2; //Creo para reserva2
 	private Reserva reserva;
 	private Reserva reserva2;
-	//@Mock private Inmueble inmueble;
+	@Mock private Inmueble inmueble;
 	@Mock private Estado estadoMock;
 	@Spy private Reserva reservaSpy;
+	@Mock private Usuario propietario;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -46,9 +48,10 @@ class ReservaTest {
 		fechasDeAlquiler2 = mock(RangoDeFechas.class);
 		reserva = new Reserva(inquilino, publicacion, fechasDeAlquiler); // SUT	
 		reserva2 = new Reserva(inquilino2, publicacion2, fechasDeAlquiler2); //Creo para testGetCondicionalesDePublicacion
-		//inmueble = mock(Inmueble.class);
+		inmueble = mock(Inmueble.class);
 		estadoMock = mock(Estado.class);
 		reservaSpy = spy(Reserva.class);
+		propietario = mock (Usuario.class);
 	
 	}
 
@@ -232,5 +235,17 @@ class ReservaTest {
 		verify(publicacion, times(1)).getCondicionales();
 		
 	}
-
+	
+	@Test
+	void testGetInmuebleReserva() {
+		when(publicacion.getInmueble()).thenReturn(inmueble);
+		assertEquals(reserva.getInmuebleReserva(), inmueble);
+	}
+	
+	@Test
+	void testGetPropietarioReserva() {
+		when(publicacion.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		assertEquals(reserva.getPropietarioReserva(), propietario);
+	}
 }
