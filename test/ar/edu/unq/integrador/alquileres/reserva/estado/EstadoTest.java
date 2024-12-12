@@ -210,8 +210,9 @@ class EstadoTest {
 	//Borrar?¿
 	@Test
 	void testReservadaCancelarReserva() {
+		when(reserva.getCondicionalesDePublicacion()).thenReturn(condicionales);
 		when (reserva.getPublicacion()).thenReturn(publicacion);
-		when (publicacion.getCondicionales()).thenReturn(condicionales);
+		//when (publicacion.getCondicionales()).thenReturn(condicionales);
 		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
 		reservada.cancelarReserva(reserva);
 		verify(reserva).setEstado(any(Obsoleta.class));
@@ -233,8 +234,9 @@ class EstadoTest {
 	@Test
 	void testReservadaCancelarReservasConCondicionales() {
 		//Configuración inicial
+		when(reserva.getCondicionalesDePublicacion()).thenReturn(condicionales);
 		when (reserva.getPublicacion()).thenReturn(publicacion);
-		when (publicacion.getCondicionales()).thenReturn(condicionales);
+		//when (publicacion.getCondicionales()).thenReturn(condicionales);
 		condicionales.add(reserva2);
 		//Agrego fechas
 		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
@@ -259,8 +261,9 @@ class EstadoTest {
 	void testReservadaCancelarReservaPeroConFechasDistintas() {
 		//Quizas no se entiende el nombre, pero lo que testeo aca es cuando en 
 		//los condicionales, el primero es de otra fecha al que se cancela.
+		when(reserva.getCondicionalesDePublicacion()).thenReturn(condicionales);
 		when (reserva.getPublicacion()).thenReturn(publicacion);
-		when (publicacion.getCondicionales()).thenReturn(condicionales);
+		//when (publicacion.getCondicionales()).thenReturn(condicionales);
 		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
 		when (reserva2.getFechas()).thenReturn(otraFecha);
 		when (reserva3.getFechas()).thenReturn(fechasAlquiladas);

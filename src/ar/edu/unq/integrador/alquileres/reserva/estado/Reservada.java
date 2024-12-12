@@ -24,7 +24,8 @@ public class Reservada implements Estado {
 			// Y ahora buscamos la primer reserva que coincide con las fechas
 			Reserva nuevaReserva = primerCondicional(reserva);
 			nuevaReserva.setEstado(new Pendiente());
-			reserva.getPublicacion().getCondicionales().remove(nuevaReserva);
+			reserva.getCondicionalesDePublicacion().remove(nuevaReserva);
+			//reserva.getPublicacion().getCondicionales().remove(nuevaReserva);
 			
 			// Saco estos porque no es necesario, era para cuando estaban es reservas las condicionales
 			//reserva.getPublicacion().getCondicionales().stream()
@@ -54,7 +55,7 @@ public class Reservada implements Estado {
 	}
 	
 	private Reserva primerCondicional(Reserva reserva) {
-		Reserva nuevaReserva = reserva.getPublicacion().getCondicionales().stream()
+		Reserva nuevaReserva = reserva.getCondicionalesDePublicacion().stream()
 			.filter(condicional -> reserva.getFechas().seSuperponenDias(condicional.getFechas()))
 			.findFirst()
 			.get();
@@ -63,13 +64,15 @@ public class Reservada implements Estado {
 	}
 
 	private boolean verificarSiHayCondicionalDeFechaSimilar(Reserva reserva) {
-		return reserva.getPublicacion().getCondicionales().stream()
+		return reserva.getCondicionalesDePublicacion().stream()
+		//return reserva.getPublicacion().getCondicionales().stream()
 				.anyMatch(condicional -> reserva.getFechas().seSuperponenDias(condicional.getFechas()));
 	
 	}
 	
 	private boolean verificacionParaSacarDeCondicional(Reserva reserva) {
-		return !reserva.getPublicacion().getCondicionales().isEmpty()
+		return !reserva.getCondicionalesDePublicacion().isEmpty()
+		//return !reserva.getPublicacion().getCondicionales().isEmpty()
 				&& verificarSiHayCondicionalDeFechaSimilar(reserva);
 	
 	}

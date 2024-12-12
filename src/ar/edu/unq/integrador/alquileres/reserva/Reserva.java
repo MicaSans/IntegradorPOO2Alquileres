@@ -117,5 +117,11 @@ public class Reserva {
 		return this.getFechas().getFinal();
 		
 	}
+	
+	public List<Reserva> getCondicionalesDePublicacion(){
+		//Creo para estado Reservada
+		return this.getPublicacion().getCondicionales();
+		
+	}
 
 }

@@ -25,9 +25,13 @@ import ar.edu.unq.integrador.alquileres.usuario.Usuario;
 class ReservaTest {
 
 	@Mock private Usuario inquilino;
+	@Mock private Usuario inquilino2; //Creo para reserva2
 	@Mock private Publicacion publicacion;
+	@Mock private Publicacion publicacion2; //Creo para reserva2
 	@Mock private RangoDeFechas fechasDeAlquiler;
+	@Mock private RangoDeFechas fechasDeAlquiler2; //Creo para reserva2
 	private Reserva reserva;
+	private Reserva reserva2;
 	//@Mock private Inmueble inmueble;
 	@Mock private Estado estadoMock;
 	@Spy private Reserva reservaSpy;
@@ -35,9 +39,13 @@ class ReservaTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		inquilino = mock(Usuario.class);
+		inquilino2 = mock(Usuario.class);
 		publicacion = mock(Publicacion.class);
+		publicacion2 = mock(Publicacion.class);
 		fechasDeAlquiler = mock(RangoDeFechas.class);
+		fechasDeAlquiler2 = mock(RangoDeFechas.class);
 		reserva = new Reserva(inquilino, publicacion, fechasDeAlquiler); // SUT	
+		reserva2 = new Reserva(inquilino2, publicacion2, fechasDeAlquiler2); //Creo para testGetCondicionalesDePublicacion
 		//inmueble = mock(Inmueble.class);
 		estadoMock = mock(Estado.class);
 		reservaSpy = spy(Reserva.class);
@@ -201,6 +209,27 @@ class ReservaTest {
 		
 		//Verificación
 		verify(fechasDeAlquiler, times(1)).getFinal();
+		
+	}
+	
+	@Test
+	void testGetCondicionalesDePublicacion() {
+		//Datos para testear
+		List<Reserva> condicionales = Arrays.asList(reserva, reserva2);
+		
+		//Configuracion
+		when(publicacion.getCondicionales()).thenReturn(condicionales);
+		
+		//Acción
+		List<Reserva> resultado = reserva.getCondicionalesDePublicacion();
+		
+		//Assert
+		assertNotNull(resultado);
+		assertEquals(condicionales.size(), resultado.size());
+		assertEquals(condicionales, resultado);
+		
+		//Verificación
+		verify(publicacion, times(1)).getCondicionales();
 		
 	}
 
