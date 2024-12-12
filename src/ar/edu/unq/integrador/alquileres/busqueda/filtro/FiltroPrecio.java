@@ -19,6 +19,7 @@ public class FiltroPrecio implements Filtro {
     @Override
     public boolean filtrar(Publicacion publicacion) {
         double precioFinalDePublicacion = obtenerPrecioFinal(publicacion);
+        
         if (this.comprobarPreciosCorrectos() && this.esRangoCompatible()) {
             return this.filtrarPrecios(precioFinalDePublicacion);
         }

@@ -14,6 +14,7 @@ public class GestorDeFiltros {
         this.filtros = new ArrayList<Filtro>();
         this.clasesDeFiltros = new HashSet<>();
         agregarFiltro(filtroBase);
+    
     }
 
     public void agregarFiltro(Filtro filtro) {
@@ -25,11 +26,12 @@ public class GestorDeFiltros {
 
     public List<Filtro> getFiltros() {
         return this.filtros;
+    
     }
 
     private Set<Class<? extends Filtro>> getClasesDeFiltros() {
-
         return this.clasesDeFiltros;
+    
     }
 
 }

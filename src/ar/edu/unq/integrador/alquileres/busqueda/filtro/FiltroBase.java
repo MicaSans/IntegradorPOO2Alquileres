@@ -47,6 +47,7 @@ public class FiltroBase implements Filtro{
 	
 	private boolean tieneSuperposicionCon(Publicacion publicacion) {
 		return publicacion.tieneSuperposicionDeDiasCon(this.getRangoDeFecha());
+	
 	}
 	
 }

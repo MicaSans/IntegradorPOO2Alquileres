@@ -4,7 +4,7 @@ import ar.edu.unq.integrador.alquileres.publicacion.Publicacion;
 
 public class FiltroHuespedes implements Filtro {
 
-	private Integer cantHuespedes;
+	private int cantHuespedes;
 
 	public FiltroHuespedes(int cantHuespedes) {
 		this.cantHuespedes = cantHuespedes;
@@ -24,6 +24,7 @@ public class FiltroHuespedes implements Filtro {
 	
 	private boolean tieneCapacidadSuficiente(Publicacion publicacion) {
 		return publicacion.tieneCapacidadPara(this.getCantidadHuespedes());
+	
 	}
 
 }

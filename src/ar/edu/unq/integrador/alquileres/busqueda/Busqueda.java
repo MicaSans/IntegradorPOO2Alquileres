@@ -17,11 +17,12 @@ public class Busqueda {
     }
 
     public List<Publicacion> filtrarPublicaciones(List<Publicacion> publicaciones) {
-        //List<Publicacion> filtrados = publicaciones.stream()
-        //        .filter(publicacion -> this.comprobacionDeFiltrado(publicacion))
-        //        .toList();
-        //return filtrados;
-        return publicaciones.stream()
+        /*List<Publicacion> filtrados = publicaciones.stream()
+                .filter(publicacion -> this.comprobacionDeFiltrado(publicacion))
+                .toList();
+        return filtrados;
+        */
+    	return publicaciones.stream()
                 .filter(this::comprobacionDeFiltrado)
                 .toList();
 
@@ -34,13 +35,13 @@ public class Busqueda {
     }
 
     private List<Filtro> getFiltros() {
-
         return this.getGestorDeFiltros().getFiltros();
+    
     }
 
     private GestorDeFiltros getGestorDeFiltros() {
-
         return this.gestorDeFiltros;
+    
     }
 
 
