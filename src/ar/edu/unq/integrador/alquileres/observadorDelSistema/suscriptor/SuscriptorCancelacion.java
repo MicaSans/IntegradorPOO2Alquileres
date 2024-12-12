@@ -14,11 +14,21 @@ public class SuscriptorCancelacion implements Suscriptor {
 
 	@Override
 	public void updatePorCancelacion(Reserva reserva) {
-		this.getPopUpWindow().popUp("El/la " 
-							//+ reserva.getPublicacion().getInmueble().getTipoInmueble()
-							+ reserva.getTipoInmueble()
-							+ " que te interesa se ha liberado! Correa a reservarlo!",
-							"Azul", 12);
+		String mensaje = generarMensajeCancelacion(reserva);
+		this.mostrarPopUp(mensaje, "Azul", 12);
+	
+	}
+
+	private void mostrarPopUp(String mensaje, String color, int tamañoFuente) {
+		this.getPopUpWindow().popUp(mensaje, color, tamañoFuente);
+		
+	}
+
+	private String generarMensajeCancelacion(Reserva reserva) {
+		return "El/la " 
+				//+ reserva.getPublicacion().getInmueble().getTipoInmueble()
+				+ reserva.getTipoInmueble()
+				+ " que te interesa se ha liberado! Corre a reservarlo!";
 	
 	}
 

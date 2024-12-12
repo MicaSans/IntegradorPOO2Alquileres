@@ -20,11 +20,22 @@ public class SuscriptorBajaDePrecio implements Suscriptor {
 
 	@Override
 	public void updatePorBajaDePrecio(Publicacion publicacion) {
-		this.getHomePagePublisher().publish("Un inmueble " 
+		String mensaje = generarMensajeBajaDePrecio(publicacion);
+		this.publicarMensaje(mensaje);
+	
+	}
+
+	private void publicarMensaje(String mensaje) {
+		this.getHomePagePublisher().publish(mensaje);
+		
+	}
+
+	private String generarMensajeBajaDePrecio(Publicacion publicacion) {
+		return "Un inmueble " 
 				+ publicacion.getTipoInmueble() 
 				+ " a tan solo "
 				+ publicacion.getPrecioPorDia().toString()
-				+ " pesos");
+				+ " pesos";
 	
 	}
 

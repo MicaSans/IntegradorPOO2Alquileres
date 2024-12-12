@@ -44,7 +44,7 @@ class SuscriptorTest {
 	void testUpdatePorCancelacion() {
 		when(reserva.getTipoInmueble()).thenReturn("Casa");
 		suscriptorCancelacion.updatePorCancelacion(reserva);
-		verify(pUW).popUp("El/la Casa que te interesa se ha liberado! Correa a reservarlo!", "Azul", 12);
+		verify(pUW).popUp("El/la Casa que te interesa se ha liberado! Corre a reservarlo!", "Azul", 12);
 		
 	}
 	
