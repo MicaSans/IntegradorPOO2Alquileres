@@ -21,7 +21,8 @@ public class FiltroBase implements Filtro{
 	}
 
 	private boolean filtrarPorFechas(Publicacion publicacion) {	
-		return esRangoCompatible() && !tieneSuperposicionCon(publicacion);
+		return esRangoCompatible()
+				&& !tieneSuperposicionCon(publicacion);
 	
 	}
 

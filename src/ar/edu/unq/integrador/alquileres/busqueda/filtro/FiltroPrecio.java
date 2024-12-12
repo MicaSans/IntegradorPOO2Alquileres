@@ -20,7 +20,8 @@ public class FiltroPrecio implements Filtro {
     public boolean filtrar(Publicacion publicacion) {
         double precioFinalDePublicacion = obtenerPrecioFinal(publicacion);
         
-        if (this.comprobarPreciosCorrectos() && this.esRangoCompatible()) {
+        if (this.comprobarPreciosCorrectos() 
+        		&& this.esRangoCompatible()) {
             return this.filtrarPrecios(precioFinalDePublicacion);
         }
         else {
@@ -30,7 +31,8 @@ public class FiltroPrecio implements Filtro {
     }
 
     public boolean filtrarPrecios(double precioFinal) {
-        return this.getPrecioMinimo() <= precioFinal && precioFinal <= this.getPrecioMaximo();
+        return this.getPrecioMinimo() <= precioFinal 
+        		&& precioFinal <= this.getPrecioMaximo();
 
     }
 

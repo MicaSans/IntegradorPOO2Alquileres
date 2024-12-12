@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class GestorDeFiltros {
 
-    private  Set<Class<? extends Filtro>> clasesDeFiltros;
+    private Set<Class<? extends Filtro>> clasesDeFiltros;
     private List<Filtro> filtros;
 
     public GestorDeFiltros(FiltroBase filtroBase) {
@@ -18,11 +18,21 @@ public class GestorDeFiltros {
     }
 
     public void agregarFiltro(Filtro filtro) {
-        if (this.getClasesDeFiltros().add(filtro.getClass())) {
-            this.getFiltros().add(filtro);
+        if (agregarClaseDeFiltro(filtro.getClass())) {
+            agregarFiltroALaLista(filtro);
         }
 
     }
+
+	private void agregarFiltroALaLista(Filtro filtro) {
+		this.getFiltros().add(filtro);
+	
+	}
+
+	private boolean agregarClaseDeFiltro(Class<? extends Filtro> claseDeFiltro) {
+		return this.getClasesDeFiltros().add(claseDeFiltro);
+	
+	}
 
     public List<Filtro> getFiltros() {
         return this.filtros;
