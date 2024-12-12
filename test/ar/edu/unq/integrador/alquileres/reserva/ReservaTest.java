@@ -183,5 +183,25 @@ class ReservaTest {
 		verify(publicacion, times(1)).getDiasOcupados();
 		
 	}
+	
+	@Test
+	void testGetFechaFinal() {
+		//Datos de testeo
+		LocalDate fechaFinalEsperada = LocalDate.of(2024, 12, 31);
+		
+		//Configuración
+		when(fechasDeAlquiler.getFinal()).thenReturn(fechaFinalEsperada);
+		
+		//Acción
+		LocalDate resultado = reserva.getFechaFinal();
+		
+		//Assert
+		assertNotNull(resultado);
+		assertEquals(fechaFinalEsperada, resultado);
+		
+		//Verificación
+		verify(fechasDeAlquiler, times(1)).getFinal();
+		
+	}
 
 }

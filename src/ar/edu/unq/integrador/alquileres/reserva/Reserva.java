@@ -107,7 +107,14 @@ public class Reserva {
 	}
 
 	public List<RangoDeFechas> getDiasOcupadosPublicacion() {
+		//Creo para estado Pendiente
 		return this.getPublicacion().getDiasOcupados();
+		
+	}
+	
+	public LocalDate getFechaFinal() {
+		//Creo para estado Reservada
+		return this.getFechas().getFinal();
 		
 	}
 

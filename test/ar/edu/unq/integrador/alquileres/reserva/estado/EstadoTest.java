@@ -291,10 +291,9 @@ class EstadoTest {
 	@Test
 	void testReservadaCheckOut() {
 		when (reserva.getPublicacion()).thenReturn(publicacion);
-		when (reserva.getFechas()).thenReturn(fechasAlquiladas);
-		when (fechasAlquiladas.getFinal()).thenReturn(LocalDate.of(2024, 11, 3));
+		when (reserva.getFechaFinal()).thenReturn(LocalDate.of(2024, 11, 3));
 		reservada.checkOut(reserva);
-		verify(publicacion).quitarADiasOcupados(fechasAlquiladas);
+		verify(publicacion).quitarADiasOcupados(reserva.getFechas());
 		verify(reserva).setEstado(any(Estado.class));
 		
 	}

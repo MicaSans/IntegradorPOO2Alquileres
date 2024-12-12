@@ -43,13 +43,13 @@ public class Reservada implements Estado {
 		return nuevaReserva;
 	}
 
-	private Boolean verificarSiHayCondicionalDeFechaSimilar(Reserva reserva) {
+	private boolean verificarSiHayCondicionalDeFechaSimilar(Reserva reserva) {
 		
 		return reserva.getPublicacion().getCondicionales().stream()
 				.anyMatch(condicional -> reserva.getFechas().seSuperponenDias(condicional.getFechas()));
 	}
 	
-	private Boolean verificacionParaSacarDeCondicional(Reserva reserva) {
+	private boolean verificacionParaSacarDeCondicional(Reserva reserva) {
 		return !reserva.getPublicacion().getCondicionales().isEmpty()
 				&& verificarSiHayCondicionalDeFechaSimilar(reserva);
 	}
@@ -57,7 +57,7 @@ public class Reservada implements Estado {
 	//En la front end si se realiza un checkOut, pasaria el estado de la reserva a Alquilada, siempre y cuando se cumpla que el inquilino realize el checkOut
 	@Override
 	public void checkOut(Reserva reserva) {
-		if (LocalDate.now().isAfter(reserva.getFechas().getFinal())) {
+		if (LocalDate.now().isAfter(reserva.getFechaFinal())) {
 			reserva.getPublicacion().quitarADiasOcupados(reserva.getFechas()); 
 			// Realizo esto para que la lista de dias ocupados en publicacion no sea inmensa, aunque nadie va a buscar dias anteriores al presente.
 			reserva.setEstado(new Alquilada());
