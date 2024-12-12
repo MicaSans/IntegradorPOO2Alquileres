@@ -35,25 +35,6 @@ public class Reservada implements Estado {
 		
 	}
 	
-	private Reserva primerCondicional(Reserva reserva) {
-		Reserva nuevaReserva = reserva.getPublicacion().getCondicionales().stream()
-			.filter(condicional -> reserva.getFechas().seSuperponenDias(condicional.getFechas()))
-			.findFirst()
-			.get();
-		return nuevaReserva;
-	}
-
-	private boolean verificarSiHayCondicionalDeFechaSimilar(Reserva reserva) {
-		
-		return reserva.getPublicacion().getCondicionales().stream()
-				.anyMatch(condicional -> reserva.getFechas().seSuperponenDias(condicional.getFechas()));
-	}
-	
-	private boolean verificacionParaSacarDeCondicional(Reserva reserva) {
-		return !reserva.getPublicacion().getCondicionales().isEmpty()
-				&& verificarSiHayCondicionalDeFechaSimilar(reserva);
-	}
-	
 	//En la front end si se realiza un checkOut, pasaria el estado de la reserva a Alquilada, siempre y cuando se cumpla que el inquilino realize el checkOut
 	@Override
 	public void checkOut(Reserva reserva) {
@@ -70,6 +51,27 @@ public class Reservada implements Estado {
 	public boolean fueAlquilada(Reserva reserva) {
 		return false;
 		
+	}
+	
+	private Reserva primerCondicional(Reserva reserva) {
+		Reserva nuevaReserva = reserva.getPublicacion().getCondicionales().stream()
+			.filter(condicional -> reserva.getFechas().seSuperponenDias(condicional.getFechas()))
+			.findFirst()
+			.get();
+		return nuevaReserva;
+	
+	}
+
+	private boolean verificarSiHayCondicionalDeFechaSimilar(Reserva reserva) {
+		return reserva.getPublicacion().getCondicionales().stream()
+				.anyMatch(condicional -> reserva.getFechas().seSuperponenDias(condicional.getFechas()));
+	
+	}
+	
+	private boolean verificacionParaSacarDeCondicional(Reserva reserva) {
+		return !reserva.getPublicacion().getCondicionales().isEmpty()
+				&& verificarSiHayCondicionalDeFechaSimilar(reserva);
+	
 	}
 
 }
