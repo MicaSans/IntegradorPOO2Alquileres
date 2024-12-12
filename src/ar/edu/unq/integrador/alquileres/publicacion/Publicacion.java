@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.publicacion.politicaDeCancelacion.PoliticaDeCancelacion;
-import ar.edu.unq.integrador.alquileres.rangoDeFechas.FechasEspeciales;
+import ar.edu.unq.integrador.alquileres.rangoDeFechas.FechaEspecial;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
 import ar.edu.unq.integrador.alquileres.ranking.GestorDeRanking;
 import ar.edu.unq.integrador.alquileres.ranking.Ranking;
@@ -20,10 +20,10 @@ public class Publicacion {
 	private LocalTime horarioCheckOut;
 	private LocalTime horarioCheckIn;
 	private List<Foto> fotos;
-	private GestorDeRanking gestorDeRanking;
+	private GestorDeRanking gestorRankingPublicacion;
 	private List<FormaDePago> formasDePago;
 	private ArrayList<RangoDeFechas> diasOcupados;
-	private ArrayList<FechasEspeciales> diasEspeciales;
+	private ArrayList<FechaEspecial> diasEspeciales;
 	private List<Reserva> condicionales;
 
 	public Publicacion(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, double precio,
@@ -34,10 +34,10 @@ public class Publicacion {
 		this.horarioCheckOut = checkOut;
 		this.precioPorDia = precio;
 		this.politicaDeCancelacion = politicaDeCancelacion;
-		this.gestorDeRanking = new GestorDeRanking();
+		this.gestorRankingPublicacion = new GestorDeRanking();
 		this.formasDePago = formasDePago;
 		this.diasOcupados = new ArrayList<RangoDeFechas>();
-		this.diasEspeciales = new ArrayList<FechasEspeciales>();
+		this.diasEspeciales = new ArrayList<FechaEspecial>();
 		this.condicionales = new ArrayList<Reserva>();
 		
 	}
@@ -54,13 +54,23 @@ public class Publicacion {
 
 	public void agregarFoto(Foto foto) {
 		if (espacioParaFotosLleno()) {
-			this.getFotos().add(foto);
+			this.almacenarFoto(foto);
 		}
 	
 	}
 	
+	private void almacenarFoto(Foto foto) {
+		this.getFotos().add(foto);
+	
+	}
+	
 	private boolean espacioParaFotosLleno() {
-		return this.getFotos().size() < 5;
+		return this.espacioFotos() < 5;
+	
+	}
+
+	private int espacioFotos() {
+		return this.getFotos().size();
 	
 	}
 
@@ -75,12 +85,11 @@ public class Publicacion {
 	}
 	
 	public GestorDeRanking getGestorDeRanking() {
-		return this.gestorDeRanking;
+		return this.gestorRankingPublicacion;
 	
 	}
 
 	public int verPuntajeCategoria(String categoria) {
-		
 		return this.getGestorDeRanking().verPuntaje(categoria);
 	
 	}
@@ -121,8 +130,13 @@ public class Publicacion {
 		//if (this.getDiasOcupados().stream()
 		//		.anyMatch(fechasOcupadas -> fechasOcupadas.equals(fechas))) {
 		if(diasOcupadosContiene(fechas)) {
-			this.getDiasOcupados().remove(fechas);
+			eliminarFechas(fechas);
 		}
+	
+	}
+
+	private void eliminarFechas(RangoDeFechas fechas) {
+		this.getDiasOcupados().remove(fechas);
 	
 	}
 	
@@ -161,7 +175,7 @@ public class Publicacion {
 	
 	}
 
-	public Double getPrecio(RangoDeFechas rangodeDias) {
+	public double getPrecio(RangoDeFechas rangodeDias) {
 		List<LocalDate> diasEnLista = crearListaFechas(rangodeDias.getInicio(), rangodeDias.getFinal());
 		Double precioTotal = diasEnLista.stream()
 			.mapToDouble(dia -> this.calcularPrecioDelDia(dia))
@@ -188,10 +202,10 @@ public class Publicacion {
 	}
 
 	private double calcularPrecioPorDiaEspecial(LocalDate dia) {
-		FechasEspeciales fechaEspecial =this.getDiasEspeciales().stream()
-		.filter(diasEspeciales -> diasEspeciales.coincideConLaFecha(dia))
-		.findFirst()
-		.get();
+		FechaEspecial fechaEspecial = this.getDiasEspeciales().stream()
+				.filter(diasEspeciales -> diasEspeciales.coincideConLaFecha(dia))
+				.findFirst()
+				.get();
 		return fechaEspecial.getPrecio();
 		
 	}
@@ -222,21 +236,44 @@ public class Publicacion {
 	
 	}
 	
-	public List<FechasEspeciales> getDiasEspeciales() {
+	public List<FechaEspecial> getDiasEspeciales() {
 		return this.diasEspeciales;
 	
 	}
 	
-	public void agregarDiasEspeciales(FechasEspeciales navidad) {
+	public void agregarDiasEspeciales(FechaEspecial fecha) {
 		//Checkeo que al agregar dias especiales no se superpongan
-		if (!this.seSuperponenDiasEspeciales(navidad)) {
-			this.diasEspeciales.add(navidad);
+		if (!this.seSuperponenDiasEspeciales(fecha)) {
+			agregarFechaEspecial(fecha);
 		}
+	
+	}
+
+	private void agregarFechaEspecial(FechaEspecial fecha) {
+		this.diasEspeciales.add(fecha);
+	
 	}
 	
-	private boolean seSuperponenDiasEspeciales(FechasEspeciales navidad) {
+	/*private boolean seSuperponenDiasEspeciales(FechasEspeciales navidad) {
 		return this.diasEspeciales.stream()
 				.anyMatch(diasYaAgregados -> diasYaAgregados.getFecha().seSuperponenDias(navidad.getFecha()));
+	
+	}*/
+	
+	private boolean seSuperponenDiasEspeciales(FechaEspecial fechaEspecial) {
+		return existeSuperposicionCon(fechaEspecial.getFecha());
+	
+	}
+	
+	private boolean existeSuperposicionCon(RangoDeFechas fecha) {
+		return diasEspeciales.stream()
+				.anyMatch(diasYaAgregados -> seSuperponen(diasYaAgregados.getFecha(), fecha));
+	
+	}
+	
+	private boolean seSuperponen(RangoDeFechas fecha1, RangoDeFechas fecha2) {
+		return fecha1.seSuperponenDias(fecha2);
+	
 	}
 
 	public String cancelarReserva(RangoDeFechas rangoDeFechas) {
@@ -267,6 +304,7 @@ public class Publicacion {
 
 	public String getCiudad() {
 		return this.getInmueble().getCiudad();
+	
 	}
 
 	public String getTipoInmueble() {
@@ -276,11 +314,12 @@ public class Publicacion {
 
 	public List<Ranking> getRanking() {
 		return this.getGestorDeRanking().getRanking();
+	
 	}
 
-	public Boolean gestorContiene(Ranking ranking) {
-		
+	public boolean gestorContiene(Ranking ranking) {
 		return this.getRanking().contains(ranking);
+	
 	}
 
 }

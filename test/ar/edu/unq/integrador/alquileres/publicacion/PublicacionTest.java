@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import org.mockito.Spy;
 
 import ar.edu.unq.integrador.alquileres.publicacion.inmueble.Inmueble;
 import ar.edu.unq.integrador.alquileres.publicacion.politicaDeCancelacion.PoliticaDeCancelacion;
-import ar.edu.unq.integrador.alquileres.rangoDeFechas.FechasEspeciales;
+import ar.edu.unq.integrador.alquileres.rangoDeFechas.FechaEspecial;
 import ar.edu.unq.integrador.alquileres.rangoDeFechas.RangoDeFechas;
 import ar.edu.unq.integrador.alquileres.ranking.Ranking;
 import ar.edu.unq.integrador.alquileres.reserva.Reserva;
@@ -30,7 +30,13 @@ class PublicacionTest {
 	private Publicacion publicacion;
 	@Mock private Inmueble inmueble;
 	@Mock private Foto foto;
-	private List<Foto> fotos;
+	@Mock private Foto foto1;
+	@Mock private Foto foto2;
+	@Mock private Foto foto3;
+	@Mock private Foto foto4;
+	@Mock private Foto foto5;
+	@Mock private Foto foto6;
+	//private List<Foto> fotos;
 	@Mock private PoliticaDeCancelacion politicaDeCancelacion;
 	@Mock private PoliticaDeCancelacion politicaDeCancelacion2;
 	@Mock private Ranking ranking;
@@ -40,15 +46,21 @@ class PublicacionTest {
 	@Mock private RangoDeFechas diasNormales;
 	@Mock private RangoDeFechas diasEspeciales;
 	@Spy private Reserva reserva;
-	@Mock private FechasEspeciales navidad;
-	@Mock private FechasEspeciales finDeAño;
+	@Mock private FechaEspecial navidad;
+	@Mock private FechaEspecial finDeAño;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		inmueble = mock(Inmueble.class);
 		foto = mock(Foto.class);
-		fotos = new ArrayList<Foto>();
-		fotos.add(foto);
+		foto1 = mock(Foto.class);
+		foto2 = mock(Foto.class);
+		foto3 = mock(Foto.class);
+		foto4 = mock(Foto.class);
+		foto5 = mock(Foto.class);
+		foto6 = mock(Foto.class);
+		//fotos = new ArrayList<Foto>();
+		//fotos.add(foto);
 		politicaDeCancelacion = mock(PoliticaDeCancelacion.class);
 		politicaDeCancelacion2 = mock(PoliticaDeCancelacion.class);
 		formaDePago = mock(FormaDePago.class);
@@ -60,8 +72,8 @@ class PublicacionTest {
 		// Test precio en un rango de dias
 		diasNormales = mock(RangoDeFechas.class);
 		diasEspeciales = mock(RangoDeFechas.class);
-		navidad = mock(FechasEspeciales.class);
-		finDeAño = mock(FechasEspeciales.class);
+		navidad = mock(FechaEspecial.class);
+		finDeAño = mock(FechaEspecial.class);
 		
 	}
 
@@ -78,6 +90,19 @@ class PublicacionTest {
 		publicacion.agregarFoto(foto);
 		assertTrue(publicacion.getFotos().contains(foto));	
 	
+	}
+	
+	@Test
+	void testNoAgregarFoto() {
+		publicacion.agregarFoto(foto1);
+		publicacion.agregarFoto(foto2);
+		publicacion.agregarFoto(foto3);
+		publicacion.agregarFoto(foto4);
+		publicacion.agregarFoto(foto5);
+		publicacion.agregarFoto(foto6);
+		publicacion.agregarFoto(foto);
+		assertFalse(publicacion.getFotos().contains(foto));
+		
 	}
 	
 	@Test

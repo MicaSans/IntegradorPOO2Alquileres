@@ -12,13 +12,13 @@ import org.mockito.Mock;
 
 class FechasEspecialesTest {
 
-    private FechasEspeciales navidad;
+    private FechaEspecial navidad;
     @Mock private RangoDeFechas fechas;
 
     @BeforeEach
     void setUp() throws Exception {
         fechas = mock(RangoDeFechas.class);
-        navidad = new FechasEspeciales(fechas, 2000d);
+        navidad = new FechaEspecial(fechas, 2000d);
     }
 
     @Test

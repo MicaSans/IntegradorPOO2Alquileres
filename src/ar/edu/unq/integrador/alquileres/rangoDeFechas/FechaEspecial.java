@@ -2,12 +2,12 @@ package ar.edu.unq.integrador.alquileres.rangoDeFechas;
 
 import java.time.LocalDate;
 
-public class FechasEspeciales {
+public class FechaEspecial {
 
     private RangoDeFechas fecha;
     private double precioPorDia;
 
-    public FechasEspeciales(RangoDeFechas fecha, double precioPorDia) {
+    public FechaEspecial(RangoDeFechas fecha, double precioPorDia) {
         this.fecha = fecha;
         this.precioPorDia = precioPorDia;
     }
