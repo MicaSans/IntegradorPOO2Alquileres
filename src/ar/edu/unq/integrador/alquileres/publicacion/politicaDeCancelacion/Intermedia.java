@@ -12,23 +12,22 @@ public class Intermedia implements PoliticaDeCancelacion {
 	@Override
 	public boolean esCancelacionGratuita(RangoDeFechas rangoDeFechas) {
 		//Determina si es gratuita dependiendo de los días
-		LocalDate fechaActual = LocalDate.now();
-		
-		if(rangoDeFechas.getInicio().minusDays(diasLimiteGratis).isAfter(fechaActual)) {
+		if(estaDentroDelPeriodoGratuito(rangoDeFechas.getInicio())) {
 			return true; //Es gratuita si falta más de 20 días
 		}
 		return false; //No es gratuita en otros casos
+	
 	}
 	
 	@Override
 	public String cancelarReserva(RangoDeFechas rangoDeFechas) {
-		LocalDate fechaInicio = rangoDeFechas.getInicio();
-		LocalDate fechaActual = LocalDate.now();
+		//LocalDate fechaInicio = rangoDeFechas.getInicio();
+		//LocalDate fechaActual = LocalDate.now();
 
 		if (esCancelacionGratuita(rangoDeFechas)) {
 			return "No debes nada, cancelada con exito";
 		}
-		else if (fechaInicio.minusDays(diasLimite50).isAfter(fechaActual)){
+		else if (esCancelacionAl50(rangoDeFechas.getInicio())){
 			return "Debes abonar el 50% del alquiler";
 		}
 		else {
@@ -37,4 +36,14 @@ public class Intermedia implements PoliticaDeCancelacion {
 	
 	}
 	
+	private boolean estaDentroDelPeriodoGratuito(LocalDate fechaInicio) {
+		return fechaInicio.minusDays(diasLimiteGratis).isAfter(LocalDate.now());
+		
+	}
+	
+	private boolean esCancelacionAl50(LocalDate fechaInicio) {
+		return fechaInicio.minusDays(diasLimite50).isAfter(LocalDate.now());
+	
+	}
+
 }

@@ -33,7 +33,7 @@ public class Inmueble {
 	
     }
 
-	public Integer getSuperficie() {
+	public int getSuperficie() {
 		return this.superficie;
 	
 	}
@@ -53,7 +53,7 @@ public class Inmueble {
 	
 	}
 
-	public Integer getCapacidad() {
+	public int getCapacidad() {
 		return this.capacidad;
 	
 	}

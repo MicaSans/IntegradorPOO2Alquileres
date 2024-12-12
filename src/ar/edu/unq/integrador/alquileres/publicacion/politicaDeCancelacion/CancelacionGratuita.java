@@ -10,7 +10,7 @@ public class CancelacionGratuita implements PoliticaDeCancelacion {
 
 	@Override
 	public boolean esCancelacionGratuita(RangoDeFechas rangoDeFechas) {
-		return rangoDeFechas.getInicio().minusDays(diasLimiteGratis).isAfter(LocalDate.now());
+		return estaDentroDelPeriodoGratuito(rangoDeFechas.getInicio());
 		
 	}
 	
@@ -22,6 +22,11 @@ public class CancelacionGratuita implements PoliticaDeCancelacion {
 		else {
 			return "Debes abonar el equivalente a dos dias de reserva";
 		}
+		
+	}
+	
+	private boolean estaDentroDelPeriodoGratuito(LocalDate fechaInicio) {
+		return fechaInicio.minusDays(diasLimiteGratis).isAfter(LocalDate.now());
 		
 	}
 
