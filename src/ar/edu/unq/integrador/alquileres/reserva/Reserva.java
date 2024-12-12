@@ -13,7 +13,7 @@ public class Reserva {
 	private Usuario inquilino;
 	private Publicacion publicacion;
 	private RangoDeFechas fechasDeAlquiler;
-	private Estado estadoActual;
+	private Estado estado;
 
 	public Reserva() {
 		//Creo este constructor con la finalidad de poder usar un SPY en el test
@@ -24,7 +24,7 @@ public class Reserva {
 		this.inquilino = inquilino;
 		this.publicacion = publicacion;
 		this.fechasDeAlquiler = fechasDeAlquiler; 
-		this.estadoActual = new Pendiente();
+		this.estado = new Pendiente();
 	
 	}
 
@@ -45,7 +45,7 @@ public class Reserva {
 	}	
 	
 	public Estado getEstado() {
-		return this.estadoActual;
+		return this.estado;
 	
 	}
 	
@@ -70,7 +70,7 @@ public class Reserva {
 	
 	}
 	
-	public boolean fueAlquilada() {
+	public Boolean fueAlquilada() {
 		return this.getEstado().fueAlquilada(this);
 	
 	}
@@ -91,7 +91,7 @@ public class Reserva {
 	}
 
 	public void setEstado(Estado estado) {
-		this.estadoActual = estado;
+		this.estado = estado;
 	
 	}
 
